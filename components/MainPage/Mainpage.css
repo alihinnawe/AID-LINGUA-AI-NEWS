@@ -1,0 +1,158 @@
+.article-title {
+  font-size: 24px;
+  margin-bottom: 16px;
+  color: rgba(7, 78, 244, 0.757);
+  cursor: pointer;
+  transition: color 0.3s ease; /* Optional: Smooth transition */
+}
+
+.article-title:hover {
+  color: green; /* Color when hovered */
+}
+
+/* Filters Style */
+.filter-container {
+  width: var(--container-width); /* Variable width */
+  margin: 0 auto;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  background-color: #908c8c;
+  color: rgb(15, 14, 14);
+  padding: 20px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.filter-form {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  /* background-color: #d1109e; */
+  color: white;
+  padding: 20px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  /* padding: 20px; */
+}
+
+/* Article Container */
+.articles {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Single Article */
+.article {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  margin: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+/* Article Title and Summary */
+
+.article-summary {
+  font-size: 18px;
+  margin-bottom: 16px;
+}
+
+/* Read More Link */
+.readMore,
+.read-more-link {
+  font-size: 16px;
+  color: blue;
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+  transition: color 0.3s ease; /* Optional: Smooth transition */
+  text-decoration: none; /* Remove underline */
+}
+
+/* Article Image */
+.articleImage {
+  max-width: 50%;
+  height: auto;
+  margin: auto;
+  object-fit: cover;
+}
+
+/* Show Summary Checkbox */
+.summaryCheckbox {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+/* Hover effect for article */
+.article:hover {
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: lightblue;
+}
+
+/* Input & Select Hover Styles */
+.filter-form div label select:hover,
+.filter-form div label input:hover,
+.filters select:hover,
+.filters input:hover,
+.filters button:hover {
+  background-color: blue;
+}
+
+/* Text Center */
+.App {
+  text-align: center;
+  /* background-color: rgba(0, 115, 255, 0.583); */
+}
+
+/* New style for the Sort By dropdown */
+.filter-form div:last-child label select {
+  margin-right: 30px; /* Adjust this value as needed */
+}
+
+.article-title {
+  font-size: 24px;
+  margin-bottom: 16px;
+  transition: all 0.3s ease; /* added this line */
+  cursor: pointer; /* changes the cursor to a hand pointer */
+}
+
+.article-title:hover {
+  font-size: 26px;
+  color: rgb(131, 199, 29);
+}
+
+/* Tooltip */
+.tooltip {
+  display: none;
+  background-color: #333;
+  color: white;
+  border-radius: 5px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 100%; /* Position the tooltip above the title */
+  left: 50%;
+  margin-left: -30px; /* Center the tooltip */
+  opacity: 0.8;
+}
+
+.read-more-link:hover {
+  color: green; /* Color when hovered */
+}
