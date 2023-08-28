@@ -2,10 +2,13 @@ export default async (req, res) => {
   const NEWS_API_KEY = process.env.NEWS_API_KEY;
   const selectedCategory = req.query.category || "general";
   const selectedLanguage = req.query.language || "en";
+  const fromDate = req.query.from;
+  const toDate = req.query.to;
+  const sortBy = req.query.sortBy;
 
   try {
     const newsResponse = await fetch(
-      `https://newsapi.org/v2/everything?q=${selectedCategory}&language=${selectedLanguage}&apiKey=${NEWS_API_KEY}`
+      `https://newsapi.org/v2/everything?q=${selectedCategory}&language=${selectedLanguage}&from=${fromDate}&to=${toDate}&sortBy=${sortBy}&apiKey=${NEWS_API_KEY}`
     );
     const newsData = await newsResponse.json();
     res.status(200).json(newsData);

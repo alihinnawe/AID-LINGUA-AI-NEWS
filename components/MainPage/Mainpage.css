@@ -7,9 +7,9 @@
 }
 
 .article-title:hover {
-  color: green; /* Color when hovered */
+  font-size: 26px;
+  color: rgb(131, 199, 29);
 }
-
 /* Filters Style */
 .filter-container {
   width: var(--container-width); /* Variable width */
@@ -124,18 +124,6 @@
 /* New style for the Sort By dropdown */
 .filter-form div:last-child label select {
   margin-right: 30px; /* Adjust this value as needed */
-}
-
-.article-title {
-  font-size: 24px;
-  margin-bottom: 16px;
-  transition: all 0.3s ease; /* added this line */
-  cursor: pointer; /* changes the cursor to a hand pointer */
-}
-
-.article-title:hover {
-  font-size: 26px;
-  color: rgb(131, 199, 29);
 }
 
 /* Tooltip */

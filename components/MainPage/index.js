@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 const categories = [
   "All",
@@ -11,8 +12,8 @@ const categories = [
 ];
 const languages = ["en", "de"];
 const sortOptions = ["relevancy", "popularity", "publishedAt"];
-
 const MainPage = () => {
+  const [currentPage, setCurrentPage] = useState(1);
   const [articles, setArticles] = useState([]);
   const [showSummary, setShowSummary] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("general");
@@ -20,9 +21,18 @@ const MainPage = () => {
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
   const [sortBy, setSortBy] = useState("");
-  const [totalArticles, setTotalArticles] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
 
+  const articlesPerPage = 10;
+  // Define the list of sources you want to exclude
+  const excludeSources = [
+    "Reuters",
+    "reuters",
+    "Fox News",
+    "CNN",
+    "Google",
+    "google-news",
+    "google",
+  ];
   const toggleSummary = (index) => {
     setShowSummary((prev) => {
       const updated = [...prev];
@@ -58,7 +68,6 @@ const MainPage = () => {
       console.error("Failed to fetch summary!", error);
     }
   };
-
   useEffect(() => {
     const fetchArticles = async () => {
       try {
@@ -66,12 +75,16 @@ const MainPage = () => {
         //   `https://newsapi.org/v2/everything?q=${selectedCategory}&language=${selectedLanguage}&from=${fromDate}&to=${toDate}&sortBy=${sortBy}&apiKey=${NEWS_API_KEY}`
         // );
         const response = await fetch(
-          `/api/fetchArticles?category=${selectedCategory}&language=${selectedLanguage}`
+          `/api/fetchArticles?category=${selectedCategory}&language=${selectedLanguage}&from=${fromDate}&to=${toDate}&sortBy=${sortBy}`
         );
         const data = await response.json();
         setArticles(
           data.articles.map((article) => ({ ...article, summary: null }))
         );
+
+        // const articles = articles.filter((article) => {
+        //   return !article.url.includes("consent.google.com");
+        // });
         // Reset the showSummary state when the category changes
         setShowSummary([]);
       } catch (error) {
@@ -80,6 +93,26 @@ const MainPage = () => {
     };
     fetchArticles();
   }, [selectedCategory, selectedLanguage, fromDate, toDate, sortBy]);
+
+  // Pagination Logic
+  const indexOfLastArticle = currentPage * articlesPerPage;
+  const indexOfFirstArticle = indexOfLastArticle - articlesPerPage;
+  // console.log("excluded articles google", articles);
+  // const articles1 = articles.filter((article) => {
+  //   return !excludeSources.includes(article.source.name);
+  // });
+  const currentArticles = articles.slice(
+    indexOfFirstArticle,
+    indexOfLastArticle
+  );
+  // console.log("current articles", currentArticles);
+  const nextPage = () => {
+    setCurrentPage(currentPage + 1);
+  };
+
+  const prevPage = () => {
+    setCurrentPage(currentPage - 1);
+  };
 
   return (
     <div className="App">
@@ -141,7 +174,7 @@ const MainPage = () => {
         </form>{" "}
       </div>
       <div className="articles">
-        {articles.map((article, index) => (
+        {currentArticles.map((article, index) => (
           <div className="article" key={index}>
             <input
               type="checkbox"
@@ -149,10 +182,9 @@ const MainPage = () => {
               checked={showSummary[index]}
               onChange={() => toggleSummary(index)}
             />
-            <a href={article.url} target="_blank" rel="noopener noreferrer">
+            <a href={article.url} target="_blank" rel="Article Url">
               <h2 className="article-title">{article.title}</h2>
             </a>
-
             <img
               className="articleImage"
               src={
@@ -161,6 +193,7 @@ const MainPage = () => {
               }
               alt={article.title}
             />
+
             {showSummary[index] && article.summary && (
               <p className="article-summary">{article.summary}</p>
             )}
@@ -170,8 +203,23 @@ const MainPage = () => {
           </div>
         ))}
       </div>
+      <div>
+        <button onClick={prevPage} disabled={currentPage === 1}>
+          Previous
+        </button>
+        <span>{`${currentPage} / ${Math.ceil(
+          articles.length / articlesPerPage
+        )}`}</span>
+        <button
+          onClick={nextPage}
+          disabled={
+            currentPage === Math.ceil(articles.length / articlesPerPage)
+          }
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 };
-
 export default MainPage;
