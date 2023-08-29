@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 
 const categories = [
   "All",
@@ -97,7 +96,6 @@ const MainPage = () => {
   // Pagination Logic
   const indexOfLastArticle = currentPage * articlesPerPage;
   const indexOfFirstArticle = indexOfLastArticle - articlesPerPage;
-  // console.log("excluded articles google", articles);
   // const articles1 = articles.filter((article) => {
   //   return !excludeSources.includes(article.source.name);
   // });
@@ -116,7 +114,7 @@ const MainPage = () => {
 
   return (
     <div className="App">
-      <h1>hello</h1>
+      <h1>AID LINGUA NEWS APP</h1>
 
       <div className="filter-container">
         <form className="filter-form">
@@ -182,9 +180,10 @@ const MainPage = () => {
               checked={showSummary[index]}
               onChange={() => toggleSummary(index)}
             />
-            <a href={article.url} target="_blank" rel="Article Url">
+            <a href={article.url} target="_blank" rel="noopener noreferrer">
               <h2 className="article-title">{article.title}</h2>
             </a>
+
             <img
               className="articleImage"
               src={
@@ -197,7 +196,12 @@ const MainPage = () => {
             {showSummary[index] && article.summary && (
               <p className="article-summary">{article.summary}</p>
             )}
-            <a href={article.url} className="read-more-link">
+            <a
+              href={article.url}
+              className="read-more-link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Read More
             </a>
           </div>
