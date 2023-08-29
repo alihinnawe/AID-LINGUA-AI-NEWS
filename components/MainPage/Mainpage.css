@@ -43,6 +43,11 @@
   gap: 30px;
 }
 
+.filter-form label select,
+.filter-form label input {
+  margin-left: 20px;
+}
+
 /* Article Container */
 .articles {
   max-width: 1200px;
