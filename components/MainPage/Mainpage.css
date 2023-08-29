@@ -21,8 +21,8 @@
   background-color: #908c8c;
   color: rgb(15, 14, 14);
   padding: 20px;
-  position: sticky;
-  top: 0;
+  /* position: sticky;
+  top: 0; */
   z-index: 100;
 }
 
@@ -33,14 +33,14 @@
   padding: 0;
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
   margin-bottom: 20px;
-  /* background-color: #d1109e; */
   color: white;
   padding: 20px;
-  position: sticky;
-  top: 0;
+  /* position: sticky;
+  top: 0; */
   z-index: 100;
-  /* padding: 20px; */
+  gap: 30px;
 }
 
 /* Article Container */
