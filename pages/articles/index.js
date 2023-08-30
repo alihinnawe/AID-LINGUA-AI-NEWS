@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from "react";
 
-const categories = [
-  "All",
-  "business",
-  "entertainment",
-  "health",
-  "science",
-  "sports",
-  "technology",
-];
-const languages = ["en", "de"];
-const sortOptions = ["relevancy", "popularity", "publishedAt"];
-const MainPage = () => {
+// this is my main page now. when the user load the app this page should appear.
+export default function MainPage() {
+  const categories = [
+    "All",
+    "business",
+    "entertainment",
+    "health",
+    "science",
+    "sports",
+    "technology",
+  ];
+  const languages = ["en", "de"];
+  const sortOptions = ["relevancy", "popularity", "publishedAt"];
   const [currentPage, setCurrentPage] = useState(1);
   const [articles, setArticles] = useState([]);
   const [showSummary, setShowSummary] = useState([]);
@@ -35,11 +36,14 @@ const MainPage = () => {
   const toggleSummary = (index) => {
     setShowSummary((prev) => {
       const updated = [...prev];
+      // toggles the boolean value at the given index.
       updated[index] = !updated[index];
+      console.log("false toggle remove summary");
 
-      // Fetch summary if it needs to be shown and hasn't been fetched yet
+      // Fetch summary if it hasn't been fetched yet
       if (updated[index] && !articles[index].summary) {
         fetchSummary(articles[index].url, index);
+        console.log("true toogle new summary");
       }
 
       return updated;
@@ -63,6 +67,7 @@ const MainPage = () => {
         updatedArticles[index].summary = data.sm_api_content;
         return updatedArticles;
       });
+      // console.log("daaaaaaaaaaaata:", data);
     } catch (error) {
       console.error("Failed to fetch summary!", error);
     }
@@ -77,6 +82,8 @@ const MainPage = () => {
           `/api/fetchArticles?category=${selectedCategory}&language=${selectedLanguage}&from=${fromDate}&to=${toDate}&sortBy=${sortBy}`
         );
         const data = await response.json();
+        // console.log("data without summaryyyyyyy", data.articles);
+
         setArticles(
           data.articles.map((article) => ({ ...article, summary: null }))
         );
@@ -85,6 +92,13 @@ const MainPage = () => {
         //   return !article.url.includes("consent.google.com");
         // });
         // Reset the showSummary state when the category changes
+        await fetch("/api/saveArticles", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(articles),
+        });
         setShowSummary([]);
       } catch (error) {
         console.error("Failed to fetch articles!", error);
@@ -93,12 +107,31 @@ const MainPage = () => {
     fetchArticles();
   }, [selectedCategory, selectedLanguage, fromDate, toDate, sortBy]);
 
+  // Save articles to MongoDB
+  // const fetchArticles = async () => {
+  //   await fetch(
+  //     "/api/saveArticles",
+  //     {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({ articles: articles }),
+
+  //     },
+  //   );
+  // };
+  // fetchArticles();
   // Pagination Logic
+
+  // console.log("articles are:", articles);
   const indexOfLastArticle = currentPage * articlesPerPage;
   const indexOfFirstArticle = indexOfLastArticle - articlesPerPage;
   // const articles1 = articles.filter((article) => {
   //   return !excludeSources.includes(article.source.name);
   // });
+  // console.log("articles alllllllllllllllllllllllllllllll", articles[0]);
+  // here we should save the articles with summary = null to the database
   const currentArticles = articles.slice(
     indexOfFirstArticle,
     indexOfLastArticle
@@ -225,5 +258,38 @@ const MainPage = () => {
       </div>
     </div>
   );
-};
-export default MainPage;
+}
+
+// import Article from "../../models/ArticleSchema.js";
+// import dbConnect from "../../db/connect.js";
+
+// export default async function handler(request, response) {
+//   await dbConnect();
+
+//   // getting data from the api
+//   if (request.method === "GET") {
+//     const articles = await Article.find();
+//     console.log("articles are in API: ", articles);
+//     return response.status(200).json(articles);
+//   }
+
+//   if (request.method === "POST") {
+//     try {
+//       const articleData = request.body;
+//       // We're declaring articleData to contain the body of our request sent by our form that we haven't created yet.
+//       // The body of our request might contain data in a variety of formats, but is typically an object.
+//       const article = new Article(articleData);
+//       // Utilizing our Article scheme, we're creating a new article.
+//       // At this point we're sanitizing our data according to the schema of our Article model.
+//       await article.save();
+//       // We've created a new article, now we're calling save() to have mongoose insert a new document into our database.
+//       // The three lines above are functionally the same as:
+//       // Article.create(request.body)
+//       // It's just a somewhat less opaque way.
+//       response.status(201).json({ status: "Article created" });
+//     } catch (error) {
+//       console.log(error);
+//       response.status(400).json({ error: error.message });
+//     }
+//   }
+// }

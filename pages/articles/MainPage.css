@@ -22,7 +22,7 @@
   color: rgb(15, 14, 14);
   padding: 20px;
   /* position: sticky;
-  top: 0; */
+    top: 0; */
   z-index: 100;
 }
 
@@ -38,16 +38,26 @@
   color: white;
   padding: 20px;
   /* position: sticky;
-  top: 0; */
+    top: 0; */
   z-index: 100;
   gap: 30px;
 }
 
 .filter-form label select,
 .filter-form label input {
-  margin-left: 20px;
+  margin-left: 10px;
 }
 
+.filter-form > div {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  align-items: center;
+  gap: 10px;
+}
+
+.filter-form label {
+  justify-self: end;
+}
 /* Article Container */
 .articles {
   max-width: 1200px;

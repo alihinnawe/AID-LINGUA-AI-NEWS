@@ -1,9 +1,8 @@
-import MainPage from "../components/MainPage/index.js";
-
+import MainPage from "./articles";
 export default function Home() {
   return (
     <div>
-      <MainPage />
+      <MainPage />{" "}
     </div>
   );
 }
