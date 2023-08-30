@@ -58,7 +58,7 @@ export default function MainPage() {
       //   )}`
       // );
       const response = await fetch(
-        `/api/fetchSummary?url=${encodeURIComponent(url)}`
+        `/api/articles?url=${encodeURIComponent(url)}`
       );
 
       const data = await response.json();
@@ -79,7 +79,7 @@ export default function MainPage() {
         //   `https://newsapi.org/v2/everything?q=${selectedCategory}&language=${selectedLanguage}&from=${fromDate}&to=${toDate}&sortBy=${sortBy}&apiKey=${NEWS_API_KEY}`
         // );
         const response = await fetch(
-          `/api/fetchArticles?category=${selectedCategory}&language=${selectedLanguage}&from=${fromDate}&to=${toDate}&sortBy=${sortBy}`
+          `/api/articles?category=${selectedCategory}&language=${selectedLanguage}&from=${fromDate}&to=${toDate}&sortBy=${sortBy}`
         );
         const data = await response.json();
         // console.log("data without summaryyyyyyy", data.articles);
