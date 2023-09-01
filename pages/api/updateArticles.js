@@ -1,15 +1,21 @@
-import dbConnect from "../../../db/connect";
-import Article from "../../../models/ArticleSchema";
+// updateArticle.js
+import dbConnect from "../../db/connect";
+import Article from "../../models/ArticleSchema";
 
-export default async function handler(req, res) {
+export async function handler(req, res) {
+  await dbConnect();
+  console.log("trueeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee1");
+  // Check if the request method is PUT
   try {
-    await dbConnect();
+    // Extract articleId from the request URL
 
-    // console.log("idddddddddddddddddddddddddS,", req.query.id);
-    const _id = req.query.id;
+    const { articleId } = req.query;
+    console.log("trueeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee2");
 
+    console.log("articleeeeeeeeeeeeeeeeeeeIddddddsss", articleId);
+    // Find the article by its ID and increment the likes
     const updatedArticle = await Article.findByIdAndUpdate(
-      _id,
+      articleId,
       {
         $inc: { likes: 1 }, // Increment 'likes' by 1
       },
@@ -24,8 +30,6 @@ export default async function handler(req, res) {
         .status(404)
         .json({ success: false, message: "Article not found" });
     }
-
-    // console.log("response is eeeeeeeeee", res);
 
     // Return the updated article as a response
     return res.status(200).json({ success: true, data: updatedArticle });

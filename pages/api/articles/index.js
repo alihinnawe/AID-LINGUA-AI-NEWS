@@ -6,8 +6,8 @@ export default async function handler(req, res) {
   const fromDate = req.query.from;
   const toDate = req.query.to;
   const sortBy = req.query.sortBy;
-  console.log("sortttttttbyz", sortBy);
-
+  // console.log("sortttttttbyz", sortBy);
+  //  the server fetch a list of articles from the API and return it as a response to the client side.
   try {
     const newsResponse = await fetch(
       `https://newsapi.org/v2/everything?q=${selectedCategory}&language=${selectedLanguage}&from=${fromDate}&to=${toDate}&sortBy=${sortBy}&apiKey=${NEWS_API_KEY}`

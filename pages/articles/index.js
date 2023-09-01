@@ -23,21 +23,6 @@ export default function MainPage() {
   const [sortBy, setSortBy] = useState("");
 
   const articlesPerPage = 10;
-  // Define the list of sources you want to exclude
-
-  // const toggleSummary = (url, index) => {
-  //   setShowSummary((prev) => {
-  //     const updated = { ...prev };
-  //     updated[url] = !updated[url];
-
-  //     // Fetch summary if it hasn't been fetched yet
-  //     if (updated[url] && !articles[index].summary) {
-  //       fetchSummary(url, index);
-  //     }
-
-  //     return updated;
-  //   });
-  // };
 
   const toggleSummary = async (url, index) => {
     const wasSuccessful = await fetchSummary(url, index);
@@ -69,16 +54,31 @@ export default function MainPage() {
         return updatedArticles;
       });
       return true; // Fetch successful
-
-      // console.log("daaaaaaaaaaaata:", data);
     } catch (error) {
       console.error("Failed to fetch summary!", error);
     }
   };
 
-  // console.log("articles are:", articles);
   const DEFAULT_IMAGE_URL =
     "https://www.discovergreece.com/sites/default/files/dg-fallback-20.jpg";
+
+  const indexOfLastArticle = currentPage * articlesPerPage;
+  const indexOfFirstArticle = indexOfLastArticle - articlesPerPage;
+
+  const nextPage = () => {
+    setCurrentPage(currentPage + 1);
+  };
+
+  const prevPage = () => {
+    setCurrentPage(currentPage - 1);
+  };
+
+  const currentArticles = articles.slice(
+    indexOfFirstArticle,
+    indexOfLastArticle
+  );
+
+  // Fetch articles from API and save them to the articles collection in Mongo db AIDLingua database.
   useEffect(() => {
     const fetchArticles = async () => {
       try {
@@ -86,7 +86,6 @@ export default function MainPage() {
           `/api/articles?category=${selectedCategory}&language=${selectedLanguage}&from=${fromDate}&to=${toDate}&sortBy=${sortBy}`
         );
         const data = await response.json();
-
         // Exclude articles where urlToImage is null, undefined, or empty string
         const filteredArticles = data.articles
           .filter(
@@ -95,11 +94,9 @@ export default function MainPage() {
               article.urlToImage !== DEFAULT_IMAGE_URL &&
               article.url
           )
-          .map((article) => ({ ...article, summary: null }));
+          .map((article) => ({ ...article, summary: null, likes: 0 }));
 
-        setArticles(filteredArticles);
-
-        // Save to database
+        // Save the list of fetched articles from the newsapi to the articles database collection
         await fetch("/api/saveArticles", {
           method: "POST",
           headers: {
@@ -116,55 +113,45 @@ export default function MainPage() {
 
     fetchArticles();
   }, [selectedCategory, selectedLanguage, fromDate, toDate, sortBy]);
-  // useEffect(() => {
-  //   const fetchArticles = async () => {
-  //     try {
-  //       const response = await fetch(
-  //         `/api/articles?category=${selectedCategory}&language=${selectedLanguage}&from=${fromDate}&to=${toDate}&sortBy=${sortBy}`
-  //       );
-  //       const data = await response.json();
 
-  //       const filteredArticles = data.articles
-  //         .filter(
-  //           (article) => article.urlToImage !== DEFAULT_IMAGE_URL && article.url
-  //         ) // Filtering articles
-  //         .map((article) => ({ ...article, summary: null }));
+  // Fetch from the internal API when the visitor load the page for the first time
+  // before using any filter tool.
+  useEffect(() => {
+    const fetchDataFromDb = async () => {
+      const res = await fetch("/api/fetchArticlesFromDb/");
+      const data = await res.json();
+      if (data.success) {
+        setArticles(data.data); // setArticles is the state setter for articles
+      }
+    };
 
-  //       setArticles(filteredArticles);
+    fetchDataFromDb();
+  }, []);
 
-  //       // Reset the showSummary state when the category changes
-  //       await fetch("/api/saveArticles", {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify(filteredArticles),
-  //       });
-  //       setShowSummary({});
-  //     } catch (error) {
-  //       console.error("Failed to fetch articles!", error);
-  //     }
-  //   };
-  //   fetchArticles();
-  // }, [selectedCategory, selectedLanguage, fromDate, toDate, sortBy]);
+  const handleLike = async (articleId) => {
+    try {
+      // Increment the likes count
+      console.log("articleIdddddddddddddddddddddddddddssssss", articleId);
+      const res = await fetch(`/api/articles/${articleId}`, {
+        method: "PUT",
+      });
 
-  const indexOfLastArticle = currentPage * articlesPerPage;
-  const indexOfFirstArticle = indexOfLastArticle - articlesPerPage;
-
-  // here we should save the articles with summary = null to the database
-  const currentArticles = articles.slice(
-    indexOfFirstArticle,
-    indexOfLastArticle
-  );
-  // console.log("current articles", currentArticles);
-  const nextPage = () => {
-    setCurrentPage(currentPage + 1);
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success) {
+          const updatedArticles = articles.map((article) =>
+            article._id === articleId ? data.data : article
+          );
+          setArticles(updatedArticles); // I'll check later if it produces not logical results!!
+        }
+      } else {
+        const text = await res.text();
+        console.error("Server responded with an error:", text);
+      }
+    } catch (error) {
+      console.error("An error occurred while liking the article:", error);
+    }
   };
-
-  const prevPage = () => {
-    setCurrentPage(currentPage - 1);
-  };
-
   return (
     <div className="App">
       <h1>AID LINGUA NEWS APP</h1>
@@ -233,8 +220,11 @@ export default function MainPage() {
           ) {
             return null;
           }
+
           return (
             <div className="article" key={index}>
+              <button onClick={() => handleLike(article._id)}>Like</button>
+              <span>Likes: {article.likes}</span>
               <input
                 type="checkbox"
                 className="summaryCheckbox"
@@ -262,6 +252,7 @@ export default function MainPage() {
               >
                 Read More
               </a>
+              <input type="checkbox" className="summaryCheckbox" />{" "}
             </div>
           );
         })}

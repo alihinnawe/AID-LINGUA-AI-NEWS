@@ -51,6 +51,11 @@ const ArticleSchema = new Schema({
     default: "no summary",
   },
 
+  likes: {
+    type: Number,
+    default: 0,
+  },
+
   // Add other fields as necessary
 });
 
