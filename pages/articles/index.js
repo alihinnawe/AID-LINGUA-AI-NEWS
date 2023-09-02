@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-
-// this is my main page now. when the user load the app this page should appear.
+import ReadingComprehensionBot from "../../components/ReadingComprehensionBot/";
 export default function MainPage() {
   const categories = [
-    "All",
+    "all",
+    "general",
     "business",
     "entertainment",
     "health",
@@ -25,7 +25,13 @@ export default function MainPage() {
   const articlesPerPage = 10;
 
   const toggleSummary = async (url, index) => {
+    console.log("toggleSummary is being triggered"); // <-- Add this line
+
     const wasSuccessful = await fetchSummary(url, index);
+    console.log(
+      "toggleSummarytoggleSummarytoggleSummarytoggleSummary",
+      wasSuccessful
+    );
 
     if (!wasSuccessful) return; // Do not update the state if fetch was unsuccessful
 
@@ -43,11 +49,12 @@ export default function MainPage() {
       );
 
       const data = await response.json();
-
+      console.log("fetchSyummary issssssssssssssssss data", data);
       if (data.sm_api_error === 3) {
         alert("Content too short for summary.");
         return false;
       }
+
       setArticles((prevState) => {
         const updatedArticles = [...prevState];
         updatedArticles[index].summary = data.sm_api_content;
@@ -58,7 +65,6 @@ export default function MainPage() {
       console.error("Failed to fetch summary!", error);
     }
   };
-
   const DEFAULT_IMAGE_URL =
     "https://www.discovergreece.com/sites/default/files/dg-fallback-20.jpg";
 
@@ -131,7 +137,6 @@ export default function MainPage() {
   const handleLike = async (articleId) => {
     try {
       // Increment the likes count
-      console.log("articleIdddddddddddddddddddddddddddssssss", articleId);
       const res = await fetch(`/api/articles/${articleId}`, {
         method: "PUT",
       });
@@ -244,6 +249,7 @@ export default function MainPage() {
               {showSummary[article.url] && article.summary && (
                 <p className="article-summary">{article.summary}</p>
               )}
+              <ReadingComprehensionBot SummaryText={article.summary} />
               <a
                 href={article.url}
                 className="read-more-link"
@@ -252,7 +258,6 @@ export default function MainPage() {
               >
                 Read More
               </a>
-              <input type="checkbox" className="summaryCheckbox" />{" "}
             </div>
           );
         })}
