@@ -5,7 +5,6 @@ export default async function handler(req, res) {
   try {
     await dbConnect();
 
-    // console.log("idddddddddddddddddddddddddS,", req.query.id);
     const _id = req.query.id;
 
     const updatedArticle = await Article.findByIdAndUpdate(
@@ -24,8 +23,6 @@ export default async function handler(req, res) {
         .status(404)
         .json({ success: false, message: "Article not found" });
     }
-
-    // console.log("response is eeeeeeeeee", res);
 
     // Return the updated article as a response
     return res.status(200).json({ success: true, data: updatedArticle });

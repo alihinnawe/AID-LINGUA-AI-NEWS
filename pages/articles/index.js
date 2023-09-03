@@ -82,6 +82,9 @@ export default function MainPage() {
     indexOfLastArticle
   );
 
+  // Fetch from the internal API when the visitor load the page for the first time
+  // before using any filter tool.
+
   // Fetch articles from API and save them to the articles collection in Mongo db AIDLingua database.
   useEffect(() => {
     const fetchArticles = async () => {
@@ -91,6 +94,7 @@ export default function MainPage() {
         );
         const data = await response.json();
         // Exclude articles where urlToImage is null, undefined, or empty string
+
         const filteredArticles = data.articles
           .filter(
             (article) =>
@@ -99,7 +103,10 @@ export default function MainPage() {
               article.url
           )
           .map((article) => ({ ...article, summary: null, likes: 0 }));
-
+        // console.log(
+        //   "filteeeeeeeeeeeeeeeeeeeeeeerd Articleeeeeeeeeeeeeeeeeeeees",
+        //   filteredArticles
+        // );
         // Save the list of fetched articles from the newsapi to the articles database collection
         await fetch("/api/saveArticles", {
           method: "POST",
@@ -120,38 +127,59 @@ export default function MainPage() {
 
   // Fetch from the internal API when the visitor load the page for the first time
   // before using any filter tool.
+
   useEffect(() => {
     const fetchDataFromDb = async () => {
-      const res = await fetch("/api/fetchArticlesFromDb/");
-      const data = await res.json();
-      if (data.success) {
-        setArticles(data.data); // setArticles is the state setter for articles
+      try {
+        const res = await fetch(
+          `/api/fetchArticlesFromDb?category=${selectedCategory}&language=${selectedLanguage}&from=${fromDate}&to=${toDate}&sortBy=${sortBy}`
+        );
+        // console.log("RESSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS", res);
+        const data = await res.json();
+        console.log(
+          "dataaaaaaaaaaaaaaaaaaaaaaaaa from db based on filter:",
+          data
+        );
+        if (data.success) {
+          setArticles(data.data); // setArticles is the state setter for articles
+        }
+      } catch (error) {
+        console.error("Failed to fetch articles from the database!", error);
       }
     };
-
     fetchDataFromDb();
-  }, []);
+  }, [selectedCategory, selectedLanguage, fromDate, toDate, sortBy]);
+
+  // useEffect(() => {
+  //   const fetchDataFromDb = async () => {
+  //     try {
+  //       const res = await fetch(
+  //         `/api/fetchArticlesFromDb?category=${selectedCategory}&language=${selectedLanguage}&from=${fromDate}&to=${toDate}&sortBy=${sortBy}`
+  //       );
+  //       const data = await res.json();
+  //       if (data.success) {
+  //         setArticles(data.data); // setArticles is the state setter for articles
+  //       }
+  //     } catch (error) {
+  //       console.error("Failed to fetch articles from the database!", error);
+  //     }
+  //   };
+
+  //   fetchDataFromDb();
+  // }, []);
 
   useEffect(() => {
     const initialLikedArticles = JSON.parse(
       localStorage.getItem("likedArticles") || "{}"
     );
-    console.log(
-      "Initial liked articles from localStorage:",
-      initialLikedArticles
-    ); // Add this line
 
     setLikedArticles(initialLikedArticles);
-    console.log(
-      "Initial liked articles from localStorage:",
-      initialLikedArticles
-    );
   }, []);
 
   // Run whenever likedArticles changes to update localStorage
   useEffect(() => {
     if (likedArticles && Object.keys(likedArticles).length > 0) {
-      console.log("Updating localStorage:", likedArticles);
+      // console.log("Updating localStorage:", likedArticles);
       localStorage.setItem("likedArticles", JSON.stringify(likedArticles));
     }
   }, [likedArticles]);
@@ -179,14 +207,14 @@ export default function MainPage() {
 
       const data = await res.json();
 
-      console.log("dataaaaaaaaaaaaaaaaaaaaaaaaaaa", data);
+      // console.log("dataaaaaaaaaaaaaaaaaaaaaaaaaaa", data);
       if (res.ok && data.success) {
-        console.log("Server responded with success");
+        // console.log("Server responded with success");
 
         // Update the likedArticles state to reflect the new "like" or "unlike" status
         setLikedArticles((prev) => {
           const updated = { ...prev, [articleId]: !prev[articleId] };
-          console.log("Updated liked articles:", updated);
+          // console.log("Updated liked articles:", updated);
           return updated;
         });
 

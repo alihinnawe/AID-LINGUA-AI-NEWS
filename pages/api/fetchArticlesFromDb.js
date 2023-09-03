@@ -1,16 +1,43 @@
 import dbConnect from "../../db/connect";
-
 import Article from "../../models/ArticleSchema";
 
 export default async function handler(req, res) {
-  const { method, query } = req;
-
+  console.log("function triggreeeeeeeddddddddd");
   await dbConnect();
+
+  const { method, query } = req;
 
   switch (method) {
     case "GET":
       try {
-        const articles = await Article.find({});
+        let filter = {};
+
+        // Assuming that the articles in the database have a 'category' and 'language' field
+        if (query.category && query.category !== "all") {
+          filter.category = query.category;
+        }
+
+        if (query.language) {
+          filter.language = query.language;
+        }
+
+        if (query.from && query.to) {
+          filter.publishedAt = {
+            $gte: new Date(query.from),
+            $lte: new Date(query.to),
+          };
+        }
+
+        let sortOption = {};
+        if (query.sortBy) {
+          sortOption[query.sortBy] = 1; // 1 for ascending order, -1 for descending
+        }
+        // Test category filter
+        const articlesByCategory = await Article.find({ category: "health" });
+        console.log("Articles by Category:", articlesByCategory);
+        const articles = await Article.find(filter).sort(sortOption);
+        console.log("filtered articlessssssssssssssssss: ", articles);
+
         res.status(200).json({ success: true, data: articles });
       } catch (error) {
         res.status(400).json({ success: false });

@@ -25,7 +25,6 @@
 export default async function handler(req, res) {
   const SMMRY_API_KEY = process.env.SMMRY_API_KEY;
   const url = req.query.url;
-  console.log("URL:", url);
 
   try {
     const summaryResponse = await fetch(
