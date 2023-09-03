@@ -21,6 +21,7 @@ export default function MainPage() {
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
   const [sortBy, setSortBy] = useState("");
+  const [likedArticles, setLikedArticles] = useState({});
 
   const articlesPerPage = 10;
 
@@ -131,29 +132,84 @@ export default function MainPage() {
     fetchDataFromDb();
   }, []);
 
-  const handleLike = async (articleId) => {
-    try {
-      // Increment the likes count
-      const res = await fetch(`/api/articles/${articleId}`, {
-        method: "PUT",
-      });
+  useEffect(() => {
+    const initialLikedArticles = JSON.parse(
+      localStorage.getItem("likedArticles") || "{}"
+    );
+    console.log(
+      "Initial liked articles from localStorage:",
+      initialLikedArticles
+    ); // Add this line
 
-      if (res.ok) {
-        const data = await res.json();
-        if (data.success) {
-          const updatedArticles = articles.map((article) =>
-            article._id === articleId ? data.data : article
-          );
-          setArticles(updatedArticles); // I'll check later if it produces not logical results!!
+    setLikedArticles(initialLikedArticles);
+    console.log(
+      "Initial liked articles from localStorage:",
+      initialLikedArticles
+    );
+  }, []);
+
+  // Run whenever likedArticles changes to update localStorage
+  useEffect(() => {
+    if (likedArticles && Object.keys(likedArticles).length > 0) {
+      console.log("Updating localStorage:", likedArticles);
+      localStorage.setItem("likedArticles", JSON.stringify(likedArticles));
+    }
+  }, [likedArticles]);
+
+  const handleLike = async (articleId) => {
+    console.log("Article ID in handleLike:", articleId);
+
+    try {
+      // Initialize increment value to 1 for liking the article
+      let increment = 1;
+
+      // Check if the article is already liked
+      if (likedArticles[articleId]) {
+        // Change increment to -1 for unliking the article
+        increment = -1;
+      }
+
+      // Make the API call to update the likes count of the article
+      const res = await fetch(
+        `/api/updateArticles?articleId=${articleId}&increment=${increment}`,
+        {
+          method: "PUT",
         }
+      );
+
+      const data = await res.json();
+
+      console.log("dataaaaaaaaaaaaaaaaaaaaaaaaaaa", data);
+      if (res.ok && data.success) {
+        console.log("Server responded with success");
+
+        // Update the likedArticles state to reflect the new "like" or "unlike" status
+        setLikedArticles((prev) => {
+          const updated = { ...prev, [articleId]: !prev[articleId] };
+          console.log("Updated liked articles:", updated);
+          return updated;
+        });
+
+        // Update the articles state to reflect the new likes count
+        setArticles((prevArticles) =>
+          prevArticles.map((article) =>
+            article._id === articleId
+              ? { ...article, likes: data.data.likes }
+              : article
+          )
+        );
       } else {
-        const text = await res.text();
-        console.error("Server responded with an error:", text);
+        console.log("Server responded with failure");
+
+        const text = await res.text(); // <-- read the response body
+        console.error(`Server responded with an error: ${text}`);
+        throw new Error(`Server responded with status ${res.status}`);
       }
     } catch (error) {
       console.error("An error occurred while liking the article:", error);
     }
   };
+
   return (
     <div className="App">
       <h1>AID LINGUA NEWS APP</h1>
@@ -225,7 +281,9 @@ export default function MainPage() {
 
           return (
             <div className="article" key={index}>
-              <button onClick={() => handleLike(article._id)}>Like</button>
+              <button onClick={() => handleLike(article._id)}>
+                {likedArticles[article._id] ? "Unlike" : "Like"}
+              </button>
               <span>Likes: {article.likes}</span>
               <input
                 type="checkbox"

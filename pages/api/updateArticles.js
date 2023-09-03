@@ -1,23 +1,24 @@
-// updateArticle.js
 import dbConnect from "../../db/connect";
 import Article from "../../models/ArticleSchema";
 
-export async function handler(req, res) {
+export default async function handler(req, res) {
   await dbConnect();
-  console.log("trueeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee1");
+
   // Check if the request method is PUT
+  if (req.method !== "PUT") {
+    return res.status(405).end(); // Method not allowed
+  }
+
   try {
-    // Extract articleId from the request URL
-
+    // Extract articleId and increment from the request URL
     const { articleId } = req.query;
-    console.log("trueeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee2");
+    const increment = parseInt(req.query.increment, 10) || 1; // If increment is not provided, default to 1
 
-    console.log("articleeeeeeeeeeeeeeeeeeeIddddddsss", articleId);
-    // Find the article by its ID and increment the likes
+    // Find the article by its ID and change the likes based on the increment value
     const updatedArticle = await Article.findByIdAndUpdate(
       articleId,
       {
-        $inc: { likes: 1 }, // Increment 'likes' by 1
+        $inc: { likes: increment }, // Increment or decrement 'likes' based on the increment value
       },
       {
         new: true, // Return the updated document

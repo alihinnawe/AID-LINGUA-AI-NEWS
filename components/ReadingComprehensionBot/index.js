@@ -4,12 +4,9 @@ const ReadingComprehensionBot = ({ SummaryText }) => {
   console.log("Reading Comprehension bot is triggrered");
   const [userQuestion, setUserQuestion] = useState("");
   const [answer, setAnswer] = useState("");
-  // const [sourceText, setSourceText] = useState("");
 
   const getAnswer = async () => {
     try {
-      // setSourceText(SummaryText);
-      // console.log("sourceTextsourceTextsourceText", SummaryText);
       const response = await fetch("http://localhost:5000/ask", {
         method: "POST",
         headers: {
