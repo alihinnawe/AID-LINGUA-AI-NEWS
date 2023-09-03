@@ -5,7 +5,7 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app)  # <- CORS support
-
+print("flasssssssssssssssssk is connected")
 model_name = "deepset/roberta-base-squad2"
 model = RobertaForQuestionAnswering.from_pretrained(model_name)
 tokenizer = RobertaTokenizer.from_pretrained(model_name)
@@ -15,8 +15,7 @@ tokenizer = RobertaTokenizer.from_pretrained(model_name)
 def ask():
     content = request.json
     question = content['question']
-    text = content['text']
-
+    text = content['SummaryText']
     inputs = tokenizer(question, text, return_tensors='pt')
     outputs = model(**inputs)
     answer_start = torch.argmax(outputs.start_logits)

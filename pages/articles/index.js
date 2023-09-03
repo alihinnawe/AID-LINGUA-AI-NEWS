@@ -25,19 +25,16 @@ export default function MainPage() {
   const articlesPerPage = 10;
 
   const toggleSummary = async (url, index) => {
-    console.log("toggleSummary is being triggered"); // <-- Add this line
-
     const wasSuccessful = await fetchSummary(url, index);
-    console.log(
-      "toggleSummarytoggleSummarytoggleSummarytoggleSummary",
-      wasSuccessful
-    );
 
     if (!wasSuccessful) return; // Do not update the state if fetch was unsuccessful
 
     setShowSummary((prev) => {
+      console.log("previous preupdate is:", prev);
+
       const updated = { ...prev };
       updated[url] = !updated[url];
+      console.log("updateeeeeeeeeeeeeeeeeeeed is:", updated);
       return updated;
     });
   };
@@ -246,10 +243,12 @@ export default function MainPage() {
                 src={article.urlToImage}
                 alt={article.title}
               />
-              {showSummary[article.url] && article.summary && (
+              {/* {showSummary[article.url] && article.summary && (
                 <p className="article-summary">{article.summary}</p>
+              )} */}
+              {showSummary[article.url] && (
+                <ReadingComprehensionBot SummaryText={article.summary} />
               )}
-              <ReadingComprehensionBot SummaryText={article.summary} />
               <a
                 href={article.url}
                 className="read-more-link"
