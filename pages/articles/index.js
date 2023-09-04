@@ -12,6 +12,7 @@ export default function MainPage() {
     "technology",
   ];
   const languages = ["en", "de"];
+  const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
   const sortOptions = ["relevancy", "popularity", "publishedAt"];
   const [isLoading, setIsLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -26,6 +27,14 @@ export default function MainPage() {
 
   const articlesPerPage = 10;
 
+  const toggleLanguageDropdown = () => {
+    setShowLanguageDropdown(!showLanguageDropdown);
+  };
+
+  const handleLanguageChange = (newLanguage) => {
+    setSelectedLanguage(newLanguage);
+    setShowLanguageDropdown(false);
+  };
   const toggleSummary = async (url, index) => {
     const wasSuccessful = await fetchSummary(url, index);
 
@@ -216,21 +225,50 @@ export default function MainPage() {
           <h1>AID LINGUA NEWS APP</h1>
           <div className="filter-container">
             <form className="filter-form">
-              <div>
-                <label>
-                  Category:
-                  <select onChange={(e) => setSelectedCategory(e.target.value)}>
-                    {categories.map((category, index) => (
-                      <option key={index} value={category}>
-                        {category}
-                      </option>
+              Category:
+              <select onChange={(e) => setSelectedCategory(e.target.value)}>
+                {categories.map((category, index) => (
+                  <option key={index} value={category}>
+                    {category}
+                  </option>
+                ))}
+              </select>
+              {/* <div style={{ position: "relative" }}>
+                <span
+                  role="button"
+                  onClick={toggleLanguageDropdown}
+                  style={{ fontSize: "2em" }} // This makes the emoji twice as large
+                >
+                  🌐
+                </span>
+                {showLanguageDropdown && (
+                  <ul
+                    style={{
+                      position: "absolute",
+                      listStyle: "none",
+                      margin: "0",
+                      padding: "0",
+                      border: "1px solid #ccc",
+                      backgroundColor: "white",
+                      left: "0",
+                      top: "1em",
+                    }}
+                  >
+                    {languages.map((lang, index) => (
+                      <li
+                        key={index}
+                        onClick={() => handleLanguageChange(lang)}
+                      >
+                        {lang}
+                      </li>
                     ))}
-                  </select>
-                </label>
-              </div>
+                  </ul>
+                )}
+              </div> */}
               <div>
                 <label>
-                  Language:
+                  🌐{" "}
+                  {/* Here is where the Language text is replaced with an emoji */}
                   <select onChange={(e) => setSelectedLanguage(e.target.value)}>
                     {languages.map((lang, index) => (
                       <option key={index} value={lang}>

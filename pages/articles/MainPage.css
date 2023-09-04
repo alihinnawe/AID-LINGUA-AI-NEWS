@@ -103,10 +103,11 @@
 
 /* Article Image */
 .articleImage {
-  max-width: 50%;
+  max-width: 60%;
   height: auto;
-  margin: auto;
   object-fit: cover;
+  display: block; /* Blocks are easier to center than inline elements */
+  margin: 0 auto 10px; /* Center the image horizontally and add 10px of space below */
 }
 
 /* Show Summary Checkbox */
@@ -295,13 +296,6 @@
   margin-right: 5px; /* Space between the arrow and the label text */
 }
 
-.articleImage {
-  max-width: 100%; /* To ensure it doesn't overflow */
-  height: auto; /* To maintain aspect ratio */
-  margin: auto; /* To center it when display is block */
-  display: block; /* Blocks are easier to center than inline elements */
-}
-
 .reading-comprehension-bot {
   margin-top: 25px; /* Adjust this value according to your needs */
   border: 1px solid #ccc; /* Light gray border */
@@ -331,15 +325,6 @@
 .reading-comprehension-bot input,
 .reading-comprehension-bot button {
   height: 50px;
-}
-.articleImage {
-  /* ... existing styles */
-  .articleImage {
-    max-width: 100%; /* Ensure the image never exceeds the width of the container */
-    height: auto; /* Maintain the image's aspect ratio */
-    margin: 0 auto 10px; /* Center the image horizontally and add 10px of space below */
-    display: block; /* Block-level element to accept margin and other box model properties */
-  }
 }
 
 .read-more-link {
@@ -434,4 +419,42 @@
 /* Button hover effect */
 .reading-comprehension-bot button:hover {
   background-color: #0056b3; /* Darker blue */
+}
+
+.language-dropdown-container {
+  position: relative;
+  display: inline-block;
+}
+
+.globe {
+  font-size: 2em;
+  cursor: pointer;
+}
+
+.language-dropdown {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  border: 1px solid #ccc;
+  background-color: white;
+  width: 2em; /* same width as globe */
+}
+
+.language-dropdown li {
+  text-align: center;
+}
+
+input,
+select {
+  color: black;
+  background-color: #333;
+}
+
+/* This sets the background color to blue for the filter container */
+.filter-container,
+.filter-form {
+  background-color: rgb(13, 117, 244);
 }

@@ -4,7 +4,7 @@ import torch  # <- Add this line
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app)  # <- CORS support
+CORS(app)  # CORS support
 print("flasssssssssssssssssk is connected")
 model_name = "deepset/roberta-base-squad2"
 model = RobertaForQuestionAnswering.from_pretrained(model_name)
