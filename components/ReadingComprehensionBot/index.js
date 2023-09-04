@@ -39,7 +39,7 @@ const ReadingComprehensionBot = ({ SummaryText }) => {
         placeholder="Ask me a question"
       />
       <button onClick={getAnswer}>Get Answer</button>
-      <div>{answer && <p>Answer: {answer}</p>}</div>
+      <div className="answer">{answer && <p>Answer: {answer}</p>}</div>
     </div>
   );
 };

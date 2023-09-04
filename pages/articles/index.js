@@ -208,7 +208,9 @@ export default function MainPage() {
   return (
     <div className="App">
       {isLoading ? (
-        <div>Loading...</div>
+        <div className="loading-container">
+          <div className="glowing-text">Loading...</div>
+        </div>
       ) : (
         <>
           <h1>AID LINGUA NEWS APP</h1>
@@ -283,18 +285,40 @@ export default function MainPage() {
 
               return (
                 <div className="article" key={index}>
-                  <button onClick={() => handleLike(article._id)}>
-                    {likedArticles[article._id] ? "Unlike" : "Like"}
-                  </button>
-                  <span>Likes: {article.likes}</span>
-                  <input
-                    type="checkbox"
-                    className="summaryCheckbox"
-                    checked={showSummary[article.url] || false}
-                    onChange={() =>
-                      toggleSummary(article.url, indexOfFirstArticle + index)
-                    }
-                  />
+                  <span className="like-container">
+                    <span
+                      className={`like-button ${
+                        likedArticles[article._id]
+                          ? "like-button--liked"
+                          : "like-button--unliked"
+                      }`}
+                      onClick={() => handleLike(article._id)}
+                    >
+                      👍
+                    </span>
+                    <span className="like-count">{article.likes}</span>
+                  </span>
+
+                  <div className="summary-control">
+                    <span
+                      className="summaryToggle"
+                      onClick={() =>
+                        toggleSummary(article.url, indexOfFirstArticle + index)
+                      }
+                    >
+                      {showSummary[article.url] ? "🔽" : "🔼"}
+                    </span>
+                    <span
+                      className="summaryLabel"
+                      onClick={() =>
+                        toggleSummary(article.url, indexOfFirstArticle + index)
+                      }
+                    >
+                      {showSummary[article.url]
+                        ? "Hide Summary"
+                        : "Show Summary"}
+                    </span>
+                  </div>
                   <a
                     href={article.url}
                     target="_blank"
@@ -308,9 +332,6 @@ export default function MainPage() {
                     alt={article.title}
                   />
 
-                  {showSummary[article.url] && (
-                    <ReadingComprehensionBot SummaryText={article.summary} />
-                  )}
                   <a
                     href={article.url}
                     className="read-more-link"
@@ -319,6 +340,12 @@ export default function MainPage() {
                   >
                     Read More
                   </a>
+
+                  {showSummary[article.url] && (
+                    <div className="reading-comprehension-bot">
+                      <ReadingComprehensionBot SummaryText={article.summary} />
+                    </div>
+                  )}
                 </div>
               );
             })}

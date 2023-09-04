@@ -76,7 +76,8 @@
   justify-content: space-between;
   position: relative;
   margin: 20px;
-  padding: 20px;
+  /* padding: 20px; */
+  padding-top: 20px;
   border: 1px solid #ccc;
   border-radius: 8px;
 }
@@ -180,4 +181,219 @@
 }
 
 .summaryCheckbox {
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.8); /* Optional: Dark background */
+  z-index: 9999; /* Make sure it covers other items on the page */
+}
+
+.glowing-text {
+  font-size: 2em;
+  color: #fff;
+  text-align: center;
+  animation: glow-animation 1.5s infinite alternate;
+}
+
+@keyframes glow-animation {
+  from {
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #ff00ff, 0 0 20px #ff00ff,
+      0 0 25px #ff00ff, 0 0 30px #ff00ff, 0 0 35px #ff00ff;
+  }
+  to {
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ff00ff,
+      0 0 40px #ff00ff, 0 0 50px #ff00ff, 0 0 60px #ff00ff, 0 0 70px #ff00ff;
+  }
+}
+
+.summaryCheckboxLabel {
+  cursor: pointer;
+  user-select: none;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  margin-right: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.summaryCheckbox:checked + .summaryCheckboxLabel {
+  background-color: #c2ffc2;
+}
+
+.like-container {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+
+.like-button {
+  transition: all 0.3s ease;
+}
+
+.like-button--liked {
+  color: gold;
+  text-shadow: 0px 0px 5px #ffd700;
+  transform: scale(1.5); /* Enlarge to 1.5 times */
+}
+
+.like-button--unliked {
+  color: grey;
+  transform: scale(1); /* Reset size */
+}
+
+.like-count {
+  margin-left: 5px;
+}
+
+.summaryToggle {
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.summaryLabel {
+  cursor: pointer;
+}
+
+.summary-control {
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+  padding: 10px;
+  margin: 0px;
+}
+
+.summaryToggle {
+  margin-right: 5px;
+}
+.summary-control {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.article-title {
+  margin-top: 2em; /* Add a top margin to push it down. Adjust as needed */
+}
+
+.summary-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.summary-toggle {
+  margin-right: 5px; /* Space between the arrow and the label text */
+}
+
+.articleImage {
+  max-width: 100%; /* To ensure it doesn't overflow */
+  height: auto; /* To maintain aspect ratio */
+  margin: auto; /* To center it when display is block */
+  display: block; /* Blocks are easier to center than inline elements */
+}
+
+.reading-comprehension-bot {
+  margin-top: 25px; /* Adjust this value according to your needs */
+  border: 1px solid #ccc; /* Light gray border */
+}
+
+.reading-comprehension-bot h2,
+.reading-comprehension-bot p,
+.reading-comprehension-bot input,
+.reading-comprehension-bot button {
+  margin-bottom: 20px;
+}
+
+.reading-comprehension-bot h2 {
+  margin-top: 10px;
+}
+
+.reading-comprehension-bot input {
+  margin-right: 20px; /* Adds margin to the right of the input */
+}
+
+/* or */
+
+.reading-comprehension-bot button {
+  margin-left: 20px; /* Adds margin to the left of the button */
+}
+
+.reading-comprehension-bot input,
+.reading-comprehension-bot button {
+  height: 50px;
+}
+.articleImage {
+  /* ... existing styles */
+  .articleImage {
+    max-width: 100%; /* Ensure the image never exceeds the width of the container */
+    height: auto; /* Maintain the image's aspect ratio */
+    margin: 0 auto 10px; /* Center the image horizontally and add 10px of space below */
+    display: block; /* Block-level element to accept margin and other box model properties */
+  }
+}
+
+.read-more-link {
+  display: block;
+  text-align: center;
+  margin-top: 10px; /* Add space above the link if you like */
+}
+/* Styling the input field */
+.reading-comprehension-bot input {
+  width: 150px;
+  padding: 10px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  transition: all 0.3s ease; /* Transition for smooth effect */
+}
+
+/* Add some hover effect on input */
+.reading-comprehension-bot input:hover {
+  border-color: #555;
+}
+
+/* Add focus effect */
+.reading-comprehension-bot input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Styling the button */
+.reading-comprehension-bot button {
+  width: 150px;
+  padding: 10px;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease; /* Transition for smooth effect */
+}
+
+/* Add some hover effect on button */
+.reading-comprehension-bot button:hover {
+  background-color: #0056b3;
+}
+
+/* Add active/click effect */
+.reading-comprehension-bot button:active {
+  background-color: #004499;
+}
+
+.answer {
+  font-weight: bold; /* Make the text bold */
+  padding: 5px; /* Add some padding for better visual */
+  border-radius: 3px; /* Rounded corners */
+  .answer:hover {
+    background-color: lightblue;
+  }
 }
