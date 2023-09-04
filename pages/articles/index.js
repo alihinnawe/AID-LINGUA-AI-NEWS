@@ -13,7 +13,6 @@ export default function MainPage() {
     "technology",
   ];
   const languages = ["en", "de"];
-  const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
   const sortOptions = ["relevancy", "popularity", "publishedAt"];
   const [isLoading, setIsLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -62,20 +61,22 @@ export default function MainPage() {
       console.error("Failed to fetch summary!", error);
     }
   };
+
+  // This is a default image for an article only if the fetched article does not have an imageToUrl link.
   const DEFAULT_IMAGE_URL =
     "https://www.discovergreece.com/sites/default/files/dg-fallback-20.jpg";
 
   const indexOfLastArticle = currentPage * articlesPerPage;
   const indexOfFirstArticle = indexOfLastArticle - articlesPerPage;
 
+  // Pagination(forward + backward)
   const nextPage = () => {
     setCurrentPage(currentPage + 1);
   };
-
   const prevPage = () => {
     setCurrentPage(currentPage - 1);
   };
-
+  //  View 10 articles maximum in page
   const currentArticles = articles.slice(
     indexOfFirstArticle,
     indexOfLastArticle
@@ -83,8 +84,15 @@ export default function MainPage() {
 
   // Fetch articles from API and save them to the articles collection in Mongo db AIDLingua database.
   useEffect(() => {
+    // every time the user triggers or click the category, language..., the fetchArticles process is triggrered
+    // i.e., new articles only posted into the db collection.
+    // i added a restriction if the URL exists in the articles collection,
+    //  i.e., ignore posting the article.
     const fetchArticles = async () => {
       try {
+        // send a request to the server to in his turn fetch the Api.
+        // get an array of maximum articles and return it back to the server.
+        // which then send it back to the front end to get rendered in the app main page.
         const response = await fetch(
           `/api/articles?category=${selectedCategory}&language=${selectedLanguage}&from=${fromDate}&to=${toDate}&sortBy=${sortBy}`
         );
@@ -98,8 +106,12 @@ export default function MainPage() {
               article.urlToImage !== DEFAULT_IMAGE_URL &&
               article.url
           )
+          // destructure the articles and add the summary and the likes to each article
           .map((article) => ({ ...article, summary: null, likes: 0 }));
 
+        //  saves (POST) each article to the mongoDB articles collection
+        // same here send a request to the server side (saveArticles.js)
+        //  the server post the articles to the mongoDB articles collection.
         await fetch("/api/saveArticles", {
           method: "POST",
           headers: {
@@ -124,6 +136,10 @@ export default function MainPage() {
   // Fetch from the internal API when the visitor load the page for the first time
   // before using any filter tool.
   useEffect(() => {
+    // here we are getting the articles from the database and no longer rendering the articles from the API.
+    // before i used to fetch the articles from API and render them to the homepage.
+    // Now, the fetchArticles fetches the articles from the Api, then we save the new or non existing artciles
+    // then call the articles back from the articles collection and only render 10 articles per page.
     const fetchDataFromDb = async () => {
       try {
         setIsLoading(true); // <-- set loading to true
@@ -146,6 +162,8 @@ export default function MainPage() {
   }, [selectedCategory, selectedLanguage, fromDate, toDate, sortBy]);
 
   useEffect(() => {
+    // here we are saving the liked articles into a local storage so that when we refresh the page, the like/Unlike toggle remains.
+
     const initialLikedArticles = JSON.parse(
       localStorage.getItem("likedArticles") || "{}"
     );
@@ -172,7 +190,8 @@ export default function MainPage() {
         increment = -1;
       }
 
-      // Make the API call to update the likes count of the article
+      // Make the API call to update the likes count of the article in the artciles collection for each article.
+      // we pass the article id along with the increment to the server side (/api/updateArticles), in his turn update the number of likes for each artcile
       const res = await fetch(
         `/api/updateArticles?articleId=${articleId}&increment=${increment}`,
         {
@@ -209,6 +228,7 @@ export default function MainPage() {
 
   return (
     <div className="App">
+      {/* if no data keep loading */}
       {isLoading ? (
         <div className="loading-container">
           <div className="glowing-text">Loading...</div>
@@ -216,11 +236,14 @@ export default function MainPage() {
       ) : (
         <>
           <h1>AID LINGUA NEWS APP</h1>
+          {/* this div is for the project logo */}
           <div className="container">
             <AidLinguaLogo text="" />
           </div>
 
           <div className="filter-container">
+            {/* here is where i get the value if the user select the sports category 
+            , then the value will be sport*/}
             <form className="filter-form">
               Category:
               <select onChange={(e) => setSelectedCategory(e.target.value)}>
@@ -233,7 +256,8 @@ export default function MainPage() {
               <div>
                 <label>
                   🌐{" "}
-                  {/* Here is where the Language text is replaced with an emoji */}
+                  {/* here is where the Language text is replaced with an emoji */}
+                  {/* here is where i get the values either en or de for the language*/}
                   <select onChange={(e) => setSelectedLanguage(e.target.value)}>
                     {languages.map((lang, index) => (
                       <option key={index} value={lang}>
@@ -277,6 +301,7 @@ export default function MainPage() {
           </div>
 
           <div className="articles">
+            {/* viiiiiii: here where i render the list of articles into the app homepage*/}
             {currentArticles.map((article, index) => {
               // Skip rendering the article if it has the default image
               if (
@@ -343,7 +368,12 @@ export default function MainPage() {
                   >
                     Read More
                   </a>
-
+                  {/* here is where i show or render the summary for a given url below the image of the url. Not only this but also 
+                  the user can ask a question based on a reding comprehension text and get answer from 
+                  another server implemented in python and listens
+                  on another port 5000. The server job is to take the question + summary text
+                  then pass it into the deep learning model for Question answering
+                  send the results back into the client side and show it below the summaty text.  */}
                   {showSummary[article.url] && (
                     <div className="reading-comprehension-bot">
                       <ReadingComprehensionBot SummaryText={article.summary} />
