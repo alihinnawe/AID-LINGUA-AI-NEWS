@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ReadingComprehensionBot from "../../components/ReadingComprehensionBot/";
+import AidLinguaLogo from "../../components/AidLinguaLogo";
 export default function MainPage() {
   const categories = [
     "all",
@@ -223,6 +224,10 @@ export default function MainPage() {
       ) : (
         <>
           <h1>AID LINGUA NEWS APP</h1>
+          <div className="container">
+            <AidLinguaLogo text="" />
+          </div>
+
           <div className="filter-container">
             <form className="filter-form">
               Category:
@@ -233,38 +238,6 @@ export default function MainPage() {
                   </option>
                 ))}
               </select>
-              {/* <div style={{ position: "relative" }}>
-                <span
-                  role="button"
-                  onClick={toggleLanguageDropdown}
-                  style={{ fontSize: "2em" }} // This makes the emoji twice as large
-                >
-                  🌐
-                </span>
-                {showLanguageDropdown && (
-                  <ul
-                    style={{
-                      position: "absolute",
-                      listStyle: "none",
-                      margin: "0",
-                      padding: "0",
-                      border: "1px solid #ccc",
-                      backgroundColor: "white",
-                      left: "0",
-                      top: "1em",
-                    }}
-                  >
-                    {languages.map((lang, index) => (
-                      <li
-                        key={index}
-                        onClick={() => handleLanguageChange(lang)}
-                      >
-                        {lang}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div> */}
               <div>
                 <label>
                   🌐{" "}
