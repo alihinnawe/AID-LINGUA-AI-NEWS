@@ -393,7 +393,45 @@
   font-weight: bold; /* Make the text bold */
   padding: 5px; /* Add some padding for better visual */
   border-radius: 3px; /* Rounded corners */
-  .answer:hover {
-    background-color: lightblue;
-  }
+  color: #007bff;
+}
+
+.answer:hover {
+  background-color: lightblue;
+}
+
+/* Reading Comprehension Bot container */
+.reading-comprehension-bot {
+  border: 1px solid lightgrey; /* Light border */
+  margin-top: 20px; /* Distance from the image */
+  padding: 15px; /* Inner padding */
+}
+
+/* Styling for the h2 tag */
+.reading-comprehension-bot h2 {
+  font-size: 1.8em; /* Making the size bigger */
+  font-weight: bold; /* Making it bold */
+  color: #333; /* Color that is easy on the eyes */
+  margin-bottom: 15px; /* Distance between h2 and the next element */
+}
+
+/* Styling for the p tag */
+.reading-comprehension-bot p {
+  font-size: 1.2em; /* Making the size bigger */
+  font-weight: 500; /* Semi-bold */
+  color: #666; /* Color that is easy on the eyes */
+  line-height: 1.5; /* Improved readability */
+}
+
+/* Dynamic styling for the button */
+.reading-comprehension-bot button {
+  background-color: #007bff; /* Blue background */
+  color: white; /* White text */
+  cursor: pointer; /* Hand cursor on hover */
+  transition: background-color 0.3s ease; /* Smooth background color transition */
+}
+
+/* Button hover effect */
+.reading-comprehension-bot button:hover {
+  background-color: #0056b3; /* Darker blue */
 }
