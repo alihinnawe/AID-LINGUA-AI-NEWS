@@ -28,14 +28,6 @@ export default function MainPage() {
 
   const articlesPerPage = 10;
 
-  const toggleLanguageDropdown = () => {
-    setShowLanguageDropdown(!showLanguageDropdown);
-  };
-
-  const handleLanguageChange = (newLanguage) => {
-    setSelectedLanguage(newLanguage);
-    setShowLanguageDropdown(false);
-  };
   const toggleSummary = async (url, index) => {
     const wasSuccessful = await fetchSummary(url, index);
 

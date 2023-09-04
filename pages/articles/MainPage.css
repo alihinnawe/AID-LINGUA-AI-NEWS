@@ -15,7 +15,7 @@ h1 {
   margin-bottom: 16px;
   color: rgba(7, 78, 244, 0.757);
   cursor: pointer;
-  transition: color 0.3s ease; /* Optional: Smooth transition */
+  transition: color 0.3s ease;
 }
 
 .article-title:hover {
@@ -24,7 +24,7 @@ h1 {
 }
 /* Filters Style */
 .filter-container {
-  width: var(--container-width); /* Variable width */
+  width: var(--container-width);
   margin: 0 auto;
   padding: 0;
   display: flex;
@@ -109,8 +109,8 @@ h1 {
   position: absolute;
   bottom: 5px;
   left: 5px;
-  transition: color 0.3s ease; /* Optional: Smooth transition */
-  text-decoration: none; /* Remove underline */
+  transition: color 0.3s ease;
+  text-decoration: none;
 }
 
 /* Article Image */
@@ -118,8 +118,8 @@ h1 {
   max-width: 60%;
   height: auto;
   object-fit: cover;
-  display: block; /* Blocks are easier to center than inline elements */
-  margin: 0 auto 10px; /* Center the image horizontally and add 10px of space below */
+  display: block;
+  margin: 0 auto 10px;
 }
 
 /* Show Summary Checkbox */
@@ -129,13 +129,11 @@ h1 {
   right: 5px;
 }
 
-/* Hover effect for article */
 .article:hover {
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   background-color: lightblue;
 }
 
-/* Input & Select Hover Styles */
 .filter-form div label select:hover,
 .filter-form div label input:hover,
 .filters select:hover,
@@ -150,9 +148,8 @@ h1 {
   /* background-color: rgba(0, 115, 255, 0.583); */
 }
 
-/* New style for the Sort By dropdown */
 .filter-form div:last-child label select {
-  margin-right: 30px; /* Adjust this value as needed */
+  margin-right: 30px;
 }
 
 /* Tooltip */
@@ -164,9 +161,9 @@ h1 {
   padding: 5px;
   position: absolute;
   z-index: 1;
-  bottom: 100%; /* Position the tooltip above the title */
+  bottom: 100%;
   left: 50%;
-  margin-left: -30px; /* Center the tooltip */
+  margin-left: -30px;
   opacity: 0.8;
 }
 
@@ -193,9 +190,6 @@ h1 {
   justify-content: flex-end;
 }
 
-.summaryCheckbox {
-}
-
 .loading-container {
   display: flex;
   justify-content: center;
@@ -205,8 +199,8 @@ h1 {
   position: fixed;
   top: 0;
   left: 0;
-  background-color: rgba(0, 0, 0, 0.8); /* Optional: Dark background */
-  z-index: 9999; /* Make sure it covers other items on the page */
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 9999;
 }
 
 .glowing-text {
@@ -255,12 +249,12 @@ h1 {
 .like-button--liked {
   color: gold;
   text-shadow: 0px 0px 5px #ffd700;
-  transform: scale(1.5); /* Enlarge to 1.5 times */
+  transform: scale(1.5);
 }
 
 .like-button--unliked {
   color: grey;
-  transform: scale(1); /* Reset size */
+  transform: scale(1);
 }
 
 .like-count {
@@ -295,7 +289,7 @@ h1 {
 }
 
 .article-title {
-  margin-top: 2em; /* Add a top margin to push it down. Adjust as needed */
+  margin-top: 2em;
 }
 
 .summary-label {
@@ -305,12 +299,12 @@ h1 {
 }
 
 .summary-toggle {
-  margin-right: 5px; /* Space between the arrow and the label text */
+  margin-right: 5px;
 }
 
 .reading-comprehension-bot {
-  margin-top: 25px; /* Adjust this value according to your needs */
-  border: 1px solid #ccc; /* Light gray border */
+  margin-top: 25px;
+  border: 1px solid #ccc;
 }
 
 .reading-comprehension-bot h2,
@@ -325,13 +319,11 @@ h1 {
 }
 
 .reading-comprehension-bot input {
-  margin-right: 20px; /* Adds margin to the right of the input */
+  margin-right: 20px;
 }
 
-/* or */
-
 .reading-comprehension-bot button {
-  margin-left: 20px; /* Adds margin to the left of the button */
+  margin-left: 20px;
 }
 
 .reading-comprehension-bot input,
@@ -342,7 +334,7 @@ h1 {
 .read-more-link {
   display: block;
   text-align: center;
-  margin-top: 10px; /* Add space above the link if you like */
+  margin-top: 10px;
 }
 /* Styling the input field */
 .reading-comprehension-bot input {
@@ -350,7 +342,7 @@ h1 {
   padding: 10px;
   border: 2px solid #ccc;
   border-radius: 5px;
-  transition: all 0.3s ease; /* Transition for smooth effect */
+  transition: all 0.3s ease;
 }
 
 /* Add some hover effect on input */
@@ -373,7 +365,7 @@ h1 {
   border-radius: 5px;
   color: white;
   cursor: pointer;
-  transition: all 0.3s ease; /* Transition for smooth effect */
+  transition: all 0.3s ease;
 }
 
 /* Add some hover effect on button */
@@ -387,9 +379,9 @@ h1 {
 }
 
 .answer {
-  font-weight: bold; /* Make the text bold */
-  padding: 5px; /* Add some padding for better visual */
-  border-radius: 3px; /* Rounded corners */
+  font-weight: bold;
+  padding: 5px;
+  border-radius: 3px;
   color: #007bff;
 }
 
@@ -397,40 +389,38 @@ h1 {
   background-color: lightblue;
 }
 
-/* Reading Comprehension Bot container */
 .reading-comprehension-bot {
-  border: 1px solid lightgrey; /* Light border */
-  margin-top: 20px; /* Distance from the image */
-  padding: 15px; /* Inner padding */
+  border: 1px solid lightgrey;
+  margin-top: 20px;
+  padding: 15px;
 }
 
-/* Styling for the h2 tag */
 .reading-comprehension-bot h2 {
-  font-size: 1.8em; /* Making the size bigger */
-  font-weight: bold; /* Making it bold */
-  color: #333; /* Color that is easy on the eyes */
-  margin-bottom: 15px; /* Distance between h2 and the next element */
+  font-size: 1.8em;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 15px;
 }
 
 /* Styling for the p tag */
 .reading-comprehension-bot p {
-  font-size: 1.2em; /* Making the size bigger */
-  font-weight: 500; /* Semi-bold */
-  color: #666; /* Color that is easy on the eyes */
-  line-height: 1.5; /* Improved readability */
+  font-size: 1.2em;
+  font-weight: 500;
+  color: #666;
+  line-height: 1.5;
 }
 
 /* Dynamic styling for the button */
 .reading-comprehension-bot button {
-  background-color: #007bff; /* Blue background */
-  color: white; /* White text */
-  cursor: pointer; /* Hand cursor on hover */
-  transition: background-color 0.3s ease; /* Smooth background color transition */
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 /* Button hover effect */
 .reading-comprehension-bot button:hover {
-  background-color: #0056b3; /* Darker blue */
+  background-color: #0056b3;
 }
 
 .language-dropdown-container {
@@ -465,7 +455,6 @@ select {
   background-color: #333;
 }
 
-/* This sets the background color to blue for the filter container */
 .filter-container,
 .filter-form {
   background-color: rgb(13, 117, 244);
