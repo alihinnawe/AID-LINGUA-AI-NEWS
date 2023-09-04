@@ -2,7 +2,6 @@ import dbConnect from "../../db/connect";
 import Article from "../../models/ArticleSchema";
 
 export default async function handler(req, res) {
-  console.log("function triggreeeeeeeddddddddd");
   await dbConnect();
 
   const { method, query } = req;
@@ -11,7 +10,6 @@ export default async function handler(req, res) {
     case "GET":
       try {
         let filter = {};
-
         // Assuming that the articles in the database have a 'category' and 'language' field
         if (query.category && query.category !== "all") {
           filter.category = query.category;
@@ -33,10 +31,10 @@ export default async function handler(req, res) {
           sortOption[query.sortBy] = 1; // 1 for ascending order, -1 for descending
         }
         // Test category filter
-        const articlesByCategory = await Article.find({ category: "health" });
-        console.log("Articles by Category:", articlesByCategory);
+        const articlesByCategory = await Article.find({
+          category: query.category,
+        });
         const articles = await Article.find(filter).sort(sortOption);
-        console.log("filtered articlessssssssssssssssss: ", articles);
 
         res.status(200).json({ success: true, data: articles });
       } catch (error) {

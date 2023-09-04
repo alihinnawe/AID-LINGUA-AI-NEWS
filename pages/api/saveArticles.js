@@ -10,11 +10,10 @@ export default async function handler(request, response) {
 
   try {
     // collection of data fetched from the newsapi
-    const ArticleData = request.body;
-    // console.log("ArticleData issssssssss:", ArticleData);
+    const { filteredArticles, category, language } = request.body;
 
     // articles should be an array
-    if (!Array.isArray(ArticleData)) {
+    if (!Array.isArray(filteredArticles)) {
       return response
         .status(400)
         .json({ error: "Expected an array of articles" });
@@ -23,11 +22,7 @@ export default async function handler(request, response) {
     let newArticleCount = 0;
 
     // insert an article to database
-    for (const singleArticle of ArticleData) {
-      // console.log(
-      //   "singleArticlesingleArticlesingleArticlesingleArticle",
-      //   singleArticle
-      // );
+    for (const singleArticle of filteredArticles) {
       const articleToSave = {
         author: singleArticle.author || "Unknown Author",
         urlToImage:
@@ -40,15 +35,14 @@ export default async function handler(request, response) {
         content: singleArticle.content || "No content",
         summary: singleArticle.summary || "No summary",
         likes: singleArticle.likes || 0,
-        category: singleArticle.category || "general",
-        language: singleArticle.language || "en",
+        category: category || "general",
+        language: language || "en",
       };
 
       // Check if the article with the same URL already exists
       const existingArticle = await Article.findOne({ url: articleToSave.url });
       if (!existingArticle) {
         // If it doesn't exist, save the new article
-
         await new Article(articleToSave).save();
 
         newArticleCount++;
