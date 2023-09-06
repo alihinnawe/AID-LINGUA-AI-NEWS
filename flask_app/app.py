@@ -1,14 +1,9 @@
 from flask import Flask, request, jsonify
-from transformers import RobertaForQuestionAnswering, RobertaTokenizer
-import torch  # <- Add this line
-from flask_cors import CORS
+import openai
+import torch
+# ...other imports and setup...
 
 app = Flask(__name__)
-CORS(app)  # CORS support
-print("flasssssssssssssssssk is connected")
-model_name = "deepset/roberta-base-squad2"
-model = RobertaForQuestionAnswering.from_pretrained(model_name)
-tokenizer = RobertaTokenizer.from_pretrained(model_name)
 
 
 @app.route('/ask', methods=['POST'])
@@ -26,5 +21,17 @@ def ask():
     return jsonify({'answer': answer})
 
 
-if __name__ == "__main__":
-    app.run(host='127.0.0.1', port=5000)
+@app.route('/api/whisper', methods=['POST'])
+def whisper():
+    print("requestttttttt issssssssssssssssssss:", request)
+    audio_data = request.json['file']  # Assuming you send base64 encoded audio
+    model_name = request.json['model']
+
+    audio_file = open(audio_data, model_name)
+    transcript = openai.Audio.translate(model_name, audio_file)
+
+    return jsonify({
+        'text': transcript  # Replace with the actual text from the response if it's nested
+    })
+
+# ...other routes and application logic...

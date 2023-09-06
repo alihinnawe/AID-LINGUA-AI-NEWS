@@ -138,7 +138,8 @@ h1 {
 .filter-form div label input:hover,
 .filters select:hover,
 .filters input:hover,
-.filters button:hover {
+.filters button:hover,
+.Cattegory-select:hover {
   background-color: blue;
 }
 

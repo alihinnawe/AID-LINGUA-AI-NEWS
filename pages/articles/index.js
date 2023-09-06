@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
 import ReadingComprehensionBot from "../../components/ReadingComprehensionBot/";
 import AidLinguaLogo from "../../components/AidLinguaLogo";
+import LiveWhisper from "@/components/LiveWhisper";
 export default function MainPage() {
+  console.log(
+    "ArticlessssssssssssssssssssssLiveWhisperLiveWhisperLiveWhisperLiveWhisper",
+    LiveWhisper
+  );
   const categories = [
     "all",
     "general",
@@ -12,6 +17,7 @@ export default function MainPage() {
     "sports",
     "technology",
   ];
+
   const languages = ["en", "de"];
   const sortOptions = ["relevancy", "popularity", "publishedAt"];
   const [isLoading, setIsLoading] = useState(false);
@@ -237,16 +243,19 @@ export default function MainPage() {
         <>
           <h1>AID LINGUA NEWS APP</h1>
           {/* this div is for the project logo */}
-          <div className="container">
-            <AidLinguaLogo text="" />
-          </div>
+          {/* <div className="container">
+            <AidLinguaLogo text="here iam testing" />
+          </div> */}
 
           <div className="filter-container">
             {/* here is where i get the value if the user select the sports category 
             , then the value will be sport*/}
             <form className="filter-form">
               Category:
-              <select onChange={(e) => setSelectedCategory(e.target.value)}>
+              <select
+                className="Cattegory-select"
+                onChange={(e) => setSelectedCategory(e.target.value)}
+              >
                 {categories.map((category, index) => (
                   <option key={index} value={category}>
                     {category}
@@ -377,6 +386,7 @@ export default function MainPage() {
                   {showSummary[article.url] && (
                     <div className="reading-comprehension-bot">
                       <ReadingComprehensionBot SummaryText={article.summary} />
+                      <LiveWhisper />
                     </div>
                   )}
                 </div>
