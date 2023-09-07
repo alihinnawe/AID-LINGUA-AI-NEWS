@@ -21,17 +21,12 @@ def ask():
     return jsonify({'answer': answer})
 
 
-@app.route('/api/whisper', methods=['POST'])
-def whisper():
-    print("requestttttttt issssssssssssssssssss:", request)
-    audio_data = request.json['file']  # Assuming you send base64 encoded audio
-    model_name = request.json['model']
+# @app.route('/whisper', methods=['POST'])
+# def whisper():
+#     content = request.json
 
-    audio_file = open(audio_data, model_name)
-    transcript = openai.Audio.translate(model_name, audio_file)
 
-    return jsonify({
-        'text': transcript  # Replace with the actual text from the response if it's nested
-    })
+#     return jsonify({'answer': answer})
 
-# ...other routes and application logic...
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)

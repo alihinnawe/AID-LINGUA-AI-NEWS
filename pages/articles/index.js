@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
+import "@babel/polyfill";
+import "core-js/stable";
+import "regenerator-runtime/runtime";
 import ReadingComprehensionBot from "../../components/ReadingComprehensionBot/";
-import AidLinguaLogo from "../../components/AidLinguaLogo";
-import LiveWhisper from "@/components/LiveWhisper";
+import ReactWhisper from "../../components/ReactWhisper/";
 export default function MainPage() {
-  console.log(
-    "ArticlessssssssssssssssssssssLiveWhisperLiveWhisperLiveWhisperLiveWhisper",
-    LiveWhisper
-  );
   const categories = [
     "all",
     "general",
@@ -386,7 +384,7 @@ export default function MainPage() {
                   {showSummary[article.url] && (
                     <div className="reading-comprehension-bot">
                       <ReadingComprehensionBot SummaryText={article.summary} />
-                      <LiveWhisper />
+                      <ReactWhisper />
                     </div>
                   )}
                 </div>
