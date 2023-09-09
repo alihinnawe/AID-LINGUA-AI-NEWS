@@ -1,15 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react"; // Make sure to import useEffect
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
 
-const ReactWhisper = () => {
+const ReactWhisper = ({ setTranscribedText }) => {
   const {
     transcript,
     listening,
     resetTranscript,
     browserSupportsSpeechRecognition,
   } = useSpeechRecognition();
+
+  // Add this useEffect hook
+  useEffect(() => {
+    setTranscribedText(transcript);
+  }, [transcript]);
 
   if (!browserSupportsSpeechRecognition) {
     return <span>Browser does not support Speech Recognition</span>;

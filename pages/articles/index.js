@@ -28,6 +28,7 @@ export default function MainPage() {
   const [toDate, setToDate] = useState("");
   const [sortBy, setSortBy] = useState("");
   const [likedArticles, setLikedArticles] = useState({});
+  const [transcribedText, setTranscribedText] = useState("");
 
   const articlesPerPage = 10;
 
@@ -383,8 +384,11 @@ export default function MainPage() {
                   send the results back into the client side and show it below the summaty text.  */}
                   {showSummary[article.url] && (
                     <div className="reading-comprehension-bot">
-                      <ReadingComprehensionBot SummaryText={article.summary} />
-                      <ReactWhisper />
+                      <ReactWhisper setTranscribedText={setTranscribedText} />
+                      <ReadingComprehensionBot
+                        transcribedText={transcribedText}
+                        SummaryText={article.summary}
+                      />
                     </div>
                   )}
                 </div>

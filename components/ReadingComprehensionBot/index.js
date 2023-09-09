@@ -1,12 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-const ReadingComprehensionBot = ({ SummaryText }) => {
-  console.log("Reading Comprehension bot is triggrered");
+const ReadingComprehensionBot = ({ transcribedText, SummaryText }) => {
   const [userQuestion, setUserQuestion] = useState("");
   const [answer, setAnswer] = useState("");
 
+  useEffect(() => {
+    // Use transcribedText as userQuestion
+    setUserQuestion(transcribedText);
+  }, [transcribedText]);
+
   const getAnswer = async () => {
     try {
+      console.log("user question is", userQuestion);
+      console.log("bodyyyyyyryyyyyyyyyyyyyyyyyyyy", SummaryText);
+
       const response = await fetch("http://localhost:5000/ask", {
         method: "POST",
         headers: {
@@ -17,6 +24,8 @@ const ReadingComprehensionBot = ({ SummaryText }) => {
           SummaryText: SummaryText,
         }),
       });
+
+      console.log("bodyyyyyyryyyyyyyyyyyyyyyyyyyy", response);
       const data = await response.json();
       if (data && data.answer) {
         setAnswer(data.answer);
@@ -34,7 +43,7 @@ const ReadingComprehensionBot = ({ SummaryText }) => {
       </div>
       <input
         type="text"
-        value={userQuestion}
+        value={userQuestion} // Changed to userQuestion
         onChange={(e) => setUserQuestion(e.target.value)}
         placeholder="Ask me a question"
       />
