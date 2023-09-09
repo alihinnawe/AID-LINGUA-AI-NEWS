@@ -324,7 +324,7 @@ export default function MainPage() {
             </form>
           </div>
 
-          <div className="articles" aria-label="List of Articles">
+          <section className="articles" aria-label="List of Articles">
             {/* viiiiiii: here where i render the list of articles into the app homepage*/}
             {currentArticles.map((article, index) => {
               // Skip rendering the article if it has the default image
@@ -389,13 +389,14 @@ export default function MainPage() {
                     href={article.url}
                     target="_blank"
                     rel="noopener noreferrer"
+                    aria-label={`Read more about ${article.title}`}
                   >
                     <h2 className="article-title">{article.title}</h2>
                   </a>
                   <img
                     className="articleImage"
                     src={article.urlToImage}
-                    alt={article.title}
+                    alt={`Image for the article titled ${article.title}`}
                   />
 
                   <a
@@ -403,6 +404,7 @@ export default function MainPage() {
                     className="read-more-link"
                     target="_blank"
                     rel="noopener noreferrer"
+                    aria-label={`Read more about ${article.title}`}
                   >
                     Read More
                   </a>
@@ -422,7 +424,10 @@ export default function MainPage() {
                     </div>
                   )} */}
                   {showSummary[article.url] && (
-                    <div className="reading-comprehension-bot">
+                    <div
+                      className="reading-comprehension-bot"
+                      aria-live="polite"
+                    >
                       <ReactWhisper
                         setTranscribedText={setTranscribedText}
                         setAutoGetAnswer={setAutoGetAnswer}
@@ -438,14 +443,16 @@ export default function MainPage() {
                 </div>
               );
             })}
-          </div>
-          <div>
+          </section>
+          <nav aria-label="Pagination">
             <button onClick={prevPage} disabled={currentPage === 1}>
               Previous
             </button>
-            <span>{`${currentPage} / ${Math.ceil(
-              articles.length / articlesPerPage
-            )}`}</span>
+            <span aria-label={`Current page, ${currentPage}`}>
+              {`${currentPage} / ${Math.ceil(
+                articles.length / articlesPerPage
+              )}`}{" "}
+            </span>
             <button
               onClick={nextPage}
               disabled={
@@ -454,7 +461,7 @@ export default function MainPage() {
             >
               Next
             </button>
-          </div>
+          </nav>
         </>
       )}
     </div>
