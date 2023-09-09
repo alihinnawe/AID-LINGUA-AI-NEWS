@@ -1,39 +1,41 @@
 import React, { useState, useEffect } from "react";
 
-const ReadingComprehensionBot = ({ transcribedText, SummaryText }) => {
-  const [userQuestion, setUserQuestion] = useState("");
-  const [answer, setAnswer] = useState("");
+const ReadingComprehensionBot = ({
+  transcribedText,
+  SummaryText,
+  autoGetAnswer,
+}) => {
+  const [answer, setAnswer] = useState(null);
 
   useEffect(() => {
-    // Use transcribedText as userQuestion
-    setUserQuestion(transcribedText);
-  }, [transcribedText]);
+    if (autoGetAnswer && transcribedText) {
+      const getAnswer = async () => {
+        try {
+          const response = await fetch("http://localhost:5000/ask", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              question: transcribedText,
+              SummaryText: SummaryText,
+            }),
+          });
 
-  const getAnswer = async () => {
-    try {
-      console.log("user question is", userQuestion);
-      console.log("bodyyyyyyryyyyyyyyyyyyyyyyyyyy", SummaryText);
+          console.log("bodyyyyyyryyyyyyyyyyyyyyyyyyyy", response);
+          const data = await response.json();
+          if (data && data.answer) {
+            setAnswer(data.answer);
+          }
+        } catch (error) {
+          console.error("Error fetching answer:", error);
+        }
+        console.log("answer is: ", answer);
+      };
 
-      const response = await fetch("http://localhost:5000/ask", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          question: userQuestion,
-          SummaryText: SummaryText,
-        }),
-      });
-
-      console.log("bodyyyyyyryyyyyyyyyyyyyyyyyyyy", response);
-      const data = await response.json();
-      if (data && data.answer) {
-        setAnswer(data.answer);
-      }
-    } catch (error) {
-      console.error("Error fetching answer:", error);
+      getAnswer();
     }
-  };
+  }, [autoGetAnswer, transcribedText, SummaryText]);
 
   return (
     <div>
@@ -43,14 +45,13 @@ const ReadingComprehensionBot = ({ transcribedText, SummaryText }) => {
       </div>
       <input
         type="text"
-        value={userQuestion} // Changed to userQuestion
-        onChange={(e) => setUserQuestion(e.target.value)}
+        value={transcribedText} // Use transcribedText as the value of the input field
+        readOnly
         placeholder="Ask me a question"
       />
-      <button onClick={getAnswer}>Get Answer</button>
-      <div className="answer">{answer && <p>Answer: {answer}</p>}</div>
+      <button disabled={!transcribedText}>Get Answer</button>
+      {answer && <div>Answer: {answer}</div>}
     </div>
   );
 };
-
 export default ReadingComprehensionBot;

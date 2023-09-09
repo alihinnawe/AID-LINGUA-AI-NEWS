@@ -4,6 +4,9 @@
   align-items: center;
   margin-bottom: 10px;
 }
+.UserQuestion {
+  background-color: #fcf9f9;
+}
 h1 {
   display: flex;
   justify-content: center;

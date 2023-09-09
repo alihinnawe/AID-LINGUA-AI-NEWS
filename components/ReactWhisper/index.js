@@ -1,9 +1,13 @@
-import React, { useEffect } from "react"; // Make sure to import useEffect
+import React, { useEffect, useState } from "react";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
 
-const ReactWhisper = ({ setTranscribedText }) => {
+const ReactWhisper = ({
+  setTranscribedText,
+  shouldListen,
+  setAutoGetAnswer,
+}) => {
   const {
     transcript,
     listening,
@@ -11,10 +15,37 @@ const ReactWhisper = ({ setTranscribedText }) => {
     browserSupportsSpeechRecognition,
   } = useSpeechRecognition();
 
-  // Add this useEffect hook
+  const [activeRecording, setActiveRecording] = useState(false);
+  const [lastTranscript, setLastTranscript] = useState("");
   useEffect(() => {
-    setTranscribedText(transcript);
-  }, [transcript]);
+    if (shouldListen) {
+      SpeechRecognition.startListening({ continuous: true });
+    } else {
+      SpeechRecognition.stopListening();
+    }
+  }, [shouldListen]);
+  useEffect(() => {
+    let silenceTimer;
+
+    if (transcript.toLowerCase().includes("whisper") && !activeRecording) {
+      setActiveRecording(true);
+      resetTranscript();
+      setTranscribedText(""); // Reset the input text
+    }
+
+    if (activeRecording) {
+      if (transcript !== lastTranscript) {
+        setLastTranscript(transcript);
+        clearTimeout(silenceTimer);
+        silenceTimer = setTimeout(() => {
+          const cleanedTranscript = transcript.replace(/whisper/gi, "").trim();
+          setTranscribedText(cleanedTranscript);
+          resetTranscript();
+          setActiveRecording(false);
+        }, 7000); // Stops after 2 seconds of silence
+      }
+    }
+  }, [transcript, lastTranscript, activeRecording]);
 
   if (!browserSupportsSpeechRecognition) {
     return <span>Browser does not support Speech Recognition</span>;
@@ -23,13 +54,7 @@ const ReactWhisper = ({ setTranscribedText }) => {
   return (
     <div>
       <p>Microphone: {listening ? "on" : "off"}</p>
-      <button
-        onClick={() => SpeechRecognition.startListening({ continuous: true })}
-      >
-        Start
-      </button>
-      <button onClick={() => SpeechRecognition.stopListening()}>Stop</button>
-      <button onClick={() => resetTranscript()}>Reset</button>
+      <button onClick={resetTranscript}>Reset</button>
       <p>Transcribed Text: {transcript}</p>
     </div>
   );

@@ -4,6 +4,9 @@ import "core-js/stable";
 import "regenerator-runtime/runtime";
 import ReadingComprehensionBot from "../../components/ReadingComprehensionBot/";
 import ReactWhisper from "../../components/ReactWhisper/";
+import SpeechRecognition, {
+  useSpeechRecognition,
+} from "react-speech-recognition";
 export default function MainPage() {
   const categories = [
     "all",
@@ -29,6 +32,8 @@ export default function MainPage() {
   const [sortBy, setSortBy] = useState("");
   const [likedArticles, setLikedArticles] = useState({});
   const [transcribedText, setTranscribedText] = useState("");
+  const [autoGetAnswer, setAutoGetAnswer] = useState(false);
+  const [isSummaryShowing, setIsSummaryShowing] = useState({});
 
   const articlesPerPage = 10;
 
@@ -230,6 +235,16 @@ export default function MainPage() {
       console.error("An error occurred while liking the article:", error);
     }
   };
+  const toggleAndTriggerAudio = (articleUrl, index) => {
+    setIsSummaryShowing((prevState) => ({
+      ...prevState,
+      [articleUrl]: !prevState[articleUrl],
+    }));
+    toggleSummary(articleUrl, index);
+    if (!showSummary[articleUrl]) {
+      setAutoGetAnswer(true);
+    }
+  };
 
   return (
     <div className="App">
@@ -339,7 +354,10 @@ export default function MainPage() {
                     <span
                       className="summaryToggle"
                       onClick={() =>
-                        toggleSummary(article.url, indexOfFirstArticle + index)
+                        toggleAndTriggerAudio(
+                          article.url,
+                          indexOfFirstArticle + index
+                        )
                       }
                     >
                       {showSummary[article.url] ? "🔽" : "🔼"}
@@ -347,7 +365,10 @@ export default function MainPage() {
                     <span
                       className="summaryLabel"
                       onClick={() =>
-                        toggleSummary(article.url, indexOfFirstArticle + index)
+                        toggleAndTriggerAudio(
+                          article.url,
+                          indexOfFirstArticle + index
+                        )
                       }
                     >
                       {showSummary[article.url]
@@ -382,12 +403,26 @@ export default function MainPage() {
                   on another port 5000. The server job is to take the question + summary text
                   then pass it into the deep learning model for Question answering
                   send the results back into the client side and show it below the summaty text.  */}
-                  {showSummary[article.url] && (
+                  {/* {showSummary[article.url] && (
                     <div className="reading-comprehension-bot">
                       <ReactWhisper setTranscribedText={setTranscribedText} />
                       <ReadingComprehensionBot
                         transcribedText={transcribedText}
                         SummaryText={article.summary}
+                      />
+                    </div>
+                  )} */}
+                  {showSummary[article.url] && (
+                    <div className="reading-comprehension-bot">
+                      <ReactWhisper
+                        setTranscribedText={setTranscribedText}
+                        setAutoGetAnswer={setAutoGetAnswer}
+                        shouldListen={isSummaryShowing[article.url]} // Pass whether the summary is shown for this article
+                      />
+                      <ReadingComprehensionBot
+                        transcribedText={transcribedText}
+                        SummaryText={article.summary}
+                        autoGetAnswer={autoGetAnswer}
                       />
                     </div>
                   )}
