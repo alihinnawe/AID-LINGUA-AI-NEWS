@@ -250,12 +250,12 @@ export default function MainPage() {
     <div className="App">
       {/* if no data keep loading */}
       {isLoading ? (
-        <div className="loading-container">
+        <div className="loading-container" aria-label="Loading...">
           <div className="glowing-text">Loading...</div>
         </div>
       ) : (
         <>
-          <h1>AID LINGUA NEWS APP</h1>
+          <h1 id="appTitle">AID LINGUA NEWS APP</h1>
           {/* this div is for the project logo */}
           {/* <div className="container">
             <AidLinguaLogo text="here iam testing" />
@@ -264,9 +264,10 @@ export default function MainPage() {
           <div className="filter-container">
             {/* here is where i get the value if the user select the sports category 
             , then the value will be sport*/}
-            <form className="filter-form">
-              Category:
+            <form className="filter-form" aria-labelledby="appTitle">
+              <label htmlFor="categorySelect">Category:</label>
               <select
+                id="categorySelect"
                 className="Cattegory-select"
                 onChange={(e) => setSelectedCategory(e.target.value)}
               >
@@ -276,54 +277,54 @@ export default function MainPage() {
                   </option>
                 ))}
               </select>
-              <div>
-                <label>
-                  🌐{" "}
-                  {/* here is where the Language text is replaced with an emoji */}
-                  {/* here is where i get the values either en or de for the language*/}
-                  <select onChange={(e) => setSelectedLanguage(e.target.value)}>
-                    {languages.map((lang, index) => (
-                      <option key={index} value={lang}>
-                        {lang}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-              </div>
-              <div>
-                <label>
-                  From:
-                  <input
-                    type="date"
-                    onChange={(e) => setFromDate(e.target.value)}
-                  />
-                </label>
-              </div>
-              <div>
-                <label>
-                  To:
-                  <input
-                    type="date"
-                    onChange={(e) => setToDate(e.target.value)}
-                  />
-                </label>
-              </div>
-              <div>
-                <label>
-                  Sort By:
-                  <select onChange={(e) => setSortBy(e.target.value)}>
-                    {sortOptions.map((option, index) => (
-                      <option key={index} value={option}>
-                        {option}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-              </div>
+
+              <label id="languageLabel" aria-label="Choose Language">
+                🌐{" "}
+                {/* here is where the Language text is replaced with an emoji */}
+                {/* here is where i get the values either en or de for the language*/}
+                <select
+                  aria-labelledby="languageLabel"
+                  onChange={(e) => setSelectedLanguage(e.target.value)}
+                >
+                  {languages.map((lang, index) => (
+                    <option key={index} value={lang}>
+                      {lang}
+                    </option>
+                  ))}
+                </select>
+              </label>
+
+              <label htmlFor="fromDate">From:</label>
+              <input
+                id="fromDate"
+                type="date"
+                onChange={(e) => setFromDate(e.target.value)}
+              />
+
+              <label htmlFor="toDate">To: </label>
+
+              <input
+                id="toDate"
+                type="date"
+                onChange={(e) => setToDate(e.target.value)}
+              />
+
+              <label htmlFor="sortBySelect">Sort By: </label>
+
+              <select
+                id="sortBySelect"
+                onChange={(e) => setSortBy(e.target.value)}
+              >
+                {sortOptions.map((option, index) => (
+                  <option key={index} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
             </form>
           </div>
 
-          <div className="articles">
+          <div className="articles" aria-label="List of Articles">
             {/* viiiiiii: here where i render the list of articles into the app homepage*/}
             {currentArticles.map((article, index) => {
               // Skip rendering the article if it has the default image
@@ -335,7 +336,7 @@ export default function MainPage() {
               }
 
               return (
-                <div className="article" key={index}>
+                <div className="article" key={index} role="article">
                   <span className="like-container">
                     <span
                       className={`like-button ${
@@ -343,16 +344,22 @@ export default function MainPage() {
                           ? "like-button--liked"
                           : "like-button--unliked"
                       }`}
+                      role="button"
+                      tabIndex="0"
                       onClick={() => handleLike(article._id)}
                     >
                       👍
                     </span>
-                    <span className="like-count">{article.likes}</span>
+                    <span className="like-count" aria-label="likes count">
+                      {article.likes}
+                    </span>
                   </span>
 
                   <div className="summary-control">
                     <span
                       className="summaryToggle"
+                      role="button"
+                      tabIndex="0"
                       onClick={() =>
                         toggleAndTriggerAudio(
                           article.url,
@@ -364,6 +371,8 @@ export default function MainPage() {
                     </span>
                     <span
                       className="summaryLabel"
+                      role="button"
+                      tabIndex="0"
                       onClick={() =>
                         toggleAndTriggerAudio(
                           article.url,
