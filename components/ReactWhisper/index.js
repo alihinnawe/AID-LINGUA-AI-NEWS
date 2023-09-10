@@ -52,10 +52,20 @@ const ReactWhisper = ({
   }
 
   return (
-    <div>
-      <p>Microphone: {listening ? "on" : "off"}</p>
-      <button onClick={resetTranscript}>Reset</button>
-      <p>Transcribed Text: {transcript}</p>
+    <div role="main" aria-labelledby="react-whisper-heading">
+      <h2 id="react-whisper-heading">React Whisper Component</h2>
+
+      <p id="microphone-status">Microphone: {listening ? "on" : "off"}</p>
+      <button
+        tabIndex="0"
+        aria-label="Reset Transcript"
+        onClick={resetTranscript}
+      >
+        Reset
+      </button>
+      <div id="transcribed-text" aria-live="polite">
+        <p>Transcribed Text: {transcript}</p>
+      </div>
     </div>
   );
 };

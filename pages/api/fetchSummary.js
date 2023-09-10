@@ -1,5 +1,5 @@
 export default async function handler(req, res) {
-  const SMMRY_API_KEY = process.env.SMMRY_API_KEY;
+  const SMMRY_API_KEY = process.env.EXT_PUBLIC_SMMRY_API_KEY;
   const url = req.query.url;
 
   try {

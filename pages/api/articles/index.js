@@ -1,6 +1,6 @@
 export default async function handler(req, res) {
   //fetch newsapi articles variables
-  const NEWS_API_KEY = process.env.NEWS_API_KEY;
+  const NEWS_API_KEY = process.env.EXT_PUBLIC_NEWS_API_KEY;
   const selectedCategory = req.query.category;
   const selectedLanguage = req.query.language;
   const fromDate = req.query.from;

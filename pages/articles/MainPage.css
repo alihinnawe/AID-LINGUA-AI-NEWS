@@ -5,7 +5,7 @@
   margin-bottom: 10px;
 }
 .UserQuestion {
-  background-color: #fcf9f9;
+  background-color: #0e15d2;
 }
 h1 {
   display: flex;
@@ -16,14 +16,15 @@ h1 {
 .article-title {
   font-size: 24px;
   margin-bottom: 16px;
-  color: rgba(7, 78, 244, 0.757);
+  color: rgba(11, 11, 11, 0.757);
   cursor: pointer;
   transition: color 0.3s ease;
+  margin-top: 2em;
 }
 
 .article-title:hover {
   font-size: 26px;
-  color: rgb(131, 199, 29);
+  color: rgba(5, 135, 241, 0.757);
 }
 /* Filters Style */
 .filter-container {
@@ -32,13 +33,12 @@ h1 {
   padding: 0;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 20px;
-  background-color: #908c8c;
-  color: rgb(15, 14, 14);
-  padding: 20px;
-  /* position: sticky;
-    top: 0; */
+  /* margin-bottom: 20px; */
+  /* background-color: #305d95;  */
+  /* color: rgb(233, 25, 25); */
+  padding: 10px;
   z-index: 100;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
 }
 
 .filter-form {
@@ -49,29 +49,33 @@ h1 {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  margin-bottom: 20px;
-  color: white;
-  padding: 20px;
-  /* position: sticky;
-    top: 0; */
+  /* margin-bottom: 10px; */
+  /* color: rgb(22, 21, 21); */
+
   z-index: 100;
   gap: 30px;
+  /* background-color: var(--primary-bg); */
+  color: var(--text-color);
+  /* box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1); */
 }
 
-.filter-form label select,
+/* .filter-form label select,
 .filter-form label input {
   margin-left: 10px;
-}
+  background-color: #0ab5f4;
+} */
 
-.filter-form > div {
+/* .filter-form > div {
   display: grid;
   grid-template-columns: max-content 1fr;
   align-items: center;
   gap: 10px;
-}
+  color: #c2ffc2;
+} */
 
 .filter-form label {
   justify-self: end;
+  color: #000000;
 }
 /* Article Container */
 .articles {
@@ -134,16 +138,7 @@ h1 {
 
 .article:hover {
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  background-color: lightblue;
-}
-
-.filter-form div label select:hover,
-.filter-form div label input:hover,
-.filters select:hover,
-.filters input:hover,
-.filters button:hover,
-.Cattegory-select:hover {
-  background-color: blue;
+  /* background-color: lightblue; */
 }
 
 /* Text Center */
@@ -180,14 +175,14 @@ h1 {
   justify-content: flex-end;
 }
 
-.bookmark-button {
+/* .bookmark-button {
   background-color: #007bff;
   color: white;
   border: none;
   padding: 10px;
   cursor: pointer;
   border-radius: 4px;
-}
+} */
 
 .article-footer {
   display: flex;
@@ -290,10 +285,6 @@ h1 {
   position: absolute;
   top: 0;
   right: 0;
-}
-
-.article-title {
-  margin-top: 2em;
 }
 
 .summary-label {
@@ -444,22 +435,86 @@ h1 {
   position: absolute;
   top: 100%;
   left: 0;
-  border: 1px solid #ccc;
-  background-color: white;
-  width: 2em; /* same width as globe */
+  color: rgb(238, 58, 58);
+  width: 2em;
 }
 
 .language-dropdown li {
   text-align: center;
 }
 
-input,
-select {
-  color: black;
-  background-color: #333;
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
 }
 
-.filter-container,
-.filter-form {
-  background-color: rgb(13, 117, 244);
+.article:hover .article-title,
+.article:hover .readMore {
+  color: #333; /* Or any other color that has good contrast with light blue */
+}
+
+.tooltip {
+  color: #fff; /* White text on dark background for better readability */
+}
+
+.like-button--liked {
+  color: rgb(240, 205, 6);
+  background-color: #0ab5f4; /* Almost black */
+  text-shadow: 0px 0px 5px #ffd700;
+  transform: scale(1.5);
+}
+
+/* For language filter*/
+
+/* Article Styles */
+.article {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  margin: 20px;
+  padding-top: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+/* Like and Dislike Button */
+.like-button {
+  transition: all 0.3s ease;
+}
+
+.like-button--liked {
+  color: gold;
+  text-shadow: 0px 0px 5px #ffd700;
+  transform: scale(1.5);
+}
+
+.like-button--unliked {
+  color: grey;
+  transform: scale(1);
+}
+
+/* Like and Dislike Button when inside the hovered article */
+.article:hover .like-button--liked,
+.article:hover .like-button--unliked {
+  color: #000000; /* Black for better contrast against light blue */
+  background-color: #ffffff; /* White background for contrast */
+  border-radius: 50%; /* Optional: make it circular */
+  padding: 8px; /* Optional: padding around the icon */
+}
+
+input,
+select {
+  background-color: #0d71f475;
+}
+
+#languageLabel {
+  color: white;
 }

@@ -38,19 +38,44 @@ const ReadingComprehensionBot = ({
   }, [autoGetAnswer, transcribedText, SummaryText]);
 
   return (
-    <div>
-      <h2>Reading Comprehension Bot</h2>
-      <div id="content">
+    <div role="main">
+      <h2 id="reading-comprehension-bot-heading">Reading Comprehension Bot</h2>
+      <div id="content" aria-labelledby="reading-comprehension-bot-heading">
         <p>{SummaryText}</p>
       </div>
+      <label htmlFor="user-input" id="user-input-label">
+        Ask me a question
+      </label>
+
       <input
+        id="user-input"
         type="text"
         value={transcribedText} // Use transcribedText as the value of the input field
         readOnly
         placeholder="Ask me a question"
+        aria-labelledby="user-input-label"
       />
-      <button disabled={!transcribedText}>Get Answer</button>
-      {answer && <div>Answer: {answer}</div>}
+      <button
+        tabIndex="0"
+        aria-label="Get Answer"
+        disabled={!transcribedText}
+        aria-disabled={!transcribedText ? "true" : "false"}
+      >
+        Get Answer
+      </button>
+      {/* <button
+        tabIndex="0"
+        aria-label={answer ? "Answered" : "Get Answer"}
+        disabled={!transcribedText}
+        aria-disabled={!transcribedText ? "true" : "false"}
+      >
+        {answer ? "Answered" : "Get Answer"}
+      </button> */}
+      {answer && (
+        <div id="answer" aria-live="polite">
+          Answer: {answer}
+        </div>
+      )}
     </div>
   );
 };

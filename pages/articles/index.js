@@ -4,12 +4,13 @@ import "core-js/stable";
 import "regenerator-runtime/runtime";
 import ReadingComprehensionBot from "../../components/ReadingComprehensionBot/";
 import ReactWhisper from "../../components/ReactWhisper/";
-import SpeechRecognition, {
-  useSpeechRecognition,
-} from "react-speech-recognition";
+
+const currentDate = new Date();
+currentDate.setDate(currentDate.getDate() - 1);
+const yesterday = currentDate.toISOString().substring(0, 10);
+
 export default function MainPage() {
   const categories = [
-    "all",
     "general",
     "business",
     "entertainment",
@@ -27,16 +28,18 @@ export default function MainPage() {
   const [showSummary, setShowSummary] = useState({});
   const [selectedCategory, setSelectedCategory] = useState("general");
   const [selectedLanguage, setSelectedLanguage] = useState("en");
-  const [fromDate, setFromDate] = useState("");
+  const [fromDate, setFromDate] = useState(yesterday);
   const [toDate, setToDate] = useState("");
-  const [sortBy, setSortBy] = useState("");
+  const [sortBy, setSortBy] = useState("publishedAt");
   const [likedArticles, setLikedArticles] = useState({});
   const [transcribedText, setTranscribedText] = useState("");
   const [autoGetAnswer, setAutoGetAnswer] = useState(false);
   const [isSummaryShowing, setIsSummaryShowing] = useState({});
 
   const articlesPerPage = 10;
-
+  useEffect(() => {
+    document.title = "Aid Linua News";
+  }, []);
   const toggleSummary = async (url, index) => {
     const wasSuccessful = await fetchSummary(url, index);
 
@@ -152,7 +155,7 @@ export default function MainPage() {
     // then call the articles back from the articles collection and only render 10 articles per page.
     const fetchDataFromDb = async () => {
       try {
-        setIsLoading(true); // <-- set loading to true
+        setIsLoading(true);
 
         const res = await fetch(
           `/api/fetchArticlesFromDb?category=${selectedCategory}&language=${selectedLanguage}&from=${fromDate}&to=${toDate}&sortBy=${sortBy}`
@@ -160,14 +163,18 @@ export default function MainPage() {
         const data = await res.json();
 
         if (data.success) {
-          setArticles(data.data); // setArticles is the state setter for articles
+          const sortedArticles = data.data.sort(
+            (a, b) => new Date(b.publishedAt) - new Date(a.publishedAt)
+          );
+          setArticles(sortedArticles);
         }
       } catch (error) {
         console.error("Failed to fetch articles from the database!", error);
       } finally {
-        setIsLoading(false); // set loading to false regerdles  if fetch was successful or not
+        setIsLoading(false);
       }
     };
+
     fetchDataFromDb();
   }, [selectedCategory, selectedLanguage, fromDate, toDate, sortBy]);
 
@@ -255,166 +262,152 @@ export default function MainPage() {
         </div>
       ) : (
         <>
-          <h1 id="appTitle">AID LINGUA NEWS APP</h1>
+          <header role="banner">
+            <h1 id="appTitle">AID LINGUA NEWS APP</h1>
+          </header>
           {/* this div is for the project logo */}
           {/* <div className="container">
             <AidLinguaLogo text="here iam testing" />
           </div> */}
-
-          <div className="filter-container">
-            {/* here is where i get the value if the user select the sports category 
+          <main role="main">
+            <section className="filter-container" aria-labelledby="appTitle">
+              {/* here is where i get the value if the user select the sports category 
             , then the value will be sport*/}
-            <form className="filter-form" aria-labelledby="appTitle">
-              <label htmlFor="categorySelect">Category:</label>
-              <select
-                id="categorySelect"
-                className="Cattegory-select"
-                onChange={(e) => setSelectedCategory(e.target.value)}
-              >
-                {categories.map((category, index) => (
-                  <option key={index} value={category}>
-                    {category}
-                  </option>
-                ))}
-              </select>
-
-              <label id="languageLabel" aria-label="Choose Language">
-                🌐{" "}
-                {/* here is where the Language text is replaced with an emoji */}
-                {/* here is where i get the values either en or de for the language*/}
+              <h2 className="visually-hidden">Filter Options</h2>
+              <form className="filter-form" aria-labelledby="appTitle">
+                <label htmlFor="categorySelect">Category:</label>
                 <select
-                  aria-labelledby="languageLabel"
-                  onChange={(e) => setSelectedLanguage(e.target.value)}
+                  id="categorySelect"
+                  value={selectedCategory}
+                  className="Category-select"
+                  onChange={(e) => setSelectedCategory(e.target.value)}
                 >
-                  {languages.map((lang, index) => (
-                    <option key={index} value={lang}>
-                      {lang}
+                  {categories.map((category, index) => (
+                    <option key={index} value={category}>
+                      {category}
                     </option>
                   ))}
                 </select>
-              </label>
 
-              <label htmlFor="fromDate">From:</label>
-              <input
-                id="fromDate"
-                type="date"
-                onChange={(e) => setFromDate(e.target.value)}
-              />
-
-              <label htmlFor="toDate">To: </label>
-
-              <input
-                id="toDate"
-                type="date"
-                onChange={(e) => setToDate(e.target.value)}
-              />
-
-              <label htmlFor="sortBySelect">Sort By: </label>
-
-              <select
-                id="sortBySelect"
-                onChange={(e) => setSortBy(e.target.value)}
-              >
-                {sortOptions.map((option, index) => (
-                  <option key={index} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
-            </form>
-          </div>
-
-          <section className="articles" aria-label="List of Articles">
-            {/* viiiiiii: here where i render the list of articles into the app homepage*/}
-            {currentArticles.map((article, index) => {
-              // Skip rendering the article if it has the default image
-              if (
-                article.urlToImage ===
-                "https://www.discovergreece.com/sites/default/files/dg-fallback-20.jpg"
-              ) {
-                return null;
-              }
-
-              return (
-                <div className="article" key={index} role="article">
-                  <span className="like-container">
-                    <span
-                      className={`like-button ${
-                        likedArticles[article._id]
-                          ? "like-button--liked"
-                          : "like-button--unliked"
-                      }`}
-                      role="button"
-                      tabIndex="0"
-                      onClick={() => handleLike(article._id)}
-                    >
-                      👍
-                    </span>
-                    <span className="like-count" aria-label="likes count">
-                      {article.likes}
-                    </span>
-                  </span>
-
-                  <div className="summary-control">
-                    <span
-                      className="summaryToggle"
-                      role="button"
-                      tabIndex="0"
-                      onClick={() =>
-                        toggleAndTriggerAudio(
-                          article.url,
-                          indexOfFirstArticle + index
-                        )
-                      }
-                    >
-                      {showSummary[article.url] ? "🔽" : "🔼"}
-                    </span>
-                    <span
-                      className="summaryLabel"
-                      role="button"
-                      tabIndex="0"
-                      onClick={() =>
-                        toggleAndTriggerAudio(
-                          article.url,
-                          indexOfFirstArticle + index
-                        )
-                      }
-                    >
-                      {showSummary[article.url]
-                        ? "Hide Summary"
-                        : "Show Summary"}
-                    </span>
-                  </div>
-                  <a
-                    href={article.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`Read more about ${article.title}`}
+                <label id="languageLabel" aria-label="Choose Language">
+                  🌐{" "}
+                  {/* here is where the Language text is replaced with an emoji */}
+                  {/* here is where i get the values either en or de for the language*/}
+                  <select
+                    value={selectedLanguage}
+                    aria-labelledby="languageLabel"
+                    onChange={(e) => setSelectedLanguage(e.target.value)}
                   >
+                    {languages.map((lang, index) => (
+                      <option key={index} value={lang}>
+                        {lang}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+
+                <label htmlFor="fromDate">From:</label>
+                <input
+                  value={fromDate}
+                  id="fromDate"
+                  type="date"
+                  onChange={(e) => setFromDate(e.target.value)}
+                />
+
+                <label htmlFor="toDate">To: </label>
+
+                <input
+                  id="toDate"
+                  type="date"
+                  value={toDate}
+                  onChange={(e) => setToDate(e.target.value)}
+                />
+
+                <label htmlFor="sortBySelect">Sort By: </label>
+
+                <select
+                  id="sortBySelect"
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value)}
+                >
+                  {sortOptions.map((option, index) => (
+                    <option key={index} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              </form>
+            </section>
+
+            <section className="articles" aria-label="List of Articles">
+              {/* viiiiiii: here where i render the list of articles into the app homepage*/}
+              {currentArticles.map((article, index) => {
+                // Skip rendering the article if it has the default image
+                if (
+                  article.urlToImage ===
+                  "https://www.discovergreece.com/sites/default/files/dg-fallback-20.jpg"
+                ) {
+                  return null;
+                }
+
+                return (
+                  <div className="article" key={index} role="article">
+                    <div className="summary-control">
+                      <span
+                        className="summaryToggle"
+                        role="button"
+                        tabIndex="0"
+                        aria-expanded={
+                          showSummary[article.url] ? "true" : "false"
+                        }
+                        onClick={() =>
+                          toggleAndTriggerAudio(
+                            article.url,
+                            indexOfFirstArticle + index
+                          )
+                        }
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter")
+                            toggleAndTriggerAudio(
+                              article.url,
+                              indexOfFirstArticle + index
+                            );
+                        }}
+                      >
+                        {showSummary[article.url] ? "🔽" : "🔼"}
+                      </span>
+                      <span
+                        className="summaryLabel"
+                        role="button"
+                        tabIndex="0"
+                        onClick={() =>
+                          toggleAndTriggerAudio(
+                            article.url,
+                            indexOfFirstArticle + index
+                          )
+                        }
+                      >
+                        {showSummary[article.url]
+                          ? "Hide Summary"
+                          : "Show Summary"}
+                      </span>
+                    </div>
+
                     <h2 className="article-title">{article.title}</h2>
-                  </a>
-                  <img
-                    className="articleImage"
-                    src={article.urlToImage}
-                    alt={`Image for the article titled ${article.title}`}
-                  />
 
-                  <a
-                    href={article.url}
-                    className="read-more-link"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`Read more about ${article.title}`}
-                  >
-                    Read More
-                  </a>
-                  {/* here is where i show or render the summary for a given url below the image of the url. Not only this but also 
+                    <img
+                      className="articleImage"
+                      src={article.urlToImage}
+                      alt={`Image for the article titled ${article.title}`}
+                    />
+
+                    {/* here is where i show or render the summary for a given url below the image of the url. Not only this but also 
                   the user can ask a question based on a reding comprehension text and get answer from 
                   another server implemented in python and listens
                   on another port 5000. The server job is to take the question + summary text
                   then pass it into the deep learning model for Question answering
                   send the results back into the client side and show it below the summaty text.  */}
-                  {/* {showSummary[article.url] && (
+                    {/* {showSummary[article.url] && (
                     <div className="reading-comprehension-bot">
                       <ReactWhisper setTranscribedText={setTranscribedText} />
                       <ReadingComprehensionBot
@@ -423,28 +416,61 @@ export default function MainPage() {
                       />
                     </div>
                   )} */}
-                  {showSummary[article.url] && (
-                    <div
-                      className="reading-comprehension-bot"
-                      aria-live="polite"
+                    {showSummary[article.url] && (
+                      <div
+                        className="reading-comprehension-bot"
+                        aria-live="polite"
+                      >
+                        <ReactWhisper
+                          setTranscribedText={setTranscribedText}
+                          setAutoGetAnswer={setAutoGetAnswer}
+                          shouldListen={isSummaryShowing[article.url]} // Pass whether the summary is shown for this article
+                        />
+                        <ReadingComprehensionBot
+                          transcribedText={transcribedText}
+                          SummaryText={article.summary}
+                          autoGetAnswer={autoGetAnswer}
+                        />
+                      </div>
+                    )}
+                    <a
+                      href={article.url}
+                      className="read-more-link"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`Read more about ${article.title}`}
                     >
-                      <ReactWhisper
-                        setTranscribedText={setTranscribedText}
-                        setAutoGetAnswer={setAutoGetAnswer}
-                        shouldListen={isSummaryShowing[article.url]} // Pass whether the summary is shown for this article
-                      />
-                      <ReadingComprehensionBot
-                        transcribedText={transcribedText}
-                        SummaryText={article.summary}
-                        autoGetAnswer={autoGetAnswer}
-                      />
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </section>
-          <nav aria-label="Pagination">
+                      Read More
+                    </a>
+                    <span className="like-container">
+                      <span
+                        className={`like-button ${
+                          likedArticles[article._id]
+                            ? "like-button--liked"
+                            : "like-button--unliked"
+                        }`}
+                        role="button"
+                        tabIndex="0"
+                        aria-pressed={
+                          likedArticles[article._id] ? "true" : "false"
+                        }
+                        onClick={() => handleLike(article._id)}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") handleLike(article._id);
+                        }}
+                      >
+                        👍
+                      </span>
+                      <span className="like-count" aria-label="likes count">
+                        {article.likes}
+                      </span>
+                    </span>
+                  </div>
+                );
+              })}
+            </section>
+          </main>
+          <nav aria-label="Pagination" role="navigation">
             <button onClick={prevPage} disabled={currentPage === 1}>
               Previous
             </button>
