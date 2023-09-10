@@ -235,31 +235,6 @@ h1 {
   background-color: #c2ffc2;
 }
 
-.like-container {
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-}
-
-.like-button {
-  transition: all 0.3s ease;
-}
-
-.like-button--liked {
-  color: gold;
-  text-shadow: 0px 0px 5px #ffd700;
-  transform: scale(1.5);
-}
-
-.like-button--unliked {
-  color: grey;
-  transform: scale(1);
-}
-
-.like-count {
-  margin-left: 5px;
-}
-
 .summaryToggle {
   cursor: pointer;
   margin-right: 5px;
@@ -463,13 +438,6 @@ h1 {
   color: #fff; /* White text on dark background for better readability */
 }
 
-.like-button--liked {
-  color: rgb(240, 205, 6);
-  background-color: #0ab5f4; /* Almost black */
-  text-shadow: 0px 0px 5px #ffd700;
-  transform: scale(1.5);
-}
-
 /* For language filter*/
 
 /* Article Styles */
@@ -485,34 +453,35 @@ h1 {
   border-radius: 8px;
 }
 
-/* Like and Dislike Button */
+.like-container {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+
 .like-button {
   transition: all 0.3s ease;
+  border-radius: 50%;
 }
 
 .like-button--liked {
-  color: gold;
-  text-shadow: 0px 0px 5px #ffd700;
+  color: #1f1f1f;
+  background-color: #63ccf2;
+  /* text-shadow: 0px 0px 5px #ffd700; */
   transform: scale(1.5);
 }
 
 .like-button--unliked {
-  color: grey;
-  transform: scale(1);
+  transform: scrgb(42, 41, 41);
 }
 
-/* Like and Dislike Button when inside the hovered article */
-.article:hover .like-button--liked,
-.article:hover .like-button--unliked {
-  color: #000000; /* Black for better contrast against light blue */
-  background-color: #ffffff; /* White background for contrast */
-  border-radius: 50%; /* Optional: make it circular */
-  padding: 8px; /* Optional: padding around the icon */
+.like-count {
+  margin-left: 5px;
 }
 
 input,
 select {
-  background-color: #0d71f475;
+  background-color: #0270ffd8;
 }
 
 #languageLabel {

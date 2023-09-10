@@ -459,7 +459,7 @@ export default function MainPage() {
                           if (e.key === "Enter") handleLike(article._id);
                         }}
                       >
-                        👍
+                        &#x1F90D;
                       </span>
                       <span className="like-count" aria-label="likes count">
                         {article.likes}
