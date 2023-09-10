@@ -4,6 +4,7 @@ import "core-js/stable";
 import "regenerator-runtime/runtime";
 import ReadingComprehensionBot from "../../components/ReadingComprehensionBot/";
 import ReactWhisper from "../../components/ReactWhisper/";
+import Image from "next/image";
 
 const currentDate = new Date();
 currentDate.setDate(currentDate.getDate() - 1);
@@ -396,9 +397,12 @@ export default function MainPage() {
                     <h2 className="article-title">{article.title}</h2>
 
                     <img
+                      loading="lazy"
                       className="articleImage"
                       src={article.urlToImage}
                       alt={`Image for the article titled ${article.title}`}
+                      width={400}
+                      height={300}
                     />
 
                     {/* here is where i show or render the summary for a given url below the image of the url. Not only this but also 
@@ -470,16 +474,28 @@ export default function MainPage() {
               })}
             </section>
           </main>
-          <nav aria-label="Pagination" role="navigation">
-            <button onClick={prevPage} disabled={currentPage === 1}>
+          <nav
+            aria-label="Pagination"
+            role="navigation"
+            className="pagination-container"
+          >
+            <button
+              className="pagination-button"
+              onClick={prevPage}
+              disabled={currentPage === 1}
+            >
               Previous
             </button>
-            <span aria-label={`Current page, ${currentPage}`}>
+            <span
+              aria-label={`Current page, ${currentPage}`}
+              className="pagination-text"
+            >
               {`${currentPage} / ${Math.ceil(
                 articles.length / articlesPerPage
               )}`}{" "}
             </span>
             <button
+              className="pagination-button"
               onClick={nextPage}
               disabled={
                 currentPage === Math.ceil(articles.length / articlesPerPage)
