@@ -483,7 +483,13 @@ h1 {
 
 input,
 select {
-  background-color: #0270ffd8;
+  background-color: #35a7e2;
+  transition: box-shadow 0.3s ease-in-out; /* Smooth transition for box-shadow */
+}
+
+input:hover,
+select:hover {
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75); /* Adds a dark shadow */
 }
 
 #languageLabel {
@@ -504,15 +510,15 @@ select {
   transition: all 0.3s ease; /* Smooth transition for all changes */
 }
 
-/* Hover effect */
-.pagination-button:hover {
-  background-color: #f1f1f1; /* Change the background color */
-  cursor: pointer; /* Make it look clickable */
-  transform: scale(1.05); /* Make it slightly larger */
-}
-
 .pagination-text {
   text-align: center; /* Center the text */
   font-size: 16px;
   width: 100px;
+}
+
+.pagination-button:hover {
+  background-color: #35a7e2; /* Change the background color to blue*/
+  cursor: pointer; /* Make it look clickable */
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.4); /* Add a dark shadow for contrast */
+  color: white; /* Make the text white for better readability */
 }
