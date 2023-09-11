@@ -277,7 +277,9 @@ export default function MainPage() {
               <h2 className="visually-hidden">Filter Options</h2>
               <form className="filter-form" aria-labelledby="appTitle">
                 <div className="input-wrapper width-50">
-                  <label htmlFor="categorySelect">Category:</label>
+                  <label htmlFor="categorySelect" aria-label="Choose Category">
+                    Category:
+                  </label>
                   <select
                     id="categorySelect"
                     value={selectedCategory}
@@ -292,14 +294,15 @@ export default function MainPage() {
                   </select>
                 </div>
                 <div className="input-wrapper width-50">
-                  <label id="languageLabel" aria-label="Choose Language">
+                  <label htmlFor="languageLabel" aria-label="Choose Language">
                     Language:
                     {/* here is where the Language text is replaced with an emoji */}
                     {/* here is where i get the values either en or de for the language*/}
                   </label>
                   <select
+                    id="languageLabel"
                     value={selectedLanguage}
-                    aria-labelledby="languageLabel"
+                    // aria-labelledby="languageLabel"
                     onChange={(e) => setSelectedLanguage(e.target.value)}
                   >
                     {languages.map((lang, index) => (
@@ -411,7 +414,7 @@ export default function MainPage() {
                       loading="lazy"
                       className="articleImage"
                       src={article.urlToImage}
-                      alt={`Image for the article titled ${article.title}`}
+                      alt={`Image for the article id ${index}`}
                       width={400}
                       height={300}
                     />
