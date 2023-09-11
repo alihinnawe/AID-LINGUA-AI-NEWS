@@ -276,24 +276,27 @@ export default function MainPage() {
             , then the value will be sport*/}
               <h2 className="visually-hidden">Filter Options</h2>
               <form className="filter-form" aria-labelledby="appTitle">
-                <label htmlFor="categorySelect">Category:</label>
-                <select
-                  id="categorySelect"
-                  value={selectedCategory}
-                  className="Category-select"
-                  onChange={(e) => setSelectedCategory(e.target.value)}
-                >
-                  {categories.map((category, index) => (
-                    <option key={index} value={category}>
-                      {category}
-                    </option>
-                  ))}
-                </select>
-
-                <label id="languageLabel" aria-label="Choose Language">
-                  🌐{" "}
-                  {/* here is where the Language text is replaced with an emoji */}
-                  {/* here is where i get the values either en or de for the language*/}
+                <div className="input-wrapper width-50">
+                  <label htmlFor="categorySelect">Category:</label>
+                  <select
+                    id="categorySelect"
+                    value={selectedCategory}
+                    className="Category-select"
+                    onChange={(e) => setSelectedCategory(e.target.value)}
+                  >
+                    {categories.map((category, index) => (
+                      <option key={index} value={category}>
+                        {category}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="input-wrapper width-50">
+                  <label id="languageLabel" aria-label="Choose Language">
+                    Language:
+                    {/* here is where the Language text is replaced with an emoji */}
+                    {/* here is where i get the values either en or de for the language*/}
+                  </label>
                   <select
                     value={selectedLanguage}
                     aria-labelledby="languageLabel"
@@ -305,38 +308,41 @@ export default function MainPage() {
                       </option>
                     ))}
                   </select>
-                </label>
+                </div>
+                <div className="input-wrapper width-50">
+                  <label htmlFor="fromDate">From:</label>
+                  <input
+                    value={fromDate}
+                    id="fromDate"
+                    type="date"
+                    onChange={(e) => setFromDate(e.target.value)}
+                  />
+                </div>
+                <div className="input-wrapper width-50">
+                  <label htmlFor="toDate">To: </label>
 
-                <label htmlFor="fromDate">From:</label>
-                <input
-                  value={fromDate}
-                  id="fromDate"
-                  type="date"
-                  onChange={(e) => setFromDate(e.target.value)}
-                />
+                  <input
+                    id="toDate"
+                    type="date"
+                    value={toDate}
+                    onChange={(e) => setToDate(e.target.value)}
+                  />
+                </div>
+                <div className="input-wrapper width-50">
+                  <label htmlFor="sortBySelect">Sort By: </label>
 
-                <label htmlFor="toDate">To: </label>
-
-                <input
-                  id="toDate"
-                  type="date"
-                  value={toDate}
-                  onChange={(e) => setToDate(e.target.value)}
-                />
-
-                <label htmlFor="sortBySelect">Sort By: </label>
-
-                <select
-                  id="sortBySelect"
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value)}
-                >
-                  {sortOptions.map((option, index) => (
-                    <option key={index} value={option}>
-                      {option}
-                    </option>
-                  ))}
-                </select>
+                  <select
+                    id="sortBySelect"
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value)}
+                  >
+                    {sortOptions.map((option, index) => (
+                      <option key={index} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </form>
             </section>
 
@@ -449,7 +455,7 @@ export default function MainPage() {
                       rel="noopener noreferrer"
                       aria-label={`Read more about ${article.title}`}
                     >
-                      Read More
+                      Read Original Article
                     </a>
                     <span className="like-container">
                       <span

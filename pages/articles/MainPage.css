@@ -27,18 +27,46 @@ h1 {
   color: rgba(5, 135, 241, 0.757);
 }
 /* Filters Style */
-.filter-container {
+/* .filter-container {
   width: var(--container-width);
   margin: 0 auto;
   padding: 0;
   display: flex;
   justify-content: space-between;
-  /* margin-bottom: 20px; */
-  /* background-color: #305d95;  */
-  /* color: rgb(233, 25, 25); */
+
   padding: 10px;
   z-index: 100;
   box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+} */
+.filter-container {
+  /* width: clamp(300px, 50%, 600px); */
+  border-radius: 16px;
+  -webkit-border-radius: 16px;
+  -moz-border-radius: 16px;
+  width: var(--container-width);
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+
+  padding: 10px;
+  z-index: 100;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+h1,
+h2 {
+  padding: 0;
+  margin: 0;
+  margin-bottom: 2rem;
+  color: #45ffca;
+  text-align: center;
+  background: linear-gradient(to right, #647eff, #42d392);
+  background: -webkit-linear-gradient(to right, #647eff, #42d392);
+  background: -moz-linear-gradient(to right, #647eff, #42d392);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .filter-form {
@@ -55,8 +83,13 @@ h1 {
   gap: 20px;
   background-color: rgb(194, 193, 193);
   color: var(--text-color);
+  align-items: center;
 }
 
+.input-rapper .width-50 {
+  width: calc(50% - 16px);
+  white-space: nowrap;
+}
 .filter-form label {
   justify-self: end;
   font-size: 20px;
@@ -157,21 +190,6 @@ h1 {
 
 .filter-form div:last-child label select {
   margin-right: 30px;
-}
-
-/* Tooltip */
-.tooltip {
-  display: none;
-  background-color: #333;
-  color: white;
-  border-radius: 5px;
-  padding: 5px;
-  position: absolute;
-  z-index: 1;
-  bottom: 100%;
-  left: 50%;
-  margin-left: -30px;
-  opacity: 0.8;
 }
 
 .read-more-link:hover {
@@ -313,10 +331,10 @@ h1 {
   /* your existing styles */
   animation: colorChange 3s infinite;
 }
-@keyframes pulsateAndGrow {
+/* @keyframes pulsateAndGrow {
   0% {
     opacity: 0.5;
-    transform: scale(1); /* Start at normal size */
+    transform: scale(1); 
     color: blue;
   }
 
@@ -325,7 +343,7 @@ h1 {
     transform: scale(1.1);
     color: red;
   }
-}
+} */
 
 .summaryLabel {
   /* your existing styles */
@@ -507,10 +525,6 @@ h1 {
   color: #333; /* Or any other color that has good contrast with light blue */
 }
 
-.tooltip {
-  color: #fff; /* White text on dark background for better readability */
-}
-
 /* For language filter*/
 
 /* Article Styles */
@@ -555,16 +569,13 @@ h1 {
 input,
 select {
   background-color: #35a7e2;
-  transition: box-shadow 0.3s ease-in-out; /* Smooth transition for box-shadow */
+  transition: box-shadow 0.3s ease-in-out;
+  /* Smooth transition for box-shadow */
 }
 
 input:hover,
 select:hover {
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75); /* Adds a dark shadow */
-}
-
-#languageLabel {
-  color: white;
 }
 
 .pagination-container {
