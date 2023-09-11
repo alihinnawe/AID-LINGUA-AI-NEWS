@@ -64,7 +64,7 @@ const ReactWhisper = ({
         Reset
       </button>
       <div id="transcribed-text" aria-live="polite">
-        <p>Transcribed Text: {transcript}</p>
+        <p id="Trnscribe-Text">Transcribed Text: {transcript}</p>
       </div>
     </div>
   );

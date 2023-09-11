@@ -45,36 +45,22 @@ h1 {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0;
+  padding: 50px;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   flex-wrap: wrap;
-  /* margin-bottom: 10px; */
-  /* color: rgb(22, 21, 21); */
-
+  font-size: 20px;
+  font-weight: 500;
   z-index: 100;
-  gap: 30px;
-  /* background-color: var(--primary-bg); */
+  gap: 20px;
+  background-color: rgb(194, 193, 193);
   color: var(--text-color);
-  /* box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1); */
 }
-
-/* .filter-form label select,
-.filter-form label input {
-  margin-left: 10px;
-  background-color: #0ab5f4;
-} */
-
-/* .filter-form > div {
-  display: grid;
-  grid-template-columns: max-content 1fr;
-  align-items: center;
-  gap: 10px;
-  color: #c2ffc2;
-} */
 
 .filter-form label {
   justify-self: end;
+  font-size: 20px;
+  font-weight: 700;
   color: #000000;
 }
 /* Article Container */
@@ -86,6 +72,27 @@ h1 {
   justify-content: center;
   align-items: center;
 }
+.reading-comprehension-bot button {
+  padding: 20px;
+  font-size: 18px;
+}
+#user-input {
+  padding: 10px;
+  width: 500px;
+  font-size: 18px;
+}
+
+.like-button like-button--unliked {
+  padding: 20px;
+}
+#user-input::placeholder {
+  color: #000000;
+  font-size: 18px;
+  font-weight: 700;
+  display: flex;
+
+  text-align: center;
+}
 
 /* Single Article */
 .article {
@@ -95,7 +102,6 @@ h1 {
   justify-content: space-between;
   position: relative;
   margin: 20px;
-  /* padding: 20px; */
   padding-top: 20px;
   border: 1px solid #ccc;
   border-radius: 8px;
@@ -233,17 +239,96 @@ h1 {
   transition: background-color 0.3s ease;
 }
 
-.summaryCheckbox:checked + .summaryCheckboxLabel {
+/* .summaryCheckbox:checked + .summaryCheckboxLabel {
   background-color: #c2ffc2;
-}
+} */
 
-.summaryToggle {
+/* .summaryToggle {
   cursor: pointer;
   margin-right: 5px;
+} */
+.summaryLabel {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 700;
+  transition: all 0.3s ease;
+  padding: 0.2em 0.5em;
+  text-decoration: none; /* No underline by default */
+}
+
+.summaryLabelActive {
+  text-decoration: underline; /* Underline only when active */
+  text-decoration-thickness: 2px;
+}
+
+.summaryLabel:hover,
+.summaryLabel:focus,
+.summaryLabelActive:hover,
+.summaryLabelActive:focus {
+  color: blue;
+  font-weight: bold;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  outline: none;
+}
+@keyframes pulsate {
+  0% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 .summaryLabel {
-  cursor: pointer;
+  /* your existing styles */
+  animation: pulsate 1.5s infinite alternate;
+}
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.summaryLabel {
+  /* your existing styles */
+  animation: bounce 2s infinite;
+}
+@keyframes colorChange {
+  0%,
+  100% {
+    color: initial;
+  }
+  50% {
+    color: blue;
+  }
+}
+
+.summaryLabel {
+  /* your existing styles */
+  animation: colorChange 3s infinite;
+}
+@keyframes pulsateAndGrow {
+  0% {
+    opacity: 0.5;
+    transform: scale(1); /* Start at normal size */
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1.1);
+    color: red;
+  }
+}
+
+.summaryLabel {
+  /* your existing styles */
+  animation: pulsateAndGrow 1.5s infinite alternate;
 }
 
 .summary-control {
@@ -253,21 +338,6 @@ h1 {
   cursor: pointer;
   padding: 10px;
   margin: 0px;
-}
-
-.summaryToggle {
-  margin-right: 5px;
-}
-.summary-control {
-  position: absolute;
-  top: 0;
-  right: 0;
-}
-
-.summary-label {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
 }
 
 .summary-toggle {
@@ -521,4 +591,16 @@ select:hover {
   cursor: pointer; /* Make it look clickable */
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.4); /* Add a dark shadow for contrast */
   color: white; /* Make the text white for better readability */
+}
+#appTitle {
+  font-size: 36px;
+  font-weight: bold;
+  color: #ffffff;
+  background-color: #000000;
+}
+
+#user-input-label {
+  font-weight: 700;
+  font-size: 18px;
+  padding: 5px;
 }

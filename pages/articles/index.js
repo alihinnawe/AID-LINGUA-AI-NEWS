@@ -354,7 +354,7 @@ export default function MainPage() {
                 return (
                   <div className="article" key={index} role="article">
                     <div className="summary-control">
-                      <span
+                      {/* <span
                         className="summaryToggle"
                         role="button"
                         tabIndex="0"
@@ -376,11 +376,16 @@ export default function MainPage() {
                         }}
                       >
                         {showSummary[article.url] ? "🔽" : "🔼"}
-                      </span>
+                      </span> */}
                       <span
-                        className="summaryLabel"
+                        className={`summaryLabel ${
+                          showSummary[article.url] ? "summaryLabelActive" : ""
+                        }`}
                         role="button"
                         tabIndex="0"
+                        aria-expanded={
+                          showSummary[article.url] ? "true" : "false"
+                        }
                         onClick={() =>
                           toggleAndTriggerAudio(
                             article.url,

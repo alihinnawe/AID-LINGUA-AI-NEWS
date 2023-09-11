@@ -43,9 +43,9 @@ const ReadingComprehensionBot = ({
       <div id="content" aria-labelledby="reading-comprehension-bot-heading">
         <p>{SummaryText}</p>
       </div>
-      <label htmlFor="user-input" id="user-input-label">
+      {/* <label htmlFor="user-input" id="user-input-label">
         Ask me a question
-      </label>
+      </label> */}
 
       <input
         id="user-input"
