@@ -75,6 +75,7 @@ h2 {
   margin: 0 auto;
   padding: 50px;
   display: flex;
+  flex-direction: column;
   justify-content: space-around;
   flex-wrap: wrap;
   font-size: 20px;
@@ -86,10 +87,21 @@ h2 {
   align-items: center;
 }
 
-.input-rapper .width-50 {
-  width: calc(50% - 16px);
+.input-wrapper {
   white-space: nowrap;
+  display: flex;
+  flex-direction: column;
 }
+@media screen and (min-width: 1200px) {
+  .input-wrapper {
+    white-space: nowrap;
+    flex-direction: row;
+  }
+  .filter-form {
+    flex-direction: row;
+  }
+}
+
 .filter-form label {
   justify-self: end;
   font-size: 20px;
