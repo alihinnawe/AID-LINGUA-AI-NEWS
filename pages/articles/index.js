@@ -363,29 +363,6 @@ export default function MainPage() {
                 return (
                   <div className="article" key={index} role="article">
                     <div className="summary-control">
-                      {/* <span
-                        className="summaryToggle"
-                        role="button"
-                        tabIndex="0"
-                        aria-expanded={
-                          showSummary[article.url] ? "true" : "false"
-                        }
-                        onClick={() =>
-                          toggleAndTriggerAudio(
-                            article.url,
-                            indexOfFirstArticle + index
-                          )
-                        }
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter")
-                            toggleAndTriggerAudio(
-                              article.url,
-                              indexOfFirstArticle + index
-                            );
-                        }}
-                      >
-                        {showSummary[article.url] ? "🔽" : "🔼"}
-                      </span> */}
                       <span
                         className={`summaryLabel ${
                           showSummary[article.url] ? "summaryLabelActive" : ""
@@ -425,31 +402,37 @@ export default function MainPage() {
                   on another port 5000. The server job is to take the question + summary text
                   then pass it into the deep learning model for Question answering
                   send the results back into the client side and show it below the summaty text.  */}
-                    {/* {showSummary[article.url] && (
-                    <div className="reading-comprehension-bot">
-                      <ReactWhisper setTranscribedText={setTranscribedText} />
-                      <ReadingComprehensionBot
-                        transcribedText={transcribedText}
-                        SummaryText={article.summary}
-                      />
-                    </div>
-                  )} */}
+
                     {showSummary[article.url] && (
-                      <div
-                        className="reading-comprehension-bot"
-                        aria-live="polite"
-                      >
-                        <ReactWhisper
-                          setTranscribedText={setTranscribedText}
-                          setAutoGetAnswer={setAutoGetAnswer}
-                          shouldListen={isSummaryShowing[article.url]} // Pass whether the summary is shown for this article
-                        />
-                        <ReadingComprehensionBot
-                          transcribedText={transcribedText}
-                          SummaryText={article.summary}
-                          autoGetAnswer={autoGetAnswer}
-                        />
-                      </div>
+                      <>
+                        <div className="overlay"></div>
+                        <div
+                          className="reading-comprehension-bot"
+                          aria-live="polite"
+                          style={{ height: "auto" }}
+                        >
+                          <button
+                            onClick={() =>
+                              toggleAndTriggerAudio(
+                                article.url,
+                                indexOfFirstArticle + index
+                              )
+                            }
+                          >
+                            Hide Summary
+                          </button>
+                          <ReactWhisper
+                            setTranscribedText={setTranscribedText}
+                            setAutoGetAnswer={setAutoGetAnswer}
+                            shouldListen={isSummaryShowing[article.url]}
+                          />
+                          <ReadingComprehensionBot
+                            transcribedText={transcribedText}
+                            SummaryText={article.summary}
+                            autoGetAnswer={autoGetAnswer}
+                          />
+                        </div>
+                      </>
                     )}
                     <a
                       href={article.url}
