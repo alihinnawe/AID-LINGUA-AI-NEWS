@@ -149,20 +149,31 @@ h2 {
 #user-input {
   padding: 10px;
   width: 500px;
+  display: inline-block;
   font-size: 18px;
-  background-color: ;
 }
 
 .like-button like-button--unliked {
   padding: 20px;
 }
+
+.seen-button seen-button--unliked {
+  padding: 50px;
+}
 #user-input::placeholder {
   color: #121212;
   font-size: 18px;
-  font-weight: 700;
+  font-weight: 500;
   display: flex;
 
   text-align: center;
+}
+
+#user-input_div {
+  padding: 10px;
+  padding-block: 5px;
+  text-align: center;
+  width: 500px;
 }
 
 /* Single Article */
@@ -378,15 +389,17 @@ h2 {
 }
 
 /* Styling the button */
-.reading-comprehension-bot button {
-  width: 150px;
+.reading-comprehension-bot button,
+.summary-control button {
+  width: 160px;
   padding: 10px;
-  background-color: #007bff;
+  background-color: #63ccf2;
   border: none;
   border-radius: 5px;
-  color: white;
+  color: #121212;
   cursor: pointer;
   transition: all 0.3s ease;
+  margin: 0 auto;
 }
 
 /* Add some hover effect on button */
@@ -403,7 +416,7 @@ h2 {
   font-weight: bold;
   padding: 5px;
   border-radius: 3px;
-  color: #007bff;
+  background-color: #63ccf2;
 }
 
 .answer:hover {
@@ -439,10 +452,6 @@ h2 {
   transition: background-color 0.3s ease;
 }
 
-/* .reading-comprehension-bot button:hover {
-  background-color: #0056b3;
-} */
-
 .language-dropdown-container {
   position: relative;
   display: inline-block;
@@ -452,21 +461,6 @@ h2 {
   font-size: 2em;
   cursor: pointer;
 }
-
-/* .language-dropdown {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  color: rgb(238, 58, 58);
-  width: 2em;
-}
-
-.language-dropdown li {
-  text-align: center;
-} */
 
 .visually-hidden {
   position: absolute;
@@ -505,24 +499,19 @@ h2 {
   right: 10px;
 }
 
-.like-button {
-  transition: all 0.3s ease;
-  border-radius: 50%;
-}
-
-.like-button--liked {
-  color: #1f1f1f;
-  background-color: #63ccf2;
-  /* text-shadow: 0px 0px 5px #ffd700; */
-  transform: scale(1.5);
-}
-
-.like-button--unliked {
-  transform: scrgb(42, 41, 41);
-}
-
 .like-count {
   margin-left: 5px;
+}
+
+.seen-container {
+  position: absolute;
+  bottom: 10px;
+  right: 70px;
+}
+
+.seen-button {
+  transition: all 0.3s ease;
+  border-radius: 50%;
 }
 
 input,
@@ -530,7 +519,6 @@ select {
   background-color: #63ccf2;
   color: #121212;
   transition: box-shadow 0.3s ease-in-out;
-  /* Smooth transition for box-shadow */
 }
 
 input:hover,
@@ -597,4 +585,35 @@ select:hover {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5); /* Black with opacity */
   z-index: 999; /* Just below the popup */
+}
+
+.back-to-top {
+  position: fixed;
+  bottom: 60px; /* Adjust based on the height of your pagination buttons */
+  right: 20px;
+  color: #333;
+  font-size: 2em; /* You can adjust the size here */
+  cursor: pointer;
+  z-index: 1000; /* To ensure it appears above other elements */
+  border: none; /* Removes default button border */
+  background: transparent; /* Makes background transparent */
+}
+
+.action-container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  gap: 10px;
+}
+
+.action-icon {
+  cursor: pointer;
+  font-size: 1.5em;
+  padding: 5px;
+  text-decoration: none;
+  color: inherit;
+  text-align: center;
 }

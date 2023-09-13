@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-
+import AutoExpandingTextarea from "../../components/AutoExpandingTextArea/";
 const ReadingComprehensionBot = ({
   transcribedText,
   SummaryText,
@@ -46,23 +46,17 @@ const ReadingComprehensionBot = ({
       {/* <label htmlFor="user-input" id="user-input-label">
         Ask me a question
       </label> */}
-
-      <input
-        id="user-input"
-        type="text"
-        value={transcribedText} // Use transcribedText as the value of the input field
-        readOnly
-        placeholder="Ask me a question"
-        aria-labelledby="user-input-label"
-      />
-      <button
-        tabIndex="0"
-        aria-label="Get Answer"
-        disabled={!transcribedText}
-        aria-disabled={!transcribedText ? "true" : "false"}
-      >
-        Get Answer
-      </button>
+      <div>
+        <AutoExpandingTextarea TranscribedText={transcribedText} />
+        <button
+          tabIndex="0"
+          aria-label="Get Answer"
+          disabled={!transcribedText}
+          aria-disabled={!transcribedText ? "true" : "false"}
+        >
+          Get Answer
+        </button>
+      </div>
       {/* <button
         tabIndex="0"
         aria-label={answer ? "Answered" : "Get Answer"}

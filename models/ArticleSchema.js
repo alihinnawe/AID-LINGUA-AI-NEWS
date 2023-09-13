@@ -48,6 +48,10 @@ const ArticleSchema = new Schema({
     type: Number,
     default: 0,
   },
+  seen: {
+    type: Number,
+    default: 0,
+  },
   category: {
     type: String,
     required: true,

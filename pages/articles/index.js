@@ -4,7 +4,6 @@ import "core-js/stable";
 import "regenerator-runtime/runtime";
 import ReadingComprehensionBot from "../../components/ReadingComprehensionBot/";
 import ReactWhisper from "../../components/ReactWhisper/";
-import Image from "next/image";
 
 const currentDate = new Date();
 currentDate.setDate(currentDate.getDate() - 1);
@@ -36,6 +35,9 @@ export default function MainPage() {
   const [transcribedText, setTranscribedText] = useState("");
   const [autoGetAnswer, setAutoGetAnswer] = useState(false);
   const [isSummaryShowing, setIsSummaryShowing] = useState({});
+  const [seenArticles, setSeenArticles] = useState({});
+  const [isVisible, setIsVisible] = useState(false);
+  const [zoomLevels, setZoomLevels] = useState({});
 
   const articlesPerPage = 10;
   useEffect(() => {
@@ -243,6 +245,101 @@ export default function MainPage() {
       console.error("An error occurred while liking the article:", error);
     }
   };
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  useEffect(() => {
+    // here we are saving the liked articles into a local storage so that when we refresh the page, the like/Unlike toggle remains.
+
+    const initialSeenArticles = JSON.parse(
+      localStorage.getItem("seenArticles") || "{}"
+    );
+
+    setSeenArticles(initialSeenArticles);
+  }, []);
+
+  // Run whenever likedArticles changes to update localStorage
+  useEffect(() => {
+    if (seenArticles && Object.keys(seenArticles).length > 0) {
+      // console.log("Updating localStorage:", likedArticles);
+      localStorage.setItem("seenArticles", JSON.stringify(seenArticles));
+    }
+  }, [seenArticles]);
+
+  const handleSeen = async (articleId) => {
+    try {
+      const res = await fetch(`/api/updateSeenArticle?articleId=${articleId}`, {
+        method: "PUT",
+      });
+
+      const data = await res.json();
+
+      if (res.ok && data.success) {
+        // Update local state to reflect 'seen' status
+        setSeenArticles((prev) => {
+          const updatedSeen = { ...prev, [articleId]: true };
+          return updatedSeen;
+        });
+
+        // Optionally, update any other local state
+      } else {
+        const text = await res.text();
+        console.error(`Server responded with an error: ${text}`);
+        throw new Error(`Server responded with status ${res.status}`);
+      }
+    } catch (error) {
+      console.error(
+        "An error occurred while marking the article as seen:",
+        error
+      );
+    }
+  };
+
+  // const handleSeen = async (articleId) => {
+  //   try {
+  //     // Initialize increment value to 1 for liking the article
+  //     let increment = 1;
+
+  //     // Check if the article is already liked
+  //     if (seenArticles[articleId]) {
+  //       // Change increment to -1 for unliking the article
+  //       increment = -1;
+  //     }
+
+  //     // Make the API call to update the seen count of the article in the artciles collection for each article.
+  //     // we pass the article id along with the increment to the server side (/api/updateArticles), in his turn update the number of seen for each artcile
+  //     const res = await fetch(
+  //       `/api/updateSeenArticles?articleId=${articleId}&increment=${increment}`,
+  //       {
+  //         method: "PUT",
+  //       }
+  //     );
+
+  //     const data = await res.json();
+
+  //     if (res.ok && data.success) {
+  //       // Update the seenArticles state to reflect the new "seen" or "unseen" status
+  //       setSeenArticles((prev) => {
+  //         const updatedSeen = { ...prev, [articleId]: !prev[articleId] };
+  //         return updatedSeen;
+  //       });
+
+  //       // Update the articles state to reflect the new likes count
+  //       setArticles((prevArticles) =>
+  //         prevArticles.map((article) =>
+  //           article._id === articleId
+  //             ? { ...article, seen: data.data.seen }
+  //             : article
+  //         )
+  //       );
+  //     } else {
+  //       const text = await res.text(); // the response body
+  //       console.error(`Server responded with an error: ${text}`);
+  //       throw new Error(`Server responded with status ${res.status}`);
+  //     }
+  //   } catch (error) {
+  //     console.error("An error occurred while seeing the article:", error);
+  //   }
+  // };
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   const toggleAndTriggerAudio = (articleUrl, index) => {
     setIsSummaryShowing((prevState) => ({
       ...prevState,
@@ -254,6 +351,30 @@ export default function MainPage() {
     }
   };
 
+  // Show button when page is scrolled down
+  useEffect(() => {
+    const toggleVisibility = () => {
+      if (window.pageYOffset > 300) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(false);
+      }
+    };
+
+    window.addEventListener("scroll", toggleVisibility);
+
+    return () => window.removeEventListener("scroll", toggleVisibility);
+  }, []);
+
+  const zoomArticle = (index, action) => {
+    const currentZoom = zoomLevels[index] || 100;
+    const newZoom = action === "in" ? currentZoom + 10 : currentZoom - 10;
+
+    setZoomLevels({
+      ...zoomLevels,
+      [index]: newZoom,
+    });
+  };
   return (
     <div className="App">
       {/* if no data keep loading */}
@@ -361,13 +482,19 @@ export default function MainPage() {
                 }
 
                 return (
-                  <div className="article" key={index} role="article">
+                  <div
+                    className="article"
+                    key={index}
+                    role="article"
+                    style={{ fontSize: `${zoomLevels[index] || 100}%` }}
+                  >
                     <div className="summary-control">
-                      <span
+                      <button
+                        id="summaryToggle_Btn"
                         className={`summaryLabel ${
                           showSummary[article.url] ? "summaryLabelActive" : ""
                         }`}
-                        role="button"
+                        // role="button"
                         tabIndex="0"
                         aria-expanded={
                           showSummary[article.url] ? "true" : "false"
@@ -382,7 +509,7 @@ export default function MainPage() {
                         {showSummary[article.url]
                           ? "Hide Summary"
                           : "Show Summary"}
-                      </span>
+                      </button>
                     </div>
 
                     <h2 className="article-title">{article.title}</h2>
@@ -395,6 +522,42 @@ export default function MainPage() {
                       width={400}
                       height={300}
                     />
+
+                    <div className="action-container">
+                      <a
+                        href={`https://twitter.com/intent/tweet?url=${article.url}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="action-icon twitter-share"
+                      >
+                        🐦
+                      </a>
+
+                      <a
+                        href={`https://www.facebook.com/sharer/sharer.php?u=${article.url}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="action-icon facebook-share"
+                      >
+                        📘
+                      </a>
+
+                      <a
+                        href={`https://api.whatsapp.com/send?text=${article.url}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="whatsapp-share"
+                      >
+                        🟢
+                      </a>
+
+                      <a
+                        href={`mailto:?subject=Check out this article!&body=${article.url}`}
+                        className="action-icon email-share"
+                      >
+                        📧
+                      </a>
+                    </div>
 
                     {/* here is where i show or render the summary for a given url below the image of the url. Not only this but also 
                   the user can ask a question based on a reding comprehension text and get answer from 
@@ -434,7 +597,7 @@ export default function MainPage() {
                         </div>
                       </>
                     )}
-                    <a
+                    {/* <a
                       href={article.url}
                       className="read-more-link"
                       target="_blank"
@@ -442,7 +605,24 @@ export default function MainPage() {
                       aria-label={`Read more about ${article.title}`}
                     >
                       Read Original Article
+                    </a> */}
+                    <a
+                      href={article.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`Read more about ${article.title}`}
+                      className="read-more-link"
+                      onClick={(e) => {
+                        handleSeen(article._id); // Mark as seen when link is clicked
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") handleSeen(article._id);
+                      }}
+                    >
+                      Read Original Article{" "}
+                      {seenArticles[article._id] ? "👁️" : "👁️‍🗨"}
                     </a>
+
                     <span className="like-container">
                       <span
                         className={`like-button ${
@@ -460,7 +640,7 @@ export default function MainPage() {
                           if (e.key === "Enter") handleLike(article._id);
                         }}
                       >
-                        &#x1F90D;
+                        {likedArticles[article._id] ? "❤️ " : "🤍"}
                       </span>
                       <span className="like-count" aria-label="likes count">
                         {article.likes}
@@ -471,6 +651,15 @@ export default function MainPage() {
               })}
             </section>
           </main>
+          {isVisible && (
+            <button
+              className="back-to-top"
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+              aria-label="Scroll to top of the page" /* Accessibility */
+            >
+              ⬆️
+            </button>
+          )}
           <nav
             aria-label="Pagination"
             role="navigation"

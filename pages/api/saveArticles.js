@@ -35,6 +35,7 @@ export default async function handler(request, response) {
         content: singleArticle.content || "No content",
         summary: singleArticle.summary || "No summary",
         likes: singleArticle.likes || 0,
+        seen: singleArticle.seen || 0,
         category: category || "general",
         language: language || "en",
       };
