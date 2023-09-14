@@ -38,13 +38,18 @@ export default function MainPage() {
   const [seenArticles, setSeenArticles] = useState({});
   const [isVisible, setIsVisible] = useState(false);
   const [zoomLevels, setZoomLevels] = useState({});
+  const [searchResults, setSearchResults] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [activeArticles, setActiveArticles] = useState([]);
+  const [showSummaryForArticles, setShowSummaryForArticles] = useState({});
+  const [totalPages, setTotalPages] = useState(0);
 
   const articlesPerPage = 10;
   useEffect(() => {
     document.title = "Aid Linua News";
   }, []);
-  const toggleSummary = async (url, index) => {
-    const wasSuccessful = await fetchSummary(url, index);
+  const toggleSummary = async (url, index, articleId) => {
+    const wasSuccessful = await fetchSummary(url, index, articleId);
 
     if (!wasSuccessful) return;
 
@@ -55,7 +60,7 @@ export default function MainPage() {
     });
   };
 
-  const fetchSummary = async (url, index) => {
+  const fetchSummary = async (url, index, articleId) => {
     try {
       const response = await fetch(
         `/api/fetchSummary?url=${encodeURIComponent(url)}`
@@ -72,6 +77,18 @@ export default function MainPage() {
         updatedArticles[index].summary = data.sm_api_content;
         return updatedArticles;
       });
+      // Update searchResults
+      setSearchResults((prevState) => {
+        const updatedSearchResults = [...prevState];
+        const searchIndex = updatedSearchResults.findIndex(
+          (article) => article._id === articleId
+        );
+        if (searchIndex !== -1) {
+          updatedSearchResults[searchIndex].summary = data.sm_api_content;
+        }
+        return updatedSearchResults;
+      });
+
       return true; // Fetch successful
     } catch (error) {
       console.error("Failed to fetch summary!", error);
@@ -113,7 +130,6 @@ export default function MainPage() {
           `/api/articles?category=${selectedCategory}&language=${selectedLanguage}&from=${fromDate}&to=${toDate}&sortBy=${sortBy}`
         );
         const data = await response.json();
-
         // Exclude articles where urlToImage is null, undefined, or empty string
         const filteredArticles = data.articles
           .filter(
@@ -128,6 +144,7 @@ export default function MainPage() {
         //  saves (POST) each article to the mongoDB articles collection
         // same here send a request to the server side (saveArticles.js)
         //  the server post the articles to the mongoDB articles collection.
+
         await fetch("/api/saveArticles", {
           method: "POST",
           headers: {
@@ -181,6 +198,26 @@ export default function MainPage() {
     fetchDataFromDb();
   }, [selectedCategory, selectedLanguage, fromDate, toDate, sortBy]);
 
+  const fetchSearchResults = async () => {
+    try {
+      const res = await fetch(`/api/fetchArticlesFromDb?query=${searchQuery}`);
+      const data = await res.json();
+      if (data.success) {
+        setSearchResults(data.data);
+      }
+    } catch (error) {
+      console.error("Failed to fetch search results:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (searchQuery) {
+      fetchSearchResults();
+    } else {
+      setSearchResults([]); // Clear search results when query is empty
+    }
+  }, [searchQuery]);
+
   useEffect(() => {
     // here we are saving the liked articles into a local storage so that when we refresh the page, the like/Unlike toggle remains.
 
@@ -194,7 +231,6 @@ export default function MainPage() {
   // Run whenever likedArticles changes to update localStorage
   useEffect(() => {
     if (likedArticles && Object.keys(likedArticles).length > 0) {
-      // console.log("Updating localStorage:", likedArticles);
       localStorage.setItem("likedArticles", JSON.stringify(likedArticles));
     }
   }, [likedArticles]);
@@ -236,6 +272,13 @@ export default function MainPage() {
               : article
           )
         );
+        setSearchResults((prevSearchResults) =>
+          prevSearchResults.map((article) =>
+            article._id === articleId
+              ? { ...article, likes: data.data.likes }
+              : article
+          )
+        );
       } else {
         const text = await res.text(); // the response body
         console.error(`Server responded with an error: ${text}`);
@@ -247,7 +290,7 @@ export default function MainPage() {
   };
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   useEffect(() => {
-    // here we are saving the liked articles into a local storage so that when we refresh the page, the like/Unlike toggle remains.
+    // here we are saving the seen articles into a local storage so that when we refresh the page.
 
     const initialSeenArticles = JSON.parse(
       localStorage.getItem("seenArticles") || "{}"
@@ -256,10 +299,9 @@ export default function MainPage() {
     setSeenArticles(initialSeenArticles);
   }, []);
 
-  // Run whenever likedArticles changes to update localStorage
+  // Run whenever seenArticles changes to update localStorage
   useEffect(() => {
     if (seenArticles && Object.keys(seenArticles).length > 0) {
-      // console.log("Updating localStorage:", likedArticles);
       localStorage.setItem("seenArticles", JSON.stringify(seenArticles));
     }
   }, [seenArticles]);
@@ -293,59 +335,13 @@ export default function MainPage() {
     }
   };
 
-  // const handleSeen = async (articleId) => {
-  //   try {
-  //     // Initialize increment value to 1 for liking the article
-  //     let increment = 1;
-
-  //     // Check if the article is already liked
-  //     if (seenArticles[articleId]) {
-  //       // Change increment to -1 for unliking the article
-  //       increment = -1;
-  //     }
-
-  //     // Make the API call to update the seen count of the article in the artciles collection for each article.
-  //     // we pass the article id along with the increment to the server side (/api/updateArticles), in his turn update the number of seen for each artcile
-  //     const res = await fetch(
-  //       `/api/updateSeenArticles?articleId=${articleId}&increment=${increment}`,
-  //       {
-  //         method: "PUT",
-  //       }
-  //     );
-
-  //     const data = await res.json();
-
-  //     if (res.ok && data.success) {
-  //       // Update the seenArticles state to reflect the new "seen" or "unseen" status
-  //       setSeenArticles((prev) => {
-  //         const updatedSeen = { ...prev, [articleId]: !prev[articleId] };
-  //         return updatedSeen;
-  //       });
-
-  //       // Update the articles state to reflect the new likes count
-  //       setArticles((prevArticles) =>
-  //         prevArticles.map((article) =>
-  //           article._id === articleId
-  //             ? { ...article, seen: data.data.seen }
-  //             : article
-  //         )
-  //       );
-  //     } else {
-  //       const text = await res.text(); // the response body
-  //       console.error(`Server responded with an error: ${text}`);
-  //       throw new Error(`Server responded with status ${res.status}`);
-  //     }
-  //   } catch (error) {
-  //     console.error("An error occurred while seeing the article:", error);
-  //   }
-  // };
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  const toggleAndTriggerAudio = (articleUrl, index) => {
+  const toggleAndTriggerAudio = (articleUrl, index, articleId) => {
     setIsSummaryShowing((prevState) => ({
       ...prevState,
       [articleUrl]: !prevState[articleUrl],
     }));
-    toggleSummary(articleUrl, index);
+    toggleSummary(articleUrl, index, articleId);
     if (!showSummary[articleUrl]) {
       setAutoGetAnswer(true);
     }
@@ -366,15 +362,17 @@ export default function MainPage() {
     return () => window.removeEventListener("scroll", toggleVisibility);
   }, []);
 
-  const zoomArticle = (index, action) => {
-    const currentZoom = zoomLevels[index] || 100;
-    const newZoom = action === "in" ? currentZoom + 10 : currentZoom - 10;
+  useEffect(() => {
+    if (searchQuery) {
+      // Assuming searchResults holds the filtered articles
+      setActiveArticles(searchResults);
+    } else {
+      setActiveArticles(currentArticles);
+    }
+  }, [searchQuery, searchResults, currentArticles]);
 
-    setZoomLevels({
-      ...zoomLevels,
-      [index]: newZoom,
-    });
-  };
+  const articlesToRender = searchQuery ? searchResults : currentArticles;
+
   return (
     <div className="App">
       {/* if no data keep loading */}
@@ -386,6 +384,12 @@ export default function MainPage() {
         <>
           <header role="banner">
             <h1 id="appTitle">AID LINGUA NEWS APP</h1>
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search articles..."
+            />
           </header>
           {/* this div is for the project logo */}
           {/* <div className="container">
@@ -472,8 +476,10 @@ export default function MainPage() {
 
             <section className="articles" aria-label="List of Articles">
               {/* viiiiiii: here where i render the list of articles into the app homepage*/}
-              {currentArticles.map((article, index) => {
+
+              {articlesToRender.map((article, index) => {
                 // Skip rendering the article if it has the default image
+
                 if (
                   article.urlToImage ===
                   "https://www.discovergreece.com/sites/default/files/dg-fallback-20.jpg"
@@ -502,7 +508,8 @@ export default function MainPage() {
                         onClick={() =>
                           toggleAndTriggerAudio(
                             article.url,
-                            indexOfFirstArticle + index
+                            indexOfFirstArticle + index,
+                            article._id
                           )
                         }
                       >
@@ -578,7 +585,8 @@ export default function MainPage() {
                             onClick={() =>
                               toggleAndTriggerAudio(
                                 article.url,
-                                indexOfFirstArticle + index
+                                indexOfFirstArticle + index,
+                                article._id
                               )
                             }
                           >
@@ -643,6 +651,15 @@ export default function MainPage() {
                         {likedArticles[article._id] ? "❤️ " : "🤍"}
                       </span>
                       <span className="like-count" aria-label="likes count">
+                        {/* <div>
+                            {(() => {
+                              console.log(
+                                "showwwwwwSummary",
+                                article._id,
+                                article.likes
+                              );
+                            })()}
+                          </div>{" "} */}
                         {article.likes}
                       </span>
                     </span>

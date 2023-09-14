@@ -64,6 +64,13 @@ const ArticleSchema = new Schema({
   },
 });
 
+ArticleSchema.index({
+  title: "text",
+  description: "text",
+  content: "text",
+  author: "text",
+});
+
 const Article =
   mongoose.models.Article || mongoose.model("Article", ArticleSchema);
 

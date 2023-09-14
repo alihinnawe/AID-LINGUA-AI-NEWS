@@ -1,16 +1,23 @@
 import dbConnect from "../../db/connect";
 import Article from "../../models/ArticleSchema";
-
 export default async function handler(req, res) {
   await dbConnect();
 
   const { method, query } = req;
-
+  console.log("Query issssssssssssssssssssshhhhhhhhh", query, req);
   switch (method) {
     case "GET":
-      try {
+      // Check if there is a search query
+      if (query.query) {
+        console.log("TRUEEEEEEEEEEEEEEEEEEEEEEEEEEEE", query.query);
+        const searchResults = await Article.find({
+          $text: { $search: query.query },
+        });
+        return res.status(200).json({ success: true, data: searchResults });
+      } else {
+        // console.log("trueeeeeeeeeeeeeeeeeeeeeeeeDBBBBBBBBBBBfetch");
+        // Handle fetching articles with filters
         let filter = {};
-        // Assuming that the articles in the database have a 'category' and 'language' field
         if (query.category && query.category !== "all") {
           filter.category = query.category;
         }
@@ -30,17 +37,12 @@ export default async function handler(req, res) {
         if (query.sortBy) {
           sortOption[query.sortBy] = 1; // 1 for ascending order, -1 for descending
         }
-        // Test category filter
-        const articlesByCategory = await Article.find({
-          category: query.category,
-        });
-        const articles = await Article.find(filter).sort(sortOption);
 
-        res.status(200).json({ success: true, data: articles });
-      } catch (error) {
-        res.status(400).json({ success: false });
+        const articles = await Article.find(filter).sort(sortOption);
+        return res.status(200).json({ success: true, data: articles });
       }
       break;
+
     default:
       res.status(400).json({ success: false });
       break;

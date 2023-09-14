@@ -13,7 +13,6 @@ export default async function handler(req, res) {
       `https://newsapi.org/v2/everything?q=${selectedCategory}&language=${selectedLanguage}&from=${fromDate}&to=${toDate}&sortBy=${sortBy}&apiKey=${NEWS_API_KEY}`
     );
     const newsData = await newsResponse.json();
-
     res.status(200).json(newsData);
   } catch (error) {
     res
