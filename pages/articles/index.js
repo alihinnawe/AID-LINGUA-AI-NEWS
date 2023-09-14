@@ -43,6 +43,7 @@ export default function MainPage() {
   const [activeArticles, setActiveArticles] = useState([]);
   const [showSummaryForArticles, setShowSummaryForArticles] = useState({});
   const [totalPages, setTotalPages] = useState(0);
+  const [allArticles, setAllArticles] = useState([]);
 
   const articlesPerPage = 10;
   useEffect(() => {
@@ -104,10 +105,14 @@ export default function MainPage() {
 
   // Pagination(forward + backward)
   const nextPage = () => {
-    setCurrentPage(currentPage + 1);
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
   };
   const prevPage = () => {
-    setCurrentPage(currentPage - 1);
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
   };
   //  View 10 articles maximum in page
   const currentArticles = articles.slice(
@@ -367,11 +372,26 @@ export default function MainPage() {
       // Assuming searchResults holds the filtered articles
       setActiveArticles(searchResults);
     } else {
-      setActiveArticles(currentArticles);
+      setActiveArticles(articles);
+      setCurrentPage(1);
     }
-  }, [searchQuery, searchResults, currentArticles]);
+  }, [searchQuery, searchResults, articles]);
 
   const articlesToRender = searchQuery ? searchResults : currentArticles;
+  useEffect(() => {
+    let newTotalPages;
+
+    if (searchQuery) {
+      console.log("Filtered articles length: ", articlesToRender.length);
+      newTotalPages = Math.ceil(articlesToRender.length / articlesPerPage);
+    } else {
+      console.log("Total articles length: ", articles.length);
+      newTotalPages = Math.ceil(articles.length / articlesPerPage);
+    }
+
+    console.log("TotalPages: ", newTotalPages);
+    setTotalPages(newTotalPages);
+  }, [articles, articlesToRender, articlesPerPage, searchQuery]);
 
   return (
     <div className="App">
@@ -693,16 +713,13 @@ export default function MainPage() {
               aria-label={`Current page, ${currentPage}`}
               className="pagination-text"
             >
-              {`${currentPage} / ${Math.ceil(
-                articles.length / articlesPerPage
-              )}`}{" "}
+              {`${currentPage} / ${totalPages}`}
             </span>
+
             <button
               className="pagination-button"
               onClick={nextPage}
-              disabled={
-                currentPage === Math.ceil(articles.length / articlesPerPage)
-              }
+              disabled={currentPage === totalPages}
             >
               Next
             </button>
