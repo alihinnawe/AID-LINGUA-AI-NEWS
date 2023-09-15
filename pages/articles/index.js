@@ -4,6 +4,8 @@ import "core-js/stable";
 import "regenerator-runtime/runtime";
 import ReadingComprehensionBot from "../../components/ReadingComprehensionBot/";
 import ReactWhisper from "../../components/ReactWhisper/";
+import Link from "next/link";
+
 <link
   rel="stylesheet"
   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
@@ -45,6 +47,9 @@ export default function MainPage() {
   const [activeArticles, setActiveArticles] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
 
+  const handleReset = () => {
+    setSearchQuery("");
+  };
   const articlesPerPage = 10;
   useEffect(() => {
     document.title = "Aid Linua News";
@@ -413,20 +418,54 @@ export default function MainPage() {
         </div>
       ) : (
         <>
-          <header role="banner">
+          {/* <header role="banner">
             <h1 id="appTitle">AID LINGUA NEWS APP</h1>
+            <img src="d6.png" alt="Website logo" id="header-logo"></img>
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search articles..."
             />
+          </header> */}
+          <header role="banner">
+            <div id="logo-and-title">
+              <div id="logo-and-text">
+                <a>
+                  <img src="d6.png" alt="Website logo" />
+                </a>
+                <h2 id="logo-name">AID LINGUA</h2>
+              </div>
+              <div id="search-container">
+                <input
+                  id="search-input"
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search articles..."
+                />
+                <button
+                  id="reset-button"
+                  onClick={handleReset}
+                  disabled={!searchQuery}
+                >
+                  Reset
+                </button>
+              </div>
+            </div>
           </header>
+
           {/* this div is for the project logo */}
           {/* <div className="container">
             <AidLinguaLogo text="here iam testing" />
           </div> */}
           <main role="main">
+            <h1 id="appTitle">Empowering News Accessibility with AID LINGUA</h1>
+            <h2 id="app_subtitle">
+              your gateway to easily accessible news, designed to empower
+              everyone, no writing required
+            </h2>
+
             <section className="filter-container" aria-labelledby="appTitle">
               {/* here is where i get the value if the user select the sports category 
             , then the value will be sport*/}

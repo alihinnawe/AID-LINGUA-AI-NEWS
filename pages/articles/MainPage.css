@@ -4,8 +4,50 @@
   align-items: center;
   margin-bottom: 10px;
 }
-.UserQuestion {
+/* .UserQuestion {
   background-color: #0e15d2;
+} */
+
+#header-logo {
+  margin-top: 10px;
+  margin-left: 50px;
+}
+#logo-and-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#logo-and-text,
+#search-container {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+  gap: 10px;
+}
+
+#search-container {
+  border: 1px solid #ccc;
+  width: 100%;
+  max-width: 300px; /* or whatever maximum width you want */
+  margin-right: 30px;
+  padding: 5px;
+}
+
+#search-input {
+  flex-grow: 1;
+  border: none;
+  outline: none;
+  /* padding: 10px; */
+  background-color: aliceblue;
+  height: 2.5em;
+}
+
+#reset-button {
+  cursor: pointer;
+  background-color: #f4f4f4;
+  border: none;
+  /* height: 100%; */
 }
 
 .SimpleModal {
@@ -530,22 +572,23 @@ select:hover {
 
 .pagination-container {
   display: flex;
-  justify-content: space-evenly; /* equally distribute space between elements */
+  justify-content: center; /* equally distribute space between elements */
   align-items: center;
 }
 
 .pagination-button {
-  flex: 1; /* Take up as much space as available */
+  /* flex: 1;  */
   text-align: center; /* Center the text */
   padding: 10px;
   font-size: 16px;
   transition: all 0.3s ease; /* Smooth transition for all changes */
+  width: 150px;
 }
 
 .pagination-text {
   text-align: center; /* Center the text */
   font-size: 16px;
-  width: 100px;
+  width: 80px;
 }
 
 .pagination-button:hover {
@@ -555,11 +598,18 @@ select:hover {
   color: white; /* Make the text white for better readability */
 }
 #appTitle {
-  font-size: 36px;
+  font-size: 2.5em;
   font-weight: bold;
   color: #ffffff;
   background-color: #000000;
-  padding: 50px;
+  padding: 5px;
+}
+
+#app_subtitle {
+  font-size: 1.2em; /* or any other size */
+  margin: 0; /* Remove default margin */
+  font-weight: bold;
+  padding: 35px;
 }
 
 #user-input-label {
