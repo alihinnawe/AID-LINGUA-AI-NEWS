@@ -4,7 +4,10 @@ import "core-js/stable";
 import "regenerator-runtime/runtime";
 import ReadingComprehensionBot from "../../components/ReadingComprehensionBot/";
 import ReactWhisper from "../../components/ReactWhisper/";
-
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+></link>;
 const currentDate = new Date();
 currentDate.setDate(currentDate.getDate() - 1);
 const yesterday = currentDate.toISOString().substring(0, 10);
@@ -37,13 +40,10 @@ export default function MainPage() {
   const [isSummaryShowing, setIsSummaryShowing] = useState({});
   const [seenArticles, setSeenArticles] = useState({});
   const [isVisible, setIsVisible] = useState(false);
-  const [zoomLevels, setZoomLevels] = useState({});
   const [searchResults, setSearchResults] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [activeArticles, setActiveArticles] = useState([]);
-  const [showSummaryForArticles, setShowSummaryForArticles] = useState({});
   const [totalPages, setTotalPages] = useState(0);
-  const [allArticles, setAllArticles] = useState([]);
 
   const articlesPerPage = 10;
   useEffect(() => {
@@ -87,6 +87,10 @@ export default function MainPage() {
         if (searchIndex !== -1) {
           updatedSearchResults[searchIndex].summary = data.sm_api_content;
         }
+        console.log(
+          "updatedSearchResultsSSSSSSSSSSSSSSSSSSSSSSSSSSSS",
+          updatedSearchResults
+        );
         return updatedSearchResults;
       });
 
@@ -114,12 +118,12 @@ export default function MainPage() {
       setCurrentPage(currentPage - 1);
     }
   };
+  console.log("articlesssssssssssss", articles);
   //  View 10 articles maximum in page
   const currentArticles = articles.slice(
     indexOfFirstArticle,
     indexOfLastArticle
   );
-
   // Fetch articles from API and save them to the articles collection in Mongo db AIDLingua database.
   useEffect(() => {
     // every time the user triggers or click the category, language..., the fetchArticles process is triggrered
@@ -210,6 +214,7 @@ export default function MainPage() {
       if (data.success) {
         setSearchResults(data.data);
       }
+      console.log("searchResultSSSSSSSSSSSSSSSSSSSSSSSSSs", searchResults);
     } catch (error) {
       console.error("Failed to fetch search results:", error);
     }
@@ -284,6 +289,7 @@ export default function MainPage() {
               : article
           )
         );
+        console.log("newwwwwwww sraech results are: ", searchResults);
       } else {
         const text = await res.text(); // the response body
         console.error(`Server responded with an error: ${text}`);
@@ -376,23 +382,28 @@ export default function MainPage() {
       setCurrentPage(1);
     }
   }, [searchQuery, searchResults, articles]);
+  console.log("final dsearch results are: ", searchResults);
 
-  const articlesToRender = searchQuery ? searchResults : currentArticles;
+  //  View 10 articles maximum in page
+  const searchResultss = searchResults.slice(
+    indexOfFirstArticle,
+    indexOfLastArticle
+  );
+
+  const articlesToRender = searchQuery ? searchResultss : currentArticles;
   useEffect(() => {
     let newTotalPages;
 
     if (searchQuery) {
       console.log("Filtered articles length: ", articlesToRender.length);
-      newTotalPages = Math.ceil(articlesToRender.length / articlesPerPage);
+      newTotalPages = Math.ceil(searchResults.length / articlesPerPage);
     } else {
       console.log("Total articles length: ", articles.length);
       newTotalPages = Math.ceil(articles.length / articlesPerPage);
     }
 
-    console.log("TotalPages: ", newTotalPages);
     setTotalPages(newTotalPages);
-  }, [articles, articlesToRender, articlesPerPage, searchQuery]);
-
+  }, [articles, articlesToRender, articlesPerPage, searchQuery, searchResults]);
   return (
     <div className="App">
       {/* if no data keep loading */}
@@ -496,7 +507,6 @@ export default function MainPage() {
 
             <section className="articles" aria-label="List of Articles">
               {/* viiiiiii: here where i render the list of articles into the app homepage*/}
-
               {articlesToRender.map((article, index) => {
                 // Skip rendering the article if it has the default image
 
@@ -508,12 +518,7 @@ export default function MainPage() {
                 }
 
                 return (
-                  <div
-                    className="article"
-                    key={index}
-                    role="article"
-                    style={{ fontSize: `${zoomLevels[index] || 100}%` }}
-                  >
+                  <div className="article" key={index} role="article">
                     <div className="summary-control">
                       <button
                         id="summaryToggle_Btn"
@@ -551,39 +556,42 @@ export default function MainPage() {
                     />
 
                     <div className="action-container">
+                      <link
+                        rel="stylesheet"
+                        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+                      ></link>
                       <a
                         href={`https://twitter.com/intent/tweet?url=${article.url}`}
+                        class="fa fa-twitter"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="action-icon twitter-share"
-                      >
-                        🐦
-                      </a>
-
+                      ></a>
                       <a
                         href={`https://www.facebook.com/sharer/sharer.php?u=${article.url}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="action-icon facebook-share"
-                      >
-                        📘
-                      </a>
-
+                        class="fa fa-facebook"
+                      ></a>
                       <a
                         href={`https://api.whatsapp.com/send?text=${article.url}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="whatsapp-share"
-                      >
-                        🟢
-                      </a>
+                        class="fa fa-whatsapp"
+                      ></a>
 
                       <a
                         href={`mailto:?subject=Check out this article!&body=${article.url}`}
-                        className="action-icon email-share"
+                        class="fa fa-email"
                       >
                         📧
                       </a>
+
+                      {/* <a
+                        href={`https://api.whatsapp.com/send?text=${article.url}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="fa fa-whatsapp"
+                      ></a> */}
                     </div>
 
                     {/* here is where i show or render the summary for a given url below the image of the url. Not only this but also 
@@ -625,15 +633,7 @@ export default function MainPage() {
                         </div>
                       </>
                     )}
-                    {/* <a
-                      href={article.url}
-                      className="read-more-link"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`Read more about ${article.title}`}
-                    >
-                      Read Original Article
-                    </a> */}
+
                     <a
                       href={article.url}
                       target="_blank"
@@ -648,7 +648,7 @@ export default function MainPage() {
                       }}
                     >
                       Read Original Article{" "}
-                      {seenArticles[article._id] ? "👁️" : "👁️‍🗨"}
+                      {seenArticles[article._id] ? "👁️‍🗨️ ✅" : ""}
                     </a>
 
                     <span className="like-container">
