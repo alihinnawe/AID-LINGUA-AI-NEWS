@@ -10,10 +10,13 @@ import Link from "next/link";
   rel="stylesheet"
   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
 ></link>;
+
 const currentDate = new Date();
 currentDate.setDate(currentDate.getDate() - 1);
 const yesterday = currentDate.toISOString().substring(0, 10);
-
+const currentDate1 = new Date();
+currentDate.setDate(currentDate1.getDate());
+const today = currentDate.toISOString().substring(0, 10);
 export default function MainPage() {
   const categories = [
     "general",
@@ -34,7 +37,7 @@ export default function MainPage() {
   const [selectedCategory, setSelectedCategory] = useState("general");
   const [selectedLanguage, setSelectedLanguage] = useState("en");
   const [fromDate, setFromDate] = useState(yesterday);
-  const [toDate, setToDate] = useState("");
+  const [toDate, setToDate] = useState(today);
   const [sortBy, setSortBy] = useState("publishedAt");
   const [likedArticles, setLikedArticles] = useState({});
   const [transcribedText, setTranscribedText] = useState("");
@@ -431,23 +434,28 @@ export default function MainPage() {
           <header role="banner">
             <div id="logo-and-title">
               <div id="logo-and-text">
-                <a>
+                <a aria-label="Home page">
                   <img src="d6.png" alt="Website logo" />
                 </a>
                 <h2 id="logo-name">AID LINGUA</h2>
               </div>
               <div id="search-container">
+                <label htmlFor="search-input" className="visually-hidden">
+                  Search Articles
+                </label>
                 <input
                   id="search-input"
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search articles..."
+                  aria-label="Search articles"
                 />
                 <button
                   id="reset-button"
                   onClick={handleReset}
                   disabled={!searchQuery}
+                  aria-label="Reset search"
                 >
                   Reset
                 </button>
@@ -480,6 +488,7 @@ export default function MainPage() {
                     value={selectedCategory}
                     className="Category-select"
                     onChange={(e) => setSelectedCategory(e.target.value)}
+                    aria-label="Choose Category"
                   >
                     {categories.map((category, index) => (
                       <option key={index} value={category}>
@@ -514,6 +523,8 @@ export default function MainPage() {
                     id="fromDate"
                     type="date"
                     onChange={(e) => setFromDate(e.target.value)}
+                    aria-labelledby="fromDateLabel"
+                    aria-label="YYYY-MM-DD"
                   />
                 </div>
                 <div className="input-wrapper width-50">
@@ -524,6 +535,8 @@ export default function MainPage() {
                     type="date"
                     value={toDate}
                     onChange={(e) => setToDate(e.target.value)}
+                    aria-labelledby="fromDateLabel"
+                    aria-label="YYYY-MM-DD"
                   />
                 </div>
                 <div className="input-wrapper width-50">
@@ -604,24 +617,37 @@ export default function MainPage() {
                         class="fa fa-twitter"
                         target="_blank"
                         rel="noopener noreferrer"
-                      ></a>
+                        alt="Share on Twitter"
+                      >
+                        {" "}
+                        <span class="visually-hidden">Share on Twitter</span>
+                      </a>
                       <a
                         href={`https://www.facebook.com/sharer/sharer.php?u=${article.url}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         class="fa fa-facebook"
-                      ></a>
+                        alt="Share on Facebook"
+                      >
+                        {" "}
+                        <span class="visually-hidden">Share on Facebook</span>
+                      </a>
                       <a
                         href={`https://api.whatsapp.com/send?text=${article.url}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         class="fa fa-whatsapp"
-                      ></a>
+                      >
+                        <span class="visually-hidden">Share on Whatsapp</span>
+                      </a>
 
                       <a
                         href={`mailto:?subject=Check out this article!&body=${article.url}`}
                         class="fa fa-email"
+                        alt="Share on Email"
                       >
+                        {" "}
+                        <span class="visually-hidden">Share on Email</span>
                         📧
                       </a>
 
@@ -687,30 +713,32 @@ export default function MainPage() {
                       }}
                     >
                       Read Original Article{" "}
-                      {seenArticles[article._id] ? "👁️‍🗨️ ✅" : ""}
+                      {seenArticles[article._id] ? "👁️ ☑️" : ""}
                     </a>
 
                     <span className="like-container">
-                      <span
-                        className={`like-button ${
-                          likedArticles[article._id]
-                            ? "like-button--liked"
-                            : "like-button--unliked"
-                        }`}
-                        role="button"
-                        tabIndex="0"
-                        aria-pressed={
-                          likedArticles[article._id] ? "true" : "false"
-                        }
-                        onClick={() => handleLike(article._id)}
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter") handleLike(article._id);
-                        }}
-                      >
-                        {likedArticles[article._id] ? "❤️ " : "🤍"}
-                      </span>
-                      <span className="like-count" aria-label="likes count">
-                        {/* <div>
+                      <div className="likess">
+                        <span
+                          className={`like-button ${
+                            likedArticles[article._id]
+                              ? "like-button--liked"
+                              : "like-button--unliked"
+                          }`}
+                          role="button"
+                          tabIndex="0"
+                          aria-pressed={
+                            likedArticles[article._id] ? "true" : "false"
+                          }
+                          onClick={() => handleLike(article._id)}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter") handleLike(article._id);
+                          }}
+                        >
+                          {likedArticles[article._id] ? "💙" : " like me 🤍"}
+                        </span>
+
+                        <span className="like-count" aria-label="likes count">
+                          {/* <div>
                             {(() => {
                               console.log(
                                 "showwwwwwSummary",
@@ -719,8 +747,9 @@ export default function MainPage() {
                               );
                             })()}
                           </div>{" "} */}
-                        {article.likes}
-                      </span>
+                          {article.likes}
+                        </span>
+                      </div>
                     </span>
                   </div>
                 );

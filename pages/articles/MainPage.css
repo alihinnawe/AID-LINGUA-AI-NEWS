@@ -24,8 +24,11 @@
   align-items: center;
   margin-top: 20px;
   gap: 10px;
+  padding: 10px;
 }
-
+.likess {
+  color: #1dabf2cf;
+}
 #search-container {
   border: 1px solid #ccc;
   width: 100%;
@@ -183,6 +186,7 @@ h2 {
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
+  padding: 10px;
 }
 .reading-comprehension-bot button {
   padding: 20px;
@@ -718,8 +722,7 @@ select:hover {
 .fa-email {
   color: white;
   /* border-radius: 60%; */
-  background: #ff5700;
-  background: rgb(133, 131, 131);
+  background: #125688;
 }
 .fa-instagram {
   background: #125688;
@@ -805,3 +808,12 @@ select:hover {
 /* .filter-form div:last-child label select {
   margin-right: 30px;
 } */
+.visually-hidden {
+  position: absolute !important;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 0 !important;
+  border: 0 !important;
+  height: 1px !important;
+  width: 1px !important;
+  overflow: hidden;
+}
