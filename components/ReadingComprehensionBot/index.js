@@ -22,7 +22,7 @@ const ReadingComprehensionBot = ({
             }),
           });
 
-          console.log("bodyyyyyyryyyyyyyyyyyyyyyyyyyy", response);
+          // console.log("bodyyyyyyryyyyyyyyyyyyyyyyyyyy", response);
           const data = await response.json();
           if (data && data.answer) {
             setAnswer(data.answer);
@@ -30,7 +30,7 @@ const ReadingComprehensionBot = ({
         } catch (error) {
           console.error("Error fetching answer:", error);
         }
-        console.log("answer is: ", answer);
+        // console.log("answer is: ", answer);
       };
 
       getAnswer();

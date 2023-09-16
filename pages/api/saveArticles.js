@@ -38,6 +38,7 @@ export default async function handler(request, response) {
         seen: singleArticle.seen || 0,
         category: category || "general",
         language: language || "en",
+        comments: [],
       };
 
       // Check if the article with the same URL already exists

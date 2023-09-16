@@ -66,7 +66,7 @@
 }
 
 /* Styles for the backdrop (screen overlay) */
-.Backdrop {
+/* .Backdrop {
   position: fixed;
   top: 0;
   left: 0;
@@ -74,7 +74,7 @@
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 999;
-}
+} */
 
 h1 {
   display: flex;
@@ -206,6 +206,7 @@ h2 {
 .seen-button seen-button--unliked {
   padding: 50px;
 }
+
 #user-input::placeholder {
   color: #121212;
   font-size: 18px;
@@ -274,7 +275,6 @@ h2 {
 
 .article:hover {
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  /* background-color: lightblue; */
 }
 
 /* Text Center */
@@ -347,10 +347,6 @@ h2 {
   background-color: #c2ffc2;
 } */
 
-/* .summaryToggle {
-  cursor: pointer;
-  margin-right: 5px;
-} */
 .summaryLabel {
   display: inline-flex;
   align-items: center;
@@ -359,7 +355,7 @@ h2 {
   font-weight: 700;
   transition: all 0.3s ease;
   padding: 0.2em 0.5em;
-  text-decoration: none; /* No underline by default */
+  text-decoration: none;
 }
 
 .summaryLabelActive {
@@ -448,6 +444,31 @@ h2 {
   margin: 0 auto;
 }
 
+.summaryLabel {
+  margin-right: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  background-color: #63ccf2;
+  border: none;
+  padding: 8px 16px;
+  /* border-radius: 4px; */
+  cursor: pointer;
+  color: #121212;
+  font-size: 16px;
+  /* font-weight: 600; */
+  /* text-transform: uppercase; */
+  /* letter-spacing: 2px; */
+  /* text-decoration: none; */
+  /* outline: none;
+  border: none;
+  border-radius: 5px; */
+  transition: all 0.3s ease-in-out;
+}
+
+/* .summaryLabelActive {
+  text-decoration-thickness: 2px;
+} */
+
 /* Add some hover effect on button */
 .reading-comprehension-bot button:hover {
   background-color: #0056b3;
@@ -458,15 +479,11 @@ h2 {
   background-color: #004499;
 }
 
-.answer {
+#answer {
   font-weight: bold;
   padding: 5px;
   border-radius: 3px;
   background-color: #63ccf2;
-}
-
-.answer:hover {
-  background-color: lightblue;
 }
 
 .reading-comprehension-bot {
@@ -477,7 +494,7 @@ h2 {
 
 .reading-comprehension-bot h2 {
   font-size: 1.8em;
-  font-weight: bold;
+  /* font-weight: bold; */
   color: #333;
   margin-bottom: 15px;
 }
@@ -633,13 +650,13 @@ select:hover {
   z-index: 1000; /* Make sure it's on top of everything else */
 }
 
-.overlay {
+.summary-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Black with opacity */
+  background-color: rgba(0, 0, 0, 0.7); /* Black with opacity */
   z-index: 999; /* Just below the popup */
 }
 
@@ -816,4 +833,172 @@ select:hover {
   height: 1px !important;
   width: 1px !important;
   overflow: hidden;
+}
+
+.comment-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.595); /* Black with opacity */
+  z-index: 99909;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  color: #121212;
+}
+
+/* This style is for the comments popup window itself */
+.comments-container {
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 6px rgba(179, 176, 176, 0.877);
+  background-color: #f4f3f3e6;
+  /* position: relative; */
+  color: #121212; /* For text to appear white on blue background */
+  width: 100%;
+  height: 100%;
+}
+
+/* This is for the bottom "Add Comment" button and input */
+.comment-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* The button to toggle comments */
+.comments-container button {
+  background-color: #63ccf2;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* If you want the button and input field to be beside each other */
+.add-comment-button,
+input[type="text"] {
+  display: inline-block;
+}
+
+/* Each individual comment */
+.comment-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+  padding: 8px 0;
+}
+
+.comment-item:last-child {
+  border-bottom: none;
+}
+
+.comments-container {
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 6px rgba(179, 176, 176, 0.877);
+  background-color: rgba(10, 173, 233, 0.52); /* Change color here */
+  color: #121212;
+  width: 100%;
+  height: 100%;
+  position: relative; /* add this back so children can be positioned absolutely */
+}
+
+.comment-top {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.comment-list {
+  max-height: calc(100% - 100px); /* Adjust based on your needs */
+  overflow-y: auto;
+  padding: 10px;
+  margin-bottom: 50px; /* Space for the add comment section */
+}
+
+.comment-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.comment-content {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  transition: all 0.5s ease;
+}
+
+.comment-item:hover {
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.comments-container {
+  /* existing styles... */
+  display: flex;
+  flex-direction: column;
+}
+
+.comment-top {
+  /* you might already have styles here */
+  margin-bottom: 10px; /* Adjust this value */
+}
+
+.comment-items-container {
+  flex: 1;
+  overflow-y: auto;
+  margin-top: 10px; /* Adjust this value */
+  margin-bottom: 10px; /* Adjust this value */
+}
+
+.comment-bottom {
+  margin-top: 10px; /* Adjust this value */
+}
+.comments-container {
+  /* existing styles... */
+  display: flex;
+  flex-direction: column;
+}
+
+.comment-top {
+  /* you might already have styles here */
+  margin-bottom: 15px; /* Adjust this value */
+}
+
+.comment-items-container {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.comment-item:first-child {
+  margin-top: 20px; /* Adjust this value to push the first item down */
+}
+
+.comment-bottom {
+  margin-top: 15px; /* Adjust this value */
+}
+.comments-container button {
+  margin-right: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  background-color: #63ccf2;
+  border: none;
+  padding: 8px 16px;
+  /* border-radius: 4px; */
+  cursor: pointer;
+  color: #121212;
+  font-size: 16px;
+  /* font-weight: 600; */
+  /* text-transform: uppercase; */
+  /* letter-spacing: 2px; */
+  /* text-decoration: none; */
+  /* outline: none;
+  border: none;
+  border-radius: 5px; */
+  /* transition: all 0.3s ease-in-out; */
 }

@@ -5,7 +5,7 @@ import "regenerator-runtime/runtime";
 import ReadingComprehensionBot from "../../components/ReadingComprehensionBot/";
 import ReactWhisper from "../../components/ReactWhisper/";
 import Link from "next/link";
-
+import AddComment from "../../components/AddComment/";
 <link
   rel="stylesheet"
   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
@@ -49,6 +49,53 @@ export default function MainPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeArticles, setActiveArticles] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
+  // Define state for showing comments
+  const [showComments, setShowComments] = useState({});
+  const [comments, setComments] = useState({});
+  const [storedComments, setStoredComments] = useState({}); // To keep the comments
+  const [articleComments, setArticleComments] = useState({}); // to hold comments for all articles
+  const [allComments, setAllComments] = useState({});
+
+  // Initialize comments from local storage when the component mounts
+  useEffect(() => {
+    const initialStoredComments = JSON.parse(
+      localStorage.getItem("storedComments") || "{}"
+    );
+    setAllComments(initialStoredComments);
+  }, []);
+
+  // Save comments to local storage whenever they change
+  useEffect(() => {
+    localStorage.setItem("storedComments", JSON.stringify(allComments));
+  }, [allComments]);
+
+  const updateComments = (articleId, newComments) => {
+    setAllComments((prevComments) => {
+      const updatedComments = { ...prevComments, [articleId]: newComments };
+      localStorage.setItem("comments", JSON.stringify(updatedComments));
+      return updatedComments;
+    });
+  };
+  const toggleComments = (id) => {
+    setShowComments((prev) => ({ ...prev, [id]: !prev[id] }));
+  };
+
+  // Load comments from local storage when the component mounts
+
+  // const handleAddComment = (articleId, newComment) => {
+  //   // Assuming comments are an object where keys are article IDs
+  //   // and values are arrays of comments.
+  //   setComments((prevState) => ({
+  //     ...prevState,
+  //     [articleId]: [...(prevState[articleId] || []), newComment],
+  //   }));
+  // };
+  useEffect(() => {
+    const initialComments = JSON.parse(
+      localStorage.getItem("comments") || "{}"
+    );
+    setAllComments(initialComments); // Assuming setAllComments is the state updater function for allComments in the parent component
+  }, []);
 
   const handleReset = () => {
     setSearchQuery("");
@@ -668,7 +715,7 @@ export default function MainPage() {
 
                     {showSummary[article.url] && (
                       <>
-                        <div className="overlay"></div>
+                        <div className="summary-overlay"></div>
                         <div
                           className="reading-comprehension-bot"
                           aria-live="polite"
@@ -751,6 +798,27 @@ export default function MainPage() {
                         </span>
                       </div>
                     </span>
+                    <button
+                      tabIndex="0"
+                      aria-expanded={
+                        showComments[article._id] ? "true" : "false"
+                      }
+                      onClick={() => toggleComments(article._id)}
+                    >
+                      Write comment
+                    </button>
+
+                    {showComments[article._id] && (
+                      <div className="comment-overlay">
+                        <AddComment
+                          articleId={article._id}
+                          isVisible={showComments[article._id]}
+                          toggleComments={() => toggleComments(article._id)}
+                          comments={allComments[article._id] || []}
+                          updateComments={updateComments}
+                        />
+                      </div>
+                    )}
                   </div>
                 );
               })}

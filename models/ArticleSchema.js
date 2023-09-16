@@ -1,6 +1,14 @@
 import mongoose from "mongoose";
 const { Schema } = mongoose;
-
+const CommentSchema = new Schema({
+  username: String,
+  content: String,
+  timestamp: {
+    type: Date,
+    default: new Date(),
+    likes: { type: Number, default: 0 },
+  },
+});
 const ArticleSchema = new Schema({
   author: {
     type: String,
@@ -62,6 +70,7 @@ const ArticleSchema = new Schema({
     required: true,
     default: "en",
   },
+  comments: [CommentSchema],
 });
 
 ArticleSchema.index({
