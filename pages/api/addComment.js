@@ -5,7 +5,7 @@ export default async function handler(request, response) {
   await dbConnect();
 
   if (request.method === "POST") {
-    const { articleId, comment, username } = request.body;
+    const { articleId, comment, username, email, timestamp } = request.body; // Add email here
 
     try {
       const article = await Article.findById(articleId);
@@ -16,13 +16,12 @@ export default async function handler(request, response) {
 
       const newComment = {
         username,
+        email,
         content: comment,
-        timestamp: new Date(),
+        timestamp,
       };
 
-      // Directly push new comment to article's comments array
       article.comments.push(newComment);
-
       await article.save();
 
       return response.status(201).json(newComment);
@@ -31,7 +30,7 @@ export default async function handler(request, response) {
       return response.status(500).json({ message: "Internal Server Error" });
     }
   } else if (request.method === "GET") {
-    const { articleId } = request.query; // Assuming articleId is passed as a query parameter
+    const { articleId } = request.query;
 
     try {
       const article = await Article.findById(articleId);
@@ -40,7 +39,16 @@ export default async function handler(request, response) {
         return response.status(404).json({ message: "Article not found" });
       }
 
-      return response.status(200).json(article.comments);
+      // You could map over comments to only send back certain fields
+      const filteredComments = article.comments.map(
+        ({ username, content, timestamp }) => ({
+          username,
+          content,
+          timestamp,
+        })
+      );
+
+      return response.status(200).json(filteredComments);
     } catch (error) {
       console.error(error);
       return response.status(500).json({ message: "Internal Server Error" });

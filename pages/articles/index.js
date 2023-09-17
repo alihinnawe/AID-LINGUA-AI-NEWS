@@ -52,8 +52,6 @@ export default function MainPage() {
   // Define state for showing comments
   const [showComments, setShowComments] = useState({});
   const [comments, setComments] = useState({});
-  const [storedComments, setStoredComments] = useState({}); // To keep the comments
-  const [articleComments, setArticleComments] = useState({}); // to hold comments for all articles
   const [allComments, setAllComments] = useState({});
 
   // Initialize comments from local storage when the component mounts
@@ -82,14 +80,6 @@ export default function MainPage() {
 
   // Load comments from local storage when the component mounts
 
-  // const handleAddComment = (articleId, newComment) => {
-  //   // Assuming comments are an object where keys are article IDs
-  //   // and values are arrays of comments.
-  //   setComments((prevState) => ({
-  //     ...prevState,
-  //     [articleId]: [...(prevState[articleId] || []), newComment],
-  //   }));
-  // };
   useEffect(() => {
     const initialComments = JSON.parse(
       localStorage.getItem("comments") || "{}"
@@ -142,10 +132,10 @@ export default function MainPage() {
         if (searchIndex !== -1) {
           updatedSearchResults[searchIndex].summary = data.sm_api_content;
         }
-        console.log(
-          "updatedSearchResultsSSSSSSSSSSSSSSSSSSSSSSSSSSSS",
-          updatedSearchResults
-        );
+        // console.log(
+        //   "updatedSearchResultsSSSSSSSSSSSSSSSSSSSSSSSSSSSS",
+        //   updatedSearchResults
+        // );
         return updatedSearchResults;
       });
 
@@ -173,7 +163,6 @@ export default function MainPage() {
       setCurrentPage(currentPage - 1);
     }
   };
-  console.log("articlesssssssssssss", articles);
   //  View 10 articles maximum in page
   const currentArticles = articles.slice(
     indexOfFirstArticle,
@@ -203,12 +192,20 @@ export default function MainPage() {
               article.url
           )
           // destructure the articles and add the summary and the likes to each article
-          .map((article) => ({ ...article, summary: null, likes: 0 }));
+          .map((article) => ({
+            ...article,
+            summary: null,
+            likes: 0,
+            comments,
+          }));
 
         //  saves (POST) each article to the mongoDB articles collection
         // same here send a request to the server side (saveArticles.js)
         //  the server post the articles to the mongoDB articles collection.
-
+        console.log(
+          "filteredArticlesssssssssssssssssssssssssssssssssssss",
+          filteredArticles
+        );
         await fetch("/api/saveArticles", {
           method: "POST",
           headers: {
@@ -437,7 +434,7 @@ export default function MainPage() {
       setCurrentPage(1);
     }
   }, [searchQuery, searchResults, articles]);
-  console.log("final dsearch results are: ", searchResults);
+  // console.log("final dsearch results are: ", searchResults);
 
   //  View 10 articles maximum in page
   const searchResultss = searchResults.slice(
@@ -450,15 +447,16 @@ export default function MainPage() {
     let newTotalPages;
 
     if (searchQuery) {
-      console.log("Filtered articles length: ", articlesToRender.length);
+      // console.log("Filtered articles length: ", articlesToRender.length);
       newTotalPages = Math.ceil(searchResults.length / articlesPerPage);
     } else {
-      console.log("Total articles length: ", articles.length);
+      // console.log("Total articles length: ", articles.length);
       newTotalPages = Math.ceil(articles.length / articlesPerPage);
     }
 
     setTotalPages(newTotalPages);
   }, [articles, articlesToRender, articlesPerPage, searchQuery, searchResults]);
+
   return (
     <div className="App">
       {/* if no data keep loading */}
@@ -697,13 +695,6 @@ export default function MainPage() {
                         <span class="visually-hidden">Share on Email</span>
                         📧
                       </a>
-
-                      {/* <a
-                        href={`https://api.whatsapp.com/send?text=${article.url}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="fa fa-whatsapp"
-                      ></a> */}
                     </div>
 
                     {/* here is where i show or render the summary for a given url below the image of the url. Not only this but also 

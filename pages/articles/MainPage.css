@@ -282,7 +282,6 @@ h2 {
 /* Text Center */
 .App {
   text-align: center;
-  /* background-color: rgba(0, 115, 255, 0.583); */
 }
 
 .filter-form div:last-child label select {
@@ -881,6 +880,7 @@ input[type="text"] {
   align-items: center;
   border-bottom: 1px solid #ccc;
   padding: 8px 0;
+  word-wrap: break-word;
 }
 
 .comment-item:last-child {
@@ -991,4 +991,24 @@ input[type="text"] {
   border: none;
   border-radius: 5px; */
   /* transition: all 0.3s ease-in-out; */
+}
+.article button,
+.likess span button,
+a .read-more-link {
+  flex: 1;
+  text-align: center;
+  min-width: 80px; /* Adjust based on your needs */
+}
+
+@media screen and (min-width: 300px) {
+  .article {
+    flex-direction: column;
+  }
+
+  .article button,
+  .likess span button,
+  a .read-more-link {
+    flex: none;
+    width: 100%;
+  }
 }

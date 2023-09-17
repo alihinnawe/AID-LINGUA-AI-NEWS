@@ -30,7 +30,6 @@ export default async function handler(req, res) {
         .status(404)
         .json({ success: false, message: "Article not found" });
     }
-    console.log("trueeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", updatedSeenArticle);
 
     // Return the updated article as a response
     return res.status(200).json({ success: true, data: updatedSeenArticle });

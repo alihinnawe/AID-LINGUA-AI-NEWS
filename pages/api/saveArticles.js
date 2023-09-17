@@ -39,6 +39,8 @@ export default async function handler(request, response) {
         category: category || "general",
         language: language || "en",
         comments: [],
+        email: singleArticle.email || "example@email.com", // Default email
+        username: singleArticle.username || "John Doe", // Default username
       };
 
       // Check if the article with the same URL already exists

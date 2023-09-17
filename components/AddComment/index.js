@@ -8,8 +8,12 @@ function AddComment({
   updateComments,
 }) {
   const [commentText, setCommentText] = useState("");
-  const [toggleFetch, setToggleFetch] = useState(false);
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+
   const handleAddComment = async () => {
+    const timestamp = new Date().toISOString(); // Generate the timestamp here
+
     try {
       const response = await fetch("/api/addComment", {
         method: "POST",
@@ -17,22 +21,18 @@ function AddComment({
         body: JSON.stringify({
           articleId,
           comment: commentText,
-          username: "JohnDoe",
+          username: username || "Anonymous",
+          email: email || "example@email.com",
+          timestamp,
         }),
       });
 
       if (response.ok) {
         const data = await response.json();
         const newComments = [data, ...comments];
-        updateComments(articleId, newComments); // This should update your state and re-render
+        updateComments(articleId, newComments);
         setCommentText("");
-
-        // Update local storage
-        const existingComments = JSON.parse(
-          localStorage.getItem("comments") || "{}"
-        );
-        existingComments[articleId] = newComments;
-        localStorage.setItem("comments", JSON.stringify(existingComments));
+        // ... rest of the code
       } else {
         console.error("Failed to add comment");
       }
@@ -67,16 +67,35 @@ function AddComment({
             <span className="comment-content">
               {comment.username}: {comment.content}
             </span>
+            <span className="comment-timestamp">
+              {new Date(comment.timestamp).toLocaleString()}
+            </span>
           </div>
         ))}
       </div>
-
       <div className="comment-bottom">
+        <input
+          type="text"
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+        <input
+          type="email"
+          placeholder="Email (will not be shown)"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
         <input
           type="text"
           value={commentText}
           onChange={(e) => setCommentText(e.target.value)}
         />
+        {/* <input
+          type="text"
+          value={new Date().toISOString()} // display current time
+          readOnly // make the field read-only
+        /> */}
         <button className="add-comment-button" onClick={handleAddComment}>
           Add Comment
         </button>

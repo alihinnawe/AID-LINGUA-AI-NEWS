@@ -32,7 +32,6 @@ export default async function handler(req, res) {
     }
 
     // Return the updated article as a response
-    console.log("testttttttttttt updatedArticle", updatedArticle);
     return res.status(200).json({ success: true, data: updatedArticle });
   } catch (error) {
     console.error(error);

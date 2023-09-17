@@ -4,18 +4,15 @@ export default async function handler(req, res) {
   await dbConnect();
 
   const { method, query } = req;
-  console.log("Query issssssssssssssssssssshhhhhhhhh", query, req);
   switch (method) {
     case "GET":
       // Check if there is a search query
       if (query.query) {
-        console.log("TRUEEEEEEEEEEEEEEEEEEEEEEEEEEEE", query.query);
         const searchResults = await Article.find({
           $text: { $search: query.query },
         });
         return res.status(200).json({ success: true, data: searchResults });
       } else {
-        // console.log("trueeeeeeeeeeeeeeeeeeeeeeeeDBBBBBBBBBBBfetch");
         // Handle fetching articles with filters
         let filter = {};
         if (query.category && query.category !== "all") {

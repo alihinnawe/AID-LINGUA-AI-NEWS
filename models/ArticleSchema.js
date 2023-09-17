@@ -1,14 +1,22 @@
 import mongoose from "mongoose";
+// const { Schema } = mongoose;
+// const CommentSchema = new Schema({
+//   username: String,
+//   email: String, // Adding email field here
+//   content: String,
+//   timestamp: {
+//     type: Date,
+//     default: new Date(),
+//   },
+// });
 const { Schema } = mongoose;
 const CommentSchema = new Schema({
-  username: String,
-  content: String,
-  timestamp: {
-    type: Date,
-    default: new Date(),
-    likes: { type: Number, default: 0 },
-  },
+  username: { type: String, required: true },
+  email: { type: String, required: true }, // Add this line
+  content: { type: String, required: true },
+  timestamp: { type: Date, required: true },
 });
+
 const ArticleSchema = new Schema({
   author: {
     type: String,
