@@ -611,30 +611,28 @@ export default function MainPage() {
 
                 return (
                   <div className="article" key={index} role="article">
-                    <div className="summary-control">
-                      <button
-                        id="summaryToggle_Btn"
-                        className={`summaryLabel ${
-                          showSummary[article.url] ? "summaryLabelActive" : ""
-                        }`}
-                        // role="button"
-                        tabIndex="0"
-                        aria-expanded={
-                          showSummary[article.url] ? "true" : "false"
-                        }
-                        onClick={() =>
-                          toggleAndTriggerAudio(
-                            article.url,
-                            indexOfFirstArticle + index,
-                            article._id
-                          )
-                        }
-                      >
-                        {showSummary[article.url]
-                          ? "Hide Summary"
-                          : "Show Summary"}
-                      </button>
-                    </div>
+                    <button
+                      id="summaryToggle_Btn"
+                      className={`summaryLabel${
+                        showSummary[article.url] ? "summaryLabelActive" : ""
+                      }`}
+                      // role="button"
+                      tabIndex="0"
+                      aria-expanded={
+                        showSummary[article.url] ? "true" : "false"
+                      }
+                      onClick={() =>
+                        toggleAndTriggerAudio(
+                          article.url,
+                          indexOfFirstArticle + index,
+                          article._id
+                        )
+                      }
+                    >
+                      {showSummary[article.url]
+                        ? "Hide Summary"
+                        : "Show Summary"}
+                    </button>
 
                     <h2 className="article-title">{article.title}</h2>
 
@@ -654,40 +652,46 @@ export default function MainPage() {
                       ></link>
                       <a
                         href={`https://twitter.com/intent/tweet?url=${article.url}`}
-                        class="fa fa-twitter"
+                        className="fa fa-twitter"
                         target="_blank"
                         rel="noopener noreferrer"
                         alt="Share on Twitter"
                       >
                         {" "}
-                        <span class="visually-hidden">Share on Twitter</span>
+                        <span className="visually-hidden">
+                          Share on Twitter
+                        </span>
                       </a>
                       <a
                         href={`https://www.facebook.com/sharer/sharer.php?u=${article.url}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        class="fa fa-facebook"
+                        className="fa fa-facebook"
                         alt="Share on Facebook"
                       >
                         {" "}
-                        <span class="visually-hidden">Share on Facebook</span>
+                        <span className="visually-hidden">
+                          Share on Facebook
+                        </span>
                       </a>
                       <a
                         href={`https://api.whatsapp.com/send?text=${article.url}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        class="fa fa-whatsapp"
+                        className="fa fa-whatsapp"
                       >
-                        <span class="visually-hidden">Share on Whatsapp</span>
+                        <span className="visually-hidden">
+                          Share on Whatsapp
+                        </span>
                       </a>
 
                       <a
                         href={`mailto:?subject=Check out this article!&body=${article.url}`}
-                        class="fa fa-email"
+                        className="fa fa-email"
                         alt="Share on Email"
                       >
                         {" "}
-                        <span class="visually-hidden">Share on Email</span>
+                        <span className="visually-hidden">Share on Email</span>
                         📧
                       </a>
                     </div>
@@ -789,6 +793,7 @@ export default function MainPage() {
                       </div>
                     </span>
                     <button
+                      className="write-commentBtn"
                       tabIndex="0"
                       aria-expanded={
                         showComments[article._id] ? "true" : "false"

@@ -59,7 +59,7 @@ function AddComment({
   return (
     <div className="comments-container">
       <div className="comment-top">
-        <button onClick={toggleComments}>
+        <button className="Hide_commentsBtn" onClick={toggleComments}>
           {isVisible ? "Hide Comments" : "Show Comments"}
         </button>
       </div>

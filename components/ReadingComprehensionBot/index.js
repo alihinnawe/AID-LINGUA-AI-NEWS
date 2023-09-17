@@ -43,10 +43,8 @@ const ReadingComprehensionBot = ({
       <div id="content" aria-labelledby="reading-comprehension-bot-heading">
         <p>{SummaryText}</p>
       </div>
-      {/* <label htmlFor="user-input" id="user-input-label">
-        Ask me a question
-      </label> */}
-      <div>
+
+      <div className="expanding_Bot_Textarea">
         <AutoExpandingTextarea TranscribedText={transcribedText} />
         <button
           tabIndex="0"

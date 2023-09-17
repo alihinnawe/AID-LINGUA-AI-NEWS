@@ -32,7 +32,7 @@
 #search-container {
   border: 1px solid #ccc;
   width: 100%;
-  max-width: 300px; /* or whatever maximum width you want */
+  max-width: 300px;
   margin-right: 30px;
   padding: 5px;
 }
@@ -41,7 +41,6 @@
   flex-grow: 1;
   border: none;
   outline: none;
-  /* padding: 10px; */
   background-color: aliceblue;
   height: 2.5em;
 }
@@ -50,7 +49,6 @@
   cursor: pointer;
   background-color: #f4f4f4;
   border: none;
-  /* height: 100%; */
 }
 
 .SimpleModal {
@@ -58,23 +56,12 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 1000; /* Make sure it's above other items on the page */
+  z-index: 1000;
   padding: 20px;
   background-color: white;
   border: 1px solid #ccc;
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
 }
-
-/* Styles for the backdrop (screen overlay) */
-/* .Backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 999;
-} */
 
 h1 {
   display: flex;
@@ -95,18 +82,7 @@ h1 {
   font-size: 26px;
   color: rgba(5, 135, 241, 0.757);
 }
-/* Filters Style */
-/* .filter-container {
-  width: var(--container-width);
-  margin: 0 auto;
-  padding: 0;
-  display: flex;
-  justify-content: space-between;
 
-  padding: 10px;
-  z-index: 100;
-  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
-} */
 .filter-container {
   width: clamp(300px, 50%, 600px);
   border-radius: 16px;
@@ -224,18 +200,20 @@ h2 {
   width: 100%;
   height: 150px;
 }
-
+div.article {
+  border: 1px solid #159dd3;
+  border-radius: 4px;
+  box-shadow: grey;
+}
 /* Single Article */
 .article {
-  width: 80%;
+  width: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: space-between;
   position: relative;
   margin: 20px;
   padding-top: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
 }
 
 /* Article Title and Summary */
@@ -289,7 +267,7 @@ h2 {
 }
 
 .read-more-link:hover {
-  color: green; /* Color when hovered */
+  color: green;
 }
 
 .article-header {
@@ -331,57 +309,6 @@ h2 {
     text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ff00ff,
       0 0 40px #ff00ff, 0 0 50px #ff00ff, 0 0 60px #ff00ff, 0 0 70px #ff00ff;
   }
-}
-
-.summaryCheckboxLabel {
-  cursor: pointer;
-  user-select: none;
-  padding: 5px 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: #f9f9f9;
-  margin-right: 10px;
-  transition: background-color 0.3s ease;
-}
-
-/* .summaryCheckbox:checked + .summaryCheckboxLabel {
-  background-color: #c2ffc2;
-} */
-
-.summaryLabel {
-  margin-right: 20px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  background-color: #63ccf2;
-  border: none;
-  padding: 8px 16px;
-  /* border-radius: 4px; */
-  cursor: pointer;
-  color: #121212;
-  font-size: 18px;
-  transition: all 0.3s ease-in-out;
-  display: inline-flex;
-  font-weight: 700;
-  text-decoration: none;
-
-  align-items: center;
-}
-
-.summaryLabelActive {
-  text-decoration-thickness: 2px;
-}
-
-.summary-control {
-  position: absolute;
-  top: 0;
-  right: 0;
-  cursor: pointer;
-  padding: 10px;
-  margin: 0px;
-}
-
-.summary-toggle {
-  margin-right: 5px;
 }
 
 .reading-comprehension-bot {
@@ -427,9 +354,8 @@ h2 {
   transition: all 0.3s ease;
 }
 
-/* Styling the button */
-.reading-comprehension-bot button,
-.summary-control button {
+/* Styling the summary buttos  */
+.reading-comprehension-bot button {
   width: 150px;
   padding: 10px;
   background-color: #63ccf2;
@@ -441,9 +367,9 @@ h2 {
   margin: 0 auto;
   text-align: center;
   font-size: 18px;
-  font-weight: 250;
+  font-weight: 500;
   outline: none;
-  border: 2px solid #19c452a4;
+  border: 1px solid #6c6c6ca4;
   border-radius: 5px;
   transition: all 0.3s ease;
 }
@@ -476,14 +402,6 @@ h2 {
   line-height: 1.5;
 }
 
-/* Dynamic styling for the button */
-/* .reading-comprehension-bot button {
-  background-color: #63ccf2;
-  color: #121212;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-} */
-
 .language-dropdown-container {
   position: relative;
   display: inline-block;
@@ -507,7 +425,7 @@ h2 {
 
 .article:hover .article-title,
 .article:hover .readMore {
-  color: #333; /* Or any other color that has good contrast with light blue */
+  color: #333;
 }
 
 /* For language filter*/
@@ -523,6 +441,25 @@ h2 {
   padding-top: 20px;
   border: 1px solid #ccc;
   border-radius: 8px;
+}
+
+.article #summaryToggle_Btn {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #63ccf2;
+  font-weight: 500;
+  padding: 0.6em 1.2em;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  font-size: 18px;
+  outline: none;
+  border-radius: 5px;
+  transition: all 0.3s ease;
 }
 
 .like-container {
@@ -571,21 +508,21 @@ select:hover {
   text-align: center; /* Center the text */
   padding: 10px;
   font-size: 16px;
-  transition: all 0.3s ease; /* Smooth transition for all changes */
+  transition: all 0.3s ease;
   width: 150px;
 }
 
 .pagination-text {
-  text-align: center; /* Center the text */
+  text-align: center;
   font-size: 16px;
   width: 80px;
 }
 
 .pagination-button:hover {
-  background-color: #35a7e2; /* Change the background color to blue*/
-  cursor: pointer; /* Make it look clickable */
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.4); /* Add a dark shadow for contrast */
-  color: white; /* Make the text white for better readability */
+  background-color: #35a7e2;
+  cursor: pointer;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+  color: white;
 }
 #appTitle {
   font-size: 2.5em;
@@ -609,15 +546,15 @@ select:hover {
 }
 /* THIS IS THE Background for show summary window */
 .reading-comprehension-bot {
-  position: fixed; /* Fixed positioning */
-  top: 50%; /* Center the element relative to its container */
+  position: fixed;
+  top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%); /* Needed for perfect centering */
-  width: 80%; /* You can set your own width */
-  max-height: 90vh; /* sets maximum height to 90% of the viewport height */
-  overflow-y: auto; /* make it scrollable when content overflows */
+  transform: translate(-50%, -50%);
+  width: 80%;
+  max-height: 90vh;
+  overflow-y: auto;
   background-color: rgba(255, 255, 255, 0.9);
-  z-index: 1000; /* Make sure it's on top of everything else */
+  z-index: 1000;
 }
 /* here we deny user from chosing something in the background */
 .summary-overlay {
@@ -626,20 +563,19 @@ select:hover {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.7); /* Black with opacity */
-  z-index: 999; /* Just below the popup */
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 999;
 }
 /* here we add the back to top arrow to the right side */
 .back-to-top {
   position: fixed;
-  bottom: 60px; /* Adjust based on the height of your pagination buttons */
+  bottom: 60px;
   right: 0px;
   color: #333;
-  font-size: 2em; /* You can adjust the size here */
+  font-size: 2em;
   cursor: pointer;
-  z-index: 1000; /* To ensure it appears above other elements */
-  border: none; /* Removes default button border */
-  background: transparent; /* Makes background transparent */
+  z-index: 1000;
+  background: transparent;
 }
 /* here the css for the share whatsapp twitter .... */
 .action-container {
@@ -761,19 +697,24 @@ but it is required to avoid accissibility errors. */
   cursor: pointer;
   color: #121212;
   font-size: 18px;
+  height: 50px;
+  width: 150px;
+  padding: 0;
 }
 
-/* .add-comment-button {
-    cursor: pointer;
-  } */
+.write-commentBtn {
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  color: #121212;
+  font-size: 18px;
+  height: 50px;
+  padding: 0;
+}
 /* If you want the button and input field to be beside each other */
 .add-comment-button,
 input[type="text"] {
   display: inline-block;
-}
-
-.add-comment-button {
-  opacity: 0.5;
 }
 
 .add-comment-button:hover {
@@ -794,17 +735,6 @@ input[type="text"] {
   text-align: left;
 }
 
-/* this one is for the hide button header */
-/* .comment-top {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 50px;
-  } */
 /* For the entire comments container */
 .comments-container {
   display: flex;
@@ -814,15 +744,17 @@ input[type="text"] {
 
 /* For the top part where the button resides */
 .comment-top {
-  /* remove the position: absolute; */
-  width: 100%;
+  position: absolute;
+  width: 150px;
+  height: 50px;
   display: flex;
   justify-content: center;
+  font-size: 18px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border-radius: 5px;
 }
 
-.comment-top button {
-  width: 50px;
-}
 .comment-list {
   max-height: calc(100% - 100px);
   overflow-y: auto;
@@ -867,11 +799,10 @@ input[type="text"] {
 .comment-inputs {
   display: flex;
   flex-direction: column;
-  gap: 1rem; /* space between items */
+  gap: 1rem;
   opacity: 0;
   transition: opacity 0.5s ease;
-  pointer-events: none; /* Hide from mouse events */
-  align-items: center;
+  pointer-events: none;
 }
 
 .comment-inputs textarea {
@@ -884,29 +815,46 @@ input[type="text"] {
 
 /* still is hould work on this! to don't let the like and write comment and the read more links interfere 
   when we recize the homepage windoe */
-.article button,
+/* .article button,
 .likess span button,
 a .read-more-link {
   flex: 1;
   text-align: center;
   min-width: 80px;
-}
-
-@media screen and (min-width: 300px) {
-  .article {
-    flex-direction: column;
-  }
-
-  .article button,
-  .likess span button,
-  a .read-more-link {
-    flex: none;
-    width: 100%;
-  }
-}
+} */
 
 .comment-bottom:hover .comment-inputs,
 .comment-inputs.show {
   opacity: 1;
   pointer-events: auto;
+}
+
+.summaryCheckboxLabel {
+  cursor: pointer;
+  user-select: none;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  margin-right: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.summary-toggle {
+  margin-right: 5px;
+}
+
+.comments-container .Hide_commentsBtn {
+  border-radius: 4px;
+  background-color: #63ccf2;
+  border: none;
+  cursor: pointer;
+  color: #121212;
+  font-size: 18px;
+  height: 50px;
+  width: 150px;
+  padding: 0;
+  white-space: normal;
+  line-height: 1.2;
+  text-align: center;
 }

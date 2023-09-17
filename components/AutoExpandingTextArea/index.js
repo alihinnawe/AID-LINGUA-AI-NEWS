@@ -15,8 +15,9 @@ const AutoExpandingTextarea = ({ TranscribedText }) => {
   }, [TranscribedText]); // Adjust height whenever TranscribedText changes
 
   return (
-    <div id="user-input_div">
+    <div className="user-input_div">
       <textarea
+        className="reading-comprehension-bot_textarea"
         type="text"
         readOnly
         placeholder="Ask me a question"

@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 @import "../pages/articles/MainPage.css";
-@import "../components/AidLinguaLogo/logo.css";
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
