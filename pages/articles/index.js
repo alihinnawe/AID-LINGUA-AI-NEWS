@@ -202,10 +202,7 @@ export default function MainPage() {
         //  saves (POST) each article to the mongoDB articles collection
         // same here send a request to the server side (saveArticles.js)
         //  the server post the articles to the mongoDB articles collection.
-        console.log(
-          "filteredArticlesssssssssssssssssssssssssssssssssssss",
-          filteredArticles
-        );
+
         await fetch("/api/saveArticles", {
           method: "POST",
           headers: {
@@ -266,7 +263,6 @@ export default function MainPage() {
       if (data.success) {
         setSearchResults(data.data);
       }
-      console.log("searchResultSSSSSSSSSSSSSSSSSSSSSSSSSs", searchResults);
     } catch (error) {
       console.error("Failed to fetch search results:", error);
     }
@@ -341,7 +337,6 @@ export default function MainPage() {
               : article
           )
         );
-        console.log("newwwwwwww sraech results are: ", searchResults);
       } else {
         const text = await res.text(); // the response body
         console.error(`Server responded with an error: ${text}`);
@@ -772,7 +767,11 @@ export default function MainPage() {
                             if (e.key === "Enter") handleLike(article._id);
                           }}
                         >
-                          {likedArticles[article._id] ? "💙" : " like me 🤍"}
+                          {likedArticles[article._id] ? (
+                            "💙"
+                          ) : (
+                            <span style={{ color: "black" }}>like me 🤍</span>
+                          )}
                         </span>
 
                         <span className="like-count" aria-label="likes count">

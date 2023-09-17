@@ -10,6 +10,7 @@ function AddComment({
   const [commentText, setCommentText] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
+  const [showInputs, setShowInputs] = useState(false);
 
   const handleAddComment = async () => {
     const timestamp = new Date().toISOString(); // Generate the timestamp here
@@ -39,6 +40,8 @@ function AddComment({
     } catch (error) {
       console.error("There was an error adding the comment:", error);
     }
+    // Hide the inputs after comment is added
+    setShowInputs(false);
   };
 
   useEffect(() => {
@@ -74,30 +77,32 @@ function AddComment({
         ))}
       </div>
       <div className="comment-bottom">
-        <input
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <input
-          type="email"
-          placeholder="Email (will not be shown)"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="text"
-          value={commentText}
-          onChange={(e) => setCommentText(e.target.value)}
-        />
-        {/* <input
-          type="text"
-          value={new Date().toISOString()} // display current time
-          readOnly // make the field read-only
-        /> */}
-        <button className="add-comment-button" onClick={handleAddComment}>
-          Add Comment
+        <div className={`comment-inputs ${showInputs ? "show" : ""}`}>
+          <input
+            type="text"
+            placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <input
+            type="email"
+            placeholder="Email (will not be shown)"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <textarea
+            type="text"
+            placeholder="add comment here"
+            value={commentText}
+            onChange={(e) => setCommentText(e.target.value)}
+          />
+        </div>
+        <button
+          className="add-comment-button"
+          onClick={handleAddComment}
+          onMouseEnter={() => setShowInputs(true)}
+        >
+          Add comment
         </button>
       </div>
     </div>
