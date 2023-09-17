@@ -12,21 +12,21 @@ const AutoExpandingTextarea = ({ TranscribedText }) => {
 
   useEffect(() => {
     adjustHeight();
-  }, []);
+  }, [TranscribedText]); // Adjust height whenever TranscribedText changes
 
   return (
-    <textarea
-      id="user-input_div"
-      type="text"
-      readOnly
-      placeholder="Ask me a question"
-      aria-labelledby="user-input-label"
-      value={TranscribedText}
-      ref={textareaRef}
-      rows="1"
-      style={{ resize: "none", overflow: "hidden" }}
-      onChange={adjustHeight}
-    ></textarea>
+    <div id="user-input_div">
+      <textarea
+        type="text"
+        readOnly
+        placeholder="Ask me a question"
+        aria-labelledby="user-input-label"
+        value={TranscribedText}
+        ref={textareaRef}
+        rows="1"
+        style={{ resize: "none", overflow: "hidden" }}
+      ></textarea>
+    </div>
   );
 };
 

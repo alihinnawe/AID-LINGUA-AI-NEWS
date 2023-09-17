@@ -197,6 +197,7 @@ h2 {
   width: 500px;
   display: inline-block;
   font-size: 18px;
+  height: 50px;
 }
 
 .like-button like-button--unliked {
@@ -216,11 +217,12 @@ h2 {
   text-align: center;
 }
 
-#user-input_div {
+#user-input_div textarea {
   padding: 10px;
   padding-block: 5px;
   text-align: center;
-  width: 500px;
+  width: 100%;
+  height: 150px;
 }
 
 /* Single Article */
@@ -419,17 +421,6 @@ h2 {
   transition: all 0.3s ease;
 }
 
-/* Add some hover effect on input */
-.reading-comprehension-bot input:hover {
-  border-color: #555;
-}
-
-/* Add focus effect */
-.reading-comprehension-bot input:focus {
-  border-color: #007bff;
-  outline: none;
-}
-
 /* Styling the button */
 .reading-comprehension-bot button,
 .summary-control button {
@@ -442,6 +433,14 @@ h2 {
   cursor: pointer;
   transition: all 0.3s ease;
   margin: 0 auto;
+  /* width: 100%; */
+  text-align: center;
+  font-size: 18px;
+  font-weight: 250;
+  outline: none;
+  border: 2px solid #63ccf2;
+  border-radius: 5px;
+  transition: all 0.3s ease;
 }
 
 .summaryLabel {
@@ -468,16 +467,6 @@ h2 {
 /* .summaryLabelActive {
   text-decoration-thickness: 2px;
 } */
-
-/* Add some hover effect on button */
-.reading-comprehension-bot button:hover {
-  background-color: #0056b3;
-}
-
-/* Add active/click effect */
-.reading-comprehension-bot button:active {
-  background-color: #004499;
-}
 
 #answer {
   font-weight: bold;
@@ -645,7 +634,8 @@ select:hover {
   left: 50%;
   transform: translate(-50%, -50%); /* Needed for perfect centering */
   width: 80%; /* You can set your own width */
-  max-height: none; /* No maximum height */
+  max-height: 90vh; /* sets maximum height to 90% of the viewport height */
+  overflow-y: auto; /* make it scrollable when content overflows */
   background-color: rgba(255, 255, 255, 0.9);
   z-index: 1000; /* Make sure it's on top of everything else */
 }
