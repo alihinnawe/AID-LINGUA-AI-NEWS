@@ -220,17 +220,18 @@ div.article {
 /* Read More Link */
 .read-more-link {
   display: flex;
-  font-size: 16px;
-  color: blue;
+  font-size: 18px;
+  color: black;
   position: absolute;
-  bottom: -12px;
+  bottom: -15px;
   left: 5px;
+  font-size: 17px;
   transition: color 0.3s ease;
   text-decoration: none;
-  height: 50px;
-  width: 150px;
+  height: 54px;
   align-content: left;
 }
+
 /* Article Image */
 .articleImage {
   max-width: 100%;
@@ -260,10 +261,6 @@ div.article {
 
 .filter-form div:last-child label select {
   margin-right: 30px;
-}
-
-.read-more-link:hover {
-  color: green;
 }
 
 .article-header {
@@ -336,11 +333,6 @@ div.article {
   height: 50px;
 }
 
-.read-more-link {
-  display: block;
-  text-align: center;
-  margin-top: 10px;
-}
 /* Styling the input field */
 .reading-comprehension-bot input {
   width: 150px;
@@ -482,6 +474,18 @@ div.article {
 .seen-button {
   transition: all 0.3s ease;
   border-radius: 50%;
+}
+.article #summaryToggle_Btn:hover,
+.write-comment-footer:hover,
+.write-comment-footer button:hover {
+  font-size: 24px;
+  border-radius: 0px;
+}
+
+.write-comment-footer button:hover {
+  font-size: 24px;
+  border-radius: 0px;
+  background-color: #63ccf2;
 }
 
 input,
@@ -932,4 +936,42 @@ textarea:focus {
 }
 .comment-inputs {
   background-color: #f9ffff;
+}
+
+.article #summaryToggle_Btn:hover,
+.write-comment-footer:hover,
+.write-comment-footer button:hover {
+  font-size: 24px;
+  border-radius: 0px;
+  font-weight: 700;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+
+  /* background-image: linear-gradient(to right, #647eff, #42d392); */
+  background-color: #63ccf2;
+}
+
+.write-comment-footer button:hover {
+  font-size: 24px;
+  border-radius: 0px;
+  background-color: #63ccf2;
+  font-weight: 700;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  background-image: linear-gradient(to right, #647eff, #42d392);
+}
+/* .write-comment-footer button:hover {
+  font-size: 24px;
+  border-radius: 0px;
+  background-color: #63ccf2;
+  font-weight: 700;
+  color: white; 
+} */
+
+.read-more-link:hover {
+  font-size: 20px;
+  font-weight: 700;
+  border-radius: 0px;
 }

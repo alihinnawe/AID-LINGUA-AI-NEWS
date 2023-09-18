@@ -16,8 +16,8 @@ const AutoExpandingTextarea = ({ TranscribedText }) => {
 
   return (
     <div className="user-input_div">
-      <label id="user-input-label" className="vissually-hidden">
-        Ask me a question
+      <label id="user-input-label" className="visually-hidden">
+        Ask a question
       </label>
       <textarea
         className="reading-comprehension-bot_textarea"
