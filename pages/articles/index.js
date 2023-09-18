@@ -30,7 +30,7 @@ export default function MainPage() {
 
   const languages = ["en", "de"];
   const sortOptions = ["relevancy", "popularity", "publishedAt"];
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [articles, setArticles] = useState([]);
   const [showSummary, setShowSummary] = useState({});
@@ -54,6 +54,12 @@ export default function MainPage() {
   const [comments, setComments] = useState({});
   const [allComments, setAllComments] = useState({});
 
+  // Simulating data fetching
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 3000); // For example, the data finishes loading after 3 seconds
+  }, []);
   // Initialize comments from local storage when the component mounts
   useEffect(() => {
     const initialStoredComments = JSON.parse(

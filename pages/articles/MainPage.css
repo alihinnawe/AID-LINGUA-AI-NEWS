@@ -291,6 +291,7 @@ div.article {
   color: #fff;
   text-align: center;
   animation: glow-animation 1.5s infinite alternate;
+  background-image: url("https://img.freepik.com/free-vector/disabled-day-concept-illustration_114360-3845.jpg");
 }
 
 @keyframes glow-animation {
@@ -500,18 +501,18 @@ select {
 
 input:hover,
 select:hover {
-  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75); /* Adds a dark shadow */
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
 }
 
 .pagination-container {
   display: flex;
-  justify-content: center; /* equally distribute space between elements */
+  justify-content: center;
   align-items: center;
 }
 
 .pagination-button {
   /* flex: 1;  */
-  text-align: center; /* Center the text */
+  text-align: center;
   padding: 10px;
   font-size: 16px;
   transition: all 0.3s ease;
@@ -796,7 +797,7 @@ input[type="text"] {
 }
 
 .comment-item:first-child {
-  margin-top: 70px; /* Adjust this value to push the first item down */
+  margin-top: 70px;
 }
 
 div.comment-bottom {
@@ -896,7 +897,7 @@ div.expanding_Bot_Textarea .get_answer_button {
   text-align: center;
 }
 .get_answer_button:focus {
-  outline: 2px solid blue; /* or any other high contrast color */
+  outline: 2px solid blue;
   outline-offset: 2px;
 }
 
@@ -972,7 +973,7 @@ textarea:focus {
   position: absolute;
   bottom: -15px;
   left: 5px;
-  font-size: 17px; /* You have two font-size properties; you should keep one */
+  font-size: 17px;
   transition: color 0.3s ease;
   text-decoration: none;
   height: 54px;
@@ -980,11 +981,43 @@ textarea:focus {
 }
 .read-more-link:hover {
   /* Remove or comment out this line */
-  /* font-size: 20px; */
   font-weight: 700;
   border-radius: 0px;
 }
 input,
 textarea {
   border: 1px solid lightgrey;
+}
+
+.glowing-text {
+  font-size: 2em;
+  color: #fff;
+  text-align: center;
+  animation: glow-animation 1.5s infinite alternate;
+  background-image: url("https://img.freepik.com/free-vector/disabled-day-concept-illustration_114360-3845.jpg");
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  width: 100vw;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes glow-animation {
+  from {
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #ff00ff, 0 0 20px #ff00ff,
+      0 0 25px #ff00ff, 0 0 30px #ff00ff, 0 0 35px #ff00ff;
+  }
+  to {
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #ff0000, 0 0 20px #ff0000,
+      0 0 25px #ff0000, 0 0 30px #ff0000, 0 0 35px #ff0000;
+  }
 }
