@@ -53,7 +53,7 @@ const ReactWhisper = ({
 
   return (
     <div role="main" aria-labelledby="react-whisper-heading">
-      <h2 id="react-whisper-heading">React Whisper Component</h2>
+      <h2 id="react-whisper-heading"> Whisper is Ready for Questions!</h2>
 
       <p id="microphone-status">Microphone: {listening ? "on" : "off"}</p>
       <button
@@ -63,6 +63,7 @@ const ReactWhisper = ({
       >
         Reset
       </button>
+      <br />
       <div id="transcribed-text" aria-live="polite">
         <p id="Trnscribe-Text">Transcribed Text: {transcript}</p>
       </div>

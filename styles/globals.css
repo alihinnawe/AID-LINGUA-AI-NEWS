@@ -34,7 +34,7 @@ body {
 
   display: flex;
   place-items: top;
-  min-width: 320px;
+  min-width: 500px;
   min-height: 100vh;
   margin: 0 auto;
   padding: 0;

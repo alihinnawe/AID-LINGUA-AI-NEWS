@@ -47,6 +47,7 @@ const ReadingComprehensionBot = ({
       <div className="expanding_Bot_Textarea">
         <AutoExpandingTextarea TranscribedText={transcribedText} />
         <button
+          className="get_answer_button"
           tabIndex="0"
           aria-label="Get Answer"
           disabled={!transcribedText}

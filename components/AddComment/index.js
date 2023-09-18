@@ -99,7 +99,10 @@ function AddComment({
         </div>
         <button
           className="add-comment-button"
-          onClick={handleAddComment}
+          onClick={() => {
+            handleAddComment();
+            setShowInputs(false); // hide the inputs when a comment is added
+          }}
           onMouseEnter={() => setShowInputs(true)}
         >
           Add comment

@@ -735,51 +735,52 @@ export default function MainPage() {
                         </div>
                       </>
                     )}
+                    <div className="write-comment-footer">
+                      <a
+                        id="read-original_article"
+                        href={article.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`Read more about ${article.title}`}
+                        className="read-more-link"
+                        onClick={(e) => {
+                          handleSeen(article._id); // Mark as seen when link is clicked
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") handleSeen(article._id);
+                        }}
+                      >
+                        Read Original Article{" "}
+                        {seenArticles[article._id] ? "👁️ ☑️" : ""}
+                      </a>
 
-                    <a
-                      href={article.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`Read more about ${article.title}`}
-                      className="read-more-link"
-                      onClick={(e) => {
-                        handleSeen(article._id); // Mark as seen when link is clicked
-                      }}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter") handleSeen(article._id);
-                      }}
-                    >
-                      Read Original Article{" "}
-                      {seenArticles[article._id] ? "👁️ ☑️" : ""}
-                    </a>
+                      <span className="like-container">
+                        <div className="likess">
+                          <span
+                            className={`like-button ${
+                              likedArticles[article._id]
+                                ? "like-button--liked"
+                                : "like-button--unliked"
+                            }`}
+                            role="button"
+                            tabIndex="0"
+                            aria-pressed={
+                              likedArticles[article._id] ? "true" : "false"
+                            }
+                            onClick={() => handleLike(article._id)}
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter") handleLike(article._id);
+                            }}
+                          >
+                            {likedArticles[article._id] ? (
+                              "💙"
+                            ) : (
+                              <span style={{ color: "black" }}>like me 🤍</span>
+                            )}
+                          </span>
 
-                    <span className="like-container">
-                      <div className="likess">
-                        <span
-                          className={`like-button ${
-                            likedArticles[article._id]
-                              ? "like-button--liked"
-                              : "like-button--unliked"
-                          }`}
-                          role="button"
-                          tabIndex="0"
-                          aria-pressed={
-                            likedArticles[article._id] ? "true" : "false"
-                          }
-                          onClick={() => handleLike(article._id)}
-                          onKeyDown={(e) => {
-                            if (e.key === "Enter") handleLike(article._id);
-                          }}
-                        >
-                          {likedArticles[article._id] ? (
-                            "💙"
-                          ) : (
-                            <span style={{ color: "black" }}>like me 🤍</span>
-                          )}
-                        </span>
-
-                        <span className="like-count" aria-label="likes count">
-                          {/* <div>
+                          <span className="like-count" aria-label="likes count">
+                            {/* <div>
                             {(() => {
                               console.log(
                                 "showwwwwwSummary",
@@ -788,21 +789,21 @@ export default function MainPage() {
                               );
                             })()}
                           </div>{" "} */}
-                          {article.likes}
-                        </span>
-                      </div>
-                    </span>
-                    <button
-                      className="write-commentBtn"
-                      tabIndex="0"
-                      aria-expanded={
-                        showComments[article._id] ? "true" : "false"
-                      }
-                      onClick={() => toggleComments(article._id)}
-                    >
-                      Write comment
-                    </button>
-
+                            {article.likes}
+                          </span>
+                        </div>
+                      </span>
+                      <button
+                        className="write-commentBtn"
+                        tabIndex="0"
+                        aria-expanded={
+                          showComments[article._id] ? "true" : "false"
+                        }
+                        onClick={() => toggleComments(article._id)}
+                      >
+                        Write comment
+                      </button>
+                    </div>
                     {showComments[article._id] && (
                       <div className="comment-overlay">
                         <AddComment

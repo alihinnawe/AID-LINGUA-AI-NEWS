@@ -24,8 +24,8 @@ const AutoExpandingTextarea = ({ TranscribedText }) => {
         aria-labelledby="user-input-label"
         value={TranscribedText}
         ref={textareaRef}
-        rows="1"
-        style={{ resize: "none", overflow: "hidden" }}
+        // rows="1"
+        // style={{ resize: "none", overflow: "hidden" }}
       ></textarea>
     </div>
   );
