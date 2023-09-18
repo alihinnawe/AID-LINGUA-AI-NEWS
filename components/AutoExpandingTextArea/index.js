@@ -16,12 +16,16 @@ const AutoExpandingTextarea = ({ TranscribedText }) => {
 
   return (
     <div className="user-input_div">
+      <label id="user-input-label" className="vissually-hidden">
+        Ask me a question
+      </label>
       <textarea
         className="reading-comprehension-bot_textarea"
         type="text"
         readOnly
         placeholder="Ask me a question"
         aria-labelledby="user-input-label"
+        aria-readonly="true"
         value={TranscribedText}
         ref={textareaRef}
         // rows="1"

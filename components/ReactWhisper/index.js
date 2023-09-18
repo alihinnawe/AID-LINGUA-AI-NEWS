@@ -55,7 +55,14 @@ const ReactWhisper = ({
     <div role="main" aria-labelledby="react-whisper-heading">
       <h2 id="react-whisper-heading"> Whisper is Ready for Questions!</h2>
 
-      <p id="microphone-status">Microphone: {listening ? "on" : "off"}</p>
+      <p id="microphone-status">
+        Microphone:
+        <span aria-describedby="microphone-status">
+          {" "}
+          {listening ? "on" : "off"}
+        </span>
+      </p>
+
       <button
         tabIndex="0"
         aria-label="Reset Transcript"

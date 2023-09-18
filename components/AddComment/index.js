@@ -57,9 +57,17 @@ function AddComment({
 
   // Inside your AddComment component
   return (
-    <div className="comments-container">
+    <div
+      className="comments-container"
+      role="region"
+      aria-label="Comments section"
+    >
       <div className="comment-top">
-        <button className="Hide_commentsBtn" onClick={toggleComments}>
+        <button
+          className="Hide_commentsBtn"
+          onClick={toggleComments}
+          aria-label={isVisible ? "Hide Comments" : "Show Comments"}
+        >
           {isVisible ? "Hide Comments" : "Show Comments"}
         </button>
       </div>
@@ -77,32 +85,46 @@ function AddComment({
         ))}
       </div>
       <div className="comment-bottom">
-        <div className={`comment-inputs ${showInputs ? "show" : ""}`}>
-          <input
-            type="text"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          <input
-            type="email"
-            placeholder="Email (will not be shown)"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <textarea
-            type="text"
-            placeholder="add comment here"
-            value={commentText}
-            onChange={(e) => setCommentText(e.target.value)}
-          />
-        </div>
+        <fieldset className={`comment-inputs ${showInputs ? "show" : ""}`}>
+          <label>
+            Username:
+            <input
+              type="text"
+              aria-label="Username"
+              placeholder="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+          </label>
+          <label>
+            Email:
+            <input
+              type="email"
+              aria-label="Email"
+              placeholder="Email (will not be shown)"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </label>
+          <label>
+            Comment:
+            <textarea
+              type="text"
+              aria-label="Add comment"
+              placeholder="add comment here"
+              value={commentText}
+              onChange={(e) => setCommentText(e.target.value)}
+            />
+          </label>
+        </fieldset>
+
         <button
           className="add-comment-button"
           onClick={() => {
             handleAddComment();
             setShowInputs(false); // hide the inputs when a comment is added
           }}
+          aria-label="Add comment"
           onMouseEnter={() => setShowInputs(true)}
         >
           Add comment
