@@ -363,9 +363,10 @@ div.article {
 }
 
 #answer {
+  gap: 5 px;
   font-weight: bold;
-  padding: 5px;
-  border-radius: 3px;
+  padding: 10px;
+  border-radius: px;
   background-color: #63ccf2;
 }
 
@@ -962,16 +963,28 @@ textarea:focus {
   -webkit-background-clip: text;
   background-image: linear-gradient(to right, #647eff, #42d392);
 }
-/* .write-comment-footer button:hover {
-  font-size: 24px;
-  border-radius: 0px;
-  background-color: #63ccf2;
-  font-weight: 700;
-  color: white; 
-} */
 
+/* Read More Link */
+.read-more-link {
+  display: flex;
+  font-size: 18px;
+  color: black;
+  position: absolute;
+  bottom: -15px;
+  left: 5px;
+  font-size: 17px; /* You have two font-size properties; you should keep one */
+  transition: color 0.3s ease;
+  text-decoration: none;
+  height: 54px;
+  align-content: left;
+}
 .read-more-link:hover {
-  font-size: 20px;
+  /* Remove or comment out this line */
+  /* font-size: 20px; */
   font-weight: 700;
   border-radius: 0px;
+}
+input,
+textarea {
+  border: 1px solid lightgrey;
 }

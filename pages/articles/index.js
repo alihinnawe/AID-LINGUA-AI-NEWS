@@ -456,7 +456,7 @@ export default function MainPage() {
     <div className="App">
       {/* if no data keep loading */}
       {isLoading ? (
-        <div className="loading-container" aria-label="Loading...">
+        <div className="loading-container" aria-live="polite">
           <div className="glowing-text">Loading...</div>
         </div>
       ) : (
@@ -495,7 +495,7 @@ export default function MainPage() {
                   id="reset-button"
                   onClick={handleReset}
                   disabled={!searchQuery}
-                  aria-label="Reset search"
+                  aria-label="Reset search query"
                 >
                   Reset
                 </button>
@@ -520,9 +520,7 @@ export default function MainPage() {
               <h2 className="visually-hidden">Filter Options</h2>
               <form className="filter-form" aria-labelledby="appTitle">
                 <div className="input-wrapper width-50">
-                  <label htmlFor="categorySelect" aria-label="Choose Category">
-                    Category:
-                  </label>
+                  <label htmlFor="categorySelect">Category:</label>
                   <select
                     id="categorySelect"
                     value={selectedCategory}
@@ -548,6 +546,7 @@ export default function MainPage() {
                     value={selectedLanguage}
                     // aria-labelledby="languageLabel"
                     onChange={(e) => setSelectedLanguage(e.target.value)}
+                    aria-label="Choose Language"
                   >
                     {languages.map((lang, index) => (
                       <option key={index} value={lang}>
@@ -563,7 +562,6 @@ export default function MainPage() {
                     id="fromDate"
                     type="date"
                     onChange={(e) => setFromDate(e.target.value)}
-                    aria-labelledby="fromDateLabel"
                     aria-label="YYYY-MM-DD"
                   />
                 </div>
@@ -575,7 +573,6 @@ export default function MainPage() {
                     type="date"
                     value={toDate}
                     onChange={(e) => setToDate(e.target.value)}
-                    aria-labelledby="fromDateLabel"
                     aria-label="YYYY-MM-DD"
                   />
                 </div>
@@ -597,8 +594,15 @@ export default function MainPage() {
               </form>
             </section>
 
-            <section className="articles" aria-label="List of Articles">
+            <section
+              className="articles"
+              aria-labelledby="articles-section-heading"
+            >
               {/* viiiiiii: here where i render the list of articles into the app homepage*/}
+              <h2 id="articles-section-heading" className="visually-hidden">
+                List of Articles
+              </h2>
+
               {articlesToRender.map((article, index) => {
                 // Skip rendering the article if it has the default image
 
@@ -750,7 +754,7 @@ export default function MainPage() {
                           if (e.key === "Enter") handleSeen(article._id);
                         }}
                       >
-                        Read Original Article{" "}
+                        Read Original Article <br />
                         {seenArticles[article._id] ? "👁️ ☑️" : ""}
                       </a>
 
