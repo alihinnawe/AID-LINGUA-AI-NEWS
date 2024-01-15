@@ -12,7 +12,7 @@ import AddComment from "../../components/AddComment/";
 ></link>;
 
 const currentDate = new Date();
-const yesterdayFormatted = new Date("2023-03-06").toISOString().substring(0, 10);
+const yesterdayFormatted = new Date("2023-03-06");
 yesterdayFormatted.setDate(yesterdayFormatted.getDate() - 1);
 const yesterday = yesterdayFormatted.toISOString().substring(0, 10);
 const currentDate1 = new Date();
