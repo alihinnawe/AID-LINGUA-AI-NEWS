@@ -11,7 +11,6 @@ import AddComment from "../../components/AddComment/";
   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
 ></link>;
 
-const yesterday = new Date("2023-06-24").toISOString().substring(0, 10);
 const currentDate = new Date();
 currentDate.setDate(currentDate.getDate());
 const today = currentDate.toISOString().substring(0, 10);
@@ -34,7 +33,7 @@ export default function MainPage() {
   const [showSummary, setShowSummary] = useState({});
   const [selectedCategory, setSelectedCategory] = useState("general");
   const [selectedLanguage, setSelectedLanguage] = useState("en");
-  const [fromDate, setFromDate] = useState(yesterday);
+  const [fromDate, setFromDate] = useState( new Date("2023-06-24").toISOString().substring(0, 10));
   const [toDate, setToDate] = useState(today);
   const [sortBy, setSortBy] = useState("publishedAt");
   const [likedArticles, setLikedArticles] = useState({});
