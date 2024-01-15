@@ -13,6 +13,8 @@ import AddComment from "../../components/AddComment/";
 
 const currentDate = new Date();
 currentDate.setDate(currentDate.getDate() - 1);
+const customDate = new Date("2023-03-06"); // set your custom date here
+currentDate.setDate(customDate.getDate());
 const yesterday = currentDate.toISOString().substring(0, 10);
 const currentDate1 = new Date();
 currentDate.setDate(currentDate1.getDate());
