@@ -33,7 +33,7 @@ export default function MainPage() {
   const [showSummary, setShowSummary] = useState({});
   const [selectedCategory, setSelectedCategory] = useState("general");
   const [selectedLanguage, setSelectedLanguage] = useState("en");
-  const [fromDate, setFromDate] = useState( new Date("2023-06-24").toISOString().substring(0, 10));
+  const [fromDate, setFromDate] = useState("2023-06-24");
   const [toDate, setToDate] = useState(today);
   const [sortBy, setSortBy] = useState("publishedAt");
   const [likedArticles, setLikedArticles] = useState({});
