@@ -33,7 +33,7 @@ export default function MainPage() {
   const [showSummary, setShowSummary] = useState({});
   const [selectedCategory, setSelectedCategory] = useState("general");
   const [selectedLanguage, setSelectedLanguage] = useState("en");
-  const [fromDate, setFromDate] = useState("2023-06-24");
+  const [fromDate, setFromDate] = useState("2023-09-15");
   const [toDate, setToDate] = useState(today);
   const [sortBy, setSortBy] = useState("publishedAt");
   const [likedArticles, setLikedArticles] = useState({});
@@ -135,10 +135,7 @@ export default function MainPage() {
         if (searchIndex !== -1) {
           updatedSearchResults[searchIndex].summary = data.sm_api_content;
         }
-        // console.log(
-        //   "updatedSearchResultsSSSSSSSSSSSSSSSSSSSSSSSSSSSS",
-        //   updatedSearchResults
-        // );
+
         return updatedSearchResults;
       });
 
